@@ -53,7 +53,14 @@
     #ac-tool .field label{font-size:.67rem;color:var(--muted);font-weight:700;letter-spacing:.01em}
     #ac-tool .field input,#ac-tool .field select{width:100%;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 4px rgba(0,0,0,.22);color:var(--gold);border-radius:8px;padding:4px 8px;font-size:.80rem;outline:none;min-height:26px;-webkit-appearance:none;appearance:none}
     #ac-tool .field input:focus,#ac-tool .field select:focus{border-color:rgba(110,193,255,.65);box-shadow:inset 0 1px 4px rgba(0,0,0,.18),0 0 0 3px rgba(110,193,255,.18)}
-    #ac-tool .field select{background-color:#22303f;color:#f0c96b;color-scheme:dark;padding-right:28px;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23d8e6f5' d='M1.41.59 6 5.17 10.59.59 12 2l-6 6-6-6z'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 9px center;background-size:12px 8px}
+    #ac-tool .field select{background-color:#22303f;color:#f0c96b;color-scheme:dark;padding-right:30px;background-image:
+      linear-gradient(45deg, transparent 50%, #d8e6f5 50%),
+      linear-gradient(135deg, #d8e6f5 50%, transparent 50%);
+      background-position:
+      calc(100% - 14px) calc(50% - 1px),
+      calc(100% - 9px) calc(50% - 1px);
+      background-size:6px 6px, 6px 6px;
+      background-repeat:no-repeat}
     #ac-tool .field select option{background-color:#162230;color:#eaf2fb}
     #ac-tool .field select optgroup{background-color:#162230;color:#b9d4ea}
     #ac-tool .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
