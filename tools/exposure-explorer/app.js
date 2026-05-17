@@ -218,9 +218,9 @@
               focus_offsets_monitoring: 2.5
             },
             filter_cycling: {
-              refocus_every_change: 24,
-              focus_offsets: 6,
-              focus_offsets_monitoring: 6.8
+              refocus_every_change: 16,
+              focus_offsets: 0.9,
+              focus_offsets_monitoring: 1.1
             }
           },
           ditherFrequencyMultipliers: {
@@ -237,9 +237,9 @@
               focus_offsets_monitoring: 0.99
             },
             filter_cycling: {
-              refocus_every_change: 1.12,
-              focus_offsets: 1.05,
-              focus_offsets_monitoring: 1.06
+              refocus_every_change: 1.06,
+              focus_offsets: 1.0,
+              focus_offsets_monitoring: 1.0
             }
           },
           fileCountPreferenceCapBias: {
@@ -254,9 +254,9 @@
               focus_offsets_monitoring: 0.00
             },
             filter_cycling: {
-              refocus_every_change: 0.08,
-              focus_offsets: 0.04,
-              focus_offsets_monitoring: 0.04
+              refocus_every_change: 0.04,
+              focus_offsets: 0.00,
+              focus_offsets_monitoring: 0.00
             }
           },
           broadbandSkyPracticalCapLogScale: 0.12,
@@ -2339,7 +2339,7 @@
           ? clamp(10 / filterBlockLengthSubs, 0.2, 2.0)
           : 1;
         const switchingPenalty = workflowLevelFromScore(
-          (captureSequencing === "filter_cycling" ? 1.45 : 0.75)
+          (captureSequencing === "filter_cycling" ? 1.05 : 0.75)
           + (focusHandling === "refocus_every_change" ? 1.0 : 0.22) * blockPenaltyScale
         );
         const favorsSharedExposure = captureSequencing === "filter_cycling"
@@ -2350,7 +2350,7 @@
           : captureSequencing === "filter_cycling" && focusHandling === "refocus_every_change"
           ? "Cycling keeps filter coverage balanced, but refocusing on every filter change makes the switching overhead more noticeable."
           : captureSequencing === "filter_cycling"
-            ? "Cycling keeps the session balanced across filters. Without refocus-on-change, its switching cost is usually modest."
+            ? "Cycling keeps filter coverage balanced. Without refocus-on-change, it should usually nudge the recommendation only modestly."
             : `${fmtNumber(filterBlockLengthSubs, 0)}-sub filter blocks keep switching overhead low. Cycling can still be a reasonable choice if even filter coverage matters more.`;
         return {
           captureSequencing,
@@ -3192,8 +3192,8 @@
           return {
             headline: `${workflow.switchingPenalty} switching cost · balanced coverage`,
             advisory: sharedFeasible
-              ? "Cycling keeps the session balanced across filters, and without refocus-on-change its switching cost is usually fairly modest."
-              : "Cycling keeps the session balanced across filters. Without refocus-on-change, its switching cost is usually modest enough that the plan is still driven mostly by the filter-specific numbers."
+              ? "Cycling keeps coverage more even across filters, and without refocus-on-change it should usually act as a modest convenience trade rather than a major timing penalty."
+              : "Cycling keeps coverage more even across the session. Without refocus-on-change, the recommendation should still be driven mostly by the filter-specific numbers."
           };
         }
         return {
