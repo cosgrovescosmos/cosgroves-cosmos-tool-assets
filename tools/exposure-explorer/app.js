@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.0.html (v1.0.0). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.2.html (v1.0.2). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.0</span>
+            <span class="hero-version">v1.0.2</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -81,6 +81,11 @@
           focalLengthMm: 924,
           fRatio: 7.0,
           throughputFrac: 0.82,
+          customThroughputOverrideEnabled: false,
+          customThroughputOverridePct: 82,
+          throughputAdvancedOpen: false,
+          throughputOverrideStatus: "",
+          throughputOverrideStatusLevel: "neutral",
           centralObstructionFrac: 0,
           filterSetId: "broadband-lrgb-zwo",
           selectedFilters: ["zwo-l", "zwo-r", "zwo-g", "zwo-b"],
@@ -949,7 +954,7 @@
   
       const appState = cloneData(DATA.defaults);
       const CONFIG_SCHEMA = "astro-exposure-explorer-config";
-      const CONFIG_VERSION = 2;
+      const CONFIG_VERSION = 3;
       const EMPIRICAL_CAL_KEYS = [
         "testExposureSec",
         "measuredBackgroundValue",
@@ -968,6 +973,9 @@
         "planStatusLevel",
         "configIoStatus",
         "configIoStatusLevel",
+        "throughputAdvancedOpen",
+        "throughputOverrideStatus",
+        "throughputOverrideStatusLevel",
         "configLoadedFileName",
         "configDirtySinceLoad",
         "setupOpenSystem",
@@ -1064,8 +1072,59 @@
         }
       }
   
+      function getCalculatedThroughputFrac() {
+        return clamp(Number(appState.throughputFrac) || DATA.defaults.throughputFrac, 0.3, 0.99);
+      }
+  
+      function hasValidCustomThroughputPct() {
+        const pct = Number(appState.customThroughputOverridePct);
+        return Number.isFinite(pct) && pct >= 30 && pct <= 99;
+      }
+  
+      function getActiveThroughputFrac() {
+        if (!appState.customThroughputOverrideEnabled || !hasValidCustomThroughputPct()) return getCalculatedThroughputFrac();
+        return appState.customThroughputOverridePct / 100;
+      }
+  
+      function getThroughputUiState() {
+        const calculatedPct = Math.round(getCalculatedThroughputFrac() * 100);
+        const activePct = Math.round(getActiveThroughputFrac() * 100);
+        const usingCustom = !!appState.customThroughputOverrideEnabled;
+        const customInvalid = usingCustom && !hasValidCustomThroughputPct();
+        const advisoryMessage = appState.throughputOverrideStatus || (
+          customInvalid
+            ? "Enter a custom optics + filter throughput between 30% and 99%."
+            : usingCustom
+            ? activePct > 95
+              ? "Values above 95% are uncommon for a full optical/filter train and may overstate system performance."
+              : activePct < 60
+                ? "Values below 60% may be valid for obstructed, dusty, heavily filtered, or complex optical systems, but should be checked."
+                : "Changing this value directly affects modeled signal and sky background. Most users should leave this set to the calculated estimate unless they have measured system throughput or a strong reason to override it."
+            : calculatedPct < 88
+              ? "Full-system throughput can look lower than expected because small losses multiply across the optical path."
+              : ""
+        );
+        const advisoryLevel = appState.throughputOverrideStatus
+          ? (appState.throughputOverrideStatusLevel || "neutral")
+          : customInvalid
+            ? "error"
+            : usingCustom
+            ? activePct > 95 || activePct < 60
+              ? "warn"
+              : "neutral"
+            : "neutral";
+        return {
+          calculatedPct,
+          activePct,
+          usingCustom,
+          statusLabel: usingCustom ? "Custom" : "Calculated",
+          advisoryMessage,
+          advisoryLevel
+        };
+      }
+  
       function currentToolVersion() {
-        return "v1.0.0";
+        return "v1.0.2";
       }
   
       function buildConfigFileName() {
@@ -3283,7 +3342,7 @@
             focalLengthMm,
             fRatio,
             centralObstructionFrac: appState.centralObstructionFrac,
-            throughputFrac: appState.throughputFrac
+            throughputFrac: getActiveThroughputFrac()
           },
           filter,
           conditions: {
@@ -3588,6 +3647,7 @@
           moonGeometry: "Computes moon phase, moon altitude, and moon-target geometry from the selected site and time.",
           computedMoonUse: "Computed values are used to estimate lunar impact in Planning Mode.",
           fieldPreset: "Sets the representative bright-star pressure used for the saturation-side estimate.",
+          throughput: "Estimated fraction of light transmitted through the optical train and filter before it reaches the camera sensor. This is not sensor QE and is not just the telescope objective. It may include losses from correctors, reducers, flatteners, filters, windows, coatings, and other optical elements. Small losses multiply across the full system, so values in the 80–90% range can be realistic.",
           operatingBand: "Operating band = the recommended interval after the lower floor is cleared but before saturation/workflow penalties dominate.",
           hardCeiling: "Hard ceiling = the terminal cap from saturation-hard and workflow-hard limits. Exposures beyond this point are outside the recommended range under the current assumptions.",
           workflowCap: "Upper workflow limit derived from filter class and bad-frame-risk tolerance.",
@@ -3638,6 +3698,7 @@
         const recommendedGains = camera.modes[0].recommendedPresets.map((value) => `
           <button type="button" class="ghost" data-gain-preset="${value}">Gain ${value}</button>
         `).join("");
+        const throughputUi = getThroughputUiState();
   
         document.getElementById("setupPanel").innerHTML = `
           ${setupGroup("setupOpenConfig", "Saved setups", "Save, load, and track complete system setups", `
@@ -3675,13 +3736,47 @@
               <div class="field"><label>Aperture (mm)</label><input id="apertureMm" type="number" inputmode="numeric" min="40" max="500" step="1" value="${appState.apertureMm}"></div>
               <div class="field"><label>Focal length (mm)</label><input id="focalLengthMm" type="number" inputmode="numeric" min="100" max="5000" step="1" value="${appState.focalLengthMm}"></div>
               <div class="field"><label>Focal ratio</label><input id="fRatio" type="number" inputmode="decimal" min="1.5" max="15" step="0.1" value="${appState.fRatio}"></div>
-              <div class="field"><label>Throughput</label><input id="throughputFrac" type="number" inputmode="decimal" min="0.2" max="1" step="0.01" value="${appState.throughputFrac}"></div>
               <div class="field"><label>Central obstruction (% of aperture diameter)</label><input id="centralObstructionFrac" type="number" inputmode="decimal" min="0" max="70" step="1" value="${fmtNumber(appState.centralObstructionFrac * 100, 0)}"></div>
               <div class="field"><label>Read-noise contribution target ${helpBadge(helpText.rnTarget)}</label>
                 <select id="readNoiseContributionTargetPct">
                   ${[10,5,2].map((value) => `<option value="${value}" ${value === appState.readNoiseContributionTargetPct ? "selected" : ""}>${value}%</option>`).join("")}
                 </select>
               </div>
+            </div>
+            <div class="throughput-stack">
+              <div class="throughput-head">
+                <div class="throughput-label">Estimated Optics + Filter Throughput ${helpBadge(helpText.throughput)}</div>
+                <div class="throughput-value-row">
+                  <div class="throughput-value">${throughputUi.activePct}%</div>
+                  <div class="throughput-status-pill ${throughputUi.usingCustom ? "custom" : ""}">${throughputUi.statusLabel}</div>
+                </div>
+              </div>
+              <div class="throughput-helper">This is a cascaded estimate for the optical train and filter, not just the telescope objective. It is used with sensor QE to estimate detected signal and sky background.</div>
+              <div class="throughput-breakdown"><strong>Throughput estimate:</strong> Combined estimate based on selected optical and filter assumptions.</div>
+              ${!throughputUi.usingCustom && throughputUi.calculatedPct < 88 ? `<div class="throughput-mini-note">Full-system throughput can look lower than expected because small losses multiply across the optical path.</div>` : ``}
+              <details class="throughput-advanced" id="throughputAdvanced" ${appState.throughputAdvancedOpen ? "open" : ""}>
+                <summary>Advanced</summary>
+                <div class="throughput-advanced-body">
+                  <label class="throughput-checkbox">
+                    <input id="customThroughputOverrideEnabled" type="checkbox" ${appState.customThroughputOverrideEnabled ? "checked" : ""}>
+                    <span>Use custom optics + filter throughput</span>
+                  </label>
+                  <div class="field-grid">
+                    <div class="field ${appState.customThroughputOverrideEnabled ? "" : "inactive"}">
+                      <label>Custom optics + filter throughput</label>
+                      <input id="customThroughputOverridePct" type="number" inputmode="decimal" min="30" max="99" step="1" value="${fmtNumber(appState.customThroughputOverridePct, 0)}" ${appState.customThroughputOverrideEnabled ? "" : "disabled"}>
+                    </div>
+                    <div class="field">
+                      <label>Status</label>
+                      <div class="readonly-value">${throughputUi.usingCustom ? "Custom override" : "Calculated estimate"}</div>
+                    </div>
+                  </div>
+                  <div class="throughput-advanced-actions">
+                    <button type="button" class="throughput-reset" id="resetThroughputEstimate">Reset to calculated estimate</button>
+                  </div>
+                  <div class="throughput-warning ${throughputUi.advisoryLevel}">${throughputUi.advisoryMessage || "Changing this value directly affects modeled signal and sky background. Most users should leave this set to the calculated estimate unless they have measured system throughput or a strong reason to override it."}</div>
+                </div>
+              </details>
             </div>
             <div class="actions">${recommendedGains}</div>
             <div class="small-note" style="margin-top:8px">${camera.manufacturer} ${camera.name} ${camera.dataQuality.level === "full-modeled" ? "is <strong>fully modeled</strong>" : camera.dataQuality.level === "partial" ? "uses a <strong>partial camera model</strong>" : "uses a <strong>generic camera model</strong>"}. Pixel size: ${fmtNumber(camera.pixelSizeUm, 2)} µm.</div>
@@ -4006,7 +4101,7 @@
           : result.thresholds.overheadFloorSec > result.thresholds.readNoiseFloorSec
             ? "overhead floor"
             : "read-noise floor";
-        const thresholdMarkers = assignThresholdRows([
+        const thresholdMarkersRaw = [
           { key: "overhead", label: "Overhead floor", longLabel: "Overhead floor threshold", value: result.thresholds.overheadFloorSec },
           { key: "comfort", label: "Op start", longLabel: "Operating-band start threshold", value: result.thresholds.sweetSpotMinSec },
           ...(result.thresholds.skyPedestalCautionSec <= maxDomain * 1.02 ? [{
@@ -4017,12 +4112,39 @@
           }] : []),
           { key: "caution", label: "Saturation caution", longLabel: "Saturation caution threshold", value: result.thresholds.saturationCautionSec },
           { key: "hard", label: "Hard ceiling", longLabel: "Hard-ceiling threshold", value: result.thresholds.hardMaxSec }
-        ], maxDomain);
+        ];
+        const overheadComfortGapSec = Math.abs(result.thresholds.sweetSpotMinSec - result.thresholds.overheadFloorSec);
+        const thresholdMarkers = assignThresholdRows(
+          overheadComfortGapSec <= Math.max(18, maxDomain * 0.025)
+            ? thresholdMarkersRaw.filter((marker) => marker.key !== "overhead")
+            : thresholdMarkersRaw,
+          maxDomain
+        );
         const displayZones = computeDisplayZoneWidths(buildDisplayRailZones(result), maxDomain);
+        const zoneInteriorLabelMinPct = {
+          too_short: 999,
+          lower_floor_gap: 999,
+          lean_workable: 22,
+          sweet_spot: 40,
+          long_risky: 36,
+          too_long: 999
+        };
         const interiorZoneLabels = displayZones.map((entry) => ({
           ...entry,
-          showInside: ["too_long", "lower_floor_gap"].includes(entry.zone.name) ? false : entry.displayPct >= 13
+          showInside: entry.pct >= (zoneInteriorLabelMinPct[entry.zone.name] ?? 20)
         }));
+        const sweetEntry = interiorZoneLabels.find((entry) => entry.zone.name === "sweet_spot");
+        const riskEntry = interiorZoneLabels.find((entry) => entry.zone.name === "long_risky");
+        if (sweetEntry && riskEntry && sweetEntry.showInside && riskEntry.showInside) {
+          const combinedPct = sweetEntry.pct + riskEntry.pct;
+          if (combinedPct < 84) {
+            if (sweetEntry.pct <= riskEntry.pct) {
+              sweetEntry.showInside = false;
+            } else {
+              riskEntry.showInside = false;
+            }
+          }
+        }
         const lowerDriverLabel = result.synthesis.lowerBoundDrivers.slice(0, 2).map((driver) => driver.label).join(" + ");
         const upperDriverLabel = result.synthesis.upperBoundDrivers.slice(0, 2).map((driver) => driver.label).join(" + ");
         return `
@@ -4327,9 +4449,6 @@
                 <div class="set-rows">
                   ${results.map((result) => {
                     const zones = computeDisplayZoneWidths(buildDisplayRailZones(result), maxDomain, { applyMinWidth: false });
-                    const hiddenZoneNotes = zones
-                      .filter((entry) => entry.displayPct > 0 && entry.displayPct < 13)
-                      .map((entry) => ({ key: entry.zone.name, label: zoneNames(entry.zone.name).short }));
                     const thresholdMarkers = assignThresholdRows([
                       { key: "overhead", label: "Overhead", value: result.thresholds.overheadFloorSec },
                       { key: "comfort", label: "Op start", value: result.thresholds.sweetSpotMinSec },
@@ -4337,6 +4456,37 @@
                       { key: "caution", label: "Sat", value: result.thresholds.saturationCautionSec },
                       { key: "hard", label: "Ceiling", value: result.thresholds.hardMaxSec }
                     ], maxDomain);
+                    const labeledZones = (() => {
+                      const sweetEntry = zones.find((entry) => entry.zone.name === "sweet_spot");
+                      const riskEntry = zones.find((entry) => entry.zone.name === "long_risky");
+                      const leanEntry = zones.find((entry) => entry.zone.name === "lean_workable");
+                      let showSweet = !!sweetEntry && sweetEntry.pct >= 18;
+                      let showRisk = !!riskEntry && riskEntry.pct >= 14;
+                      const showLean = !!leanEntry && leanEntry.pct >= 14;
+                      if (showSweet && showRisk) {
+                        const combinedPct = sweetEntry.pct + riskEntry.pct;
+                        if (combinedPct < 62 || sweetEntry.pct < 24 || riskEntry.pct < 22) {
+                          if (riskEntry.pct >= sweetEntry.pct) showSweet = false;
+                          else showRisk = false;
+                        }
+                      }
+                      const rendered = zones.map((entry) => {
+                        const names = zoneNames(entry.zone.name);
+                        let show = false;
+                        if (entry.zone.name === "sweet_spot") show = showSweet;
+                        else if (entry.zone.name === "long_risky") show = showRisk;
+                        else if (entry.zone.name === "lean_workable") show = showLean;
+                        return { entry, show, label: names.short };
+                      });
+                      const hiddenNotes = rendered
+                        .filter(({ entry, show }) => {
+                          if (show) return false;
+                          if (["too_long", "lower_floor_gap"].includes(entry.zone.name)) return entry.displayPct > 0 && entry.displayPct < 13;
+                          return entry.pct >= 8 || (entry.displayPct > 0 && entry.displayPct < 13);
+                        })
+                        .map(({ entry, label }) => ({ key: entry.zone.name, label }));
+                      return { rendered, hiddenNotes };
+                    })();
                     return `
                       <button type="button" class="set-row ${result.filterId === appState.activeFilterId ? "active" : ""}" data-activate-filter="${result.filterId}">
                         <div class="set-row-main">
@@ -4362,15 +4512,11 @@
                             `).join("")}
                           </div>
                           <div class="set-track">
-                            ${zones.map((entry) => {
-                              const names = zoneNames(entry.zone.name);
-                              const show = !["too_long", "lower_floor_gap"].includes(entry.zone.name) && entry.displayPct >= 13;
-                              return `<div class="set-zone ${zoneClass(entry.zone.name)}" style="left:${entry.displayStartPct}%; width:${entry.displayPct}%">${show ? names.short : ""}</div>`;
-                            }).join("")}
+                            ${labeledZones.rendered.map(({ entry, show, label }) => `<div class="set-zone ${zoneClass(entry.zone.name)}" style="left:${entry.displayStartPct}%; width:${entry.displayPct}%">${show ? label : ""}</div>`).join("")}
                           <div class="set-sweet" style="left:${pos(result.thresholds.sweetSpotMinSec)}%; width:${clamp(((result.thresholds.sweetSpotMaxSec - result.thresholds.sweetSpotMinSec) / maxDomain) * 100, 1.2, 100)}%"></div>
                           <div class="set-marker" style="left:${pos(result.headlineRecommendation.anchorSec)}%"></div>
                           </div>
-                          ${hiddenZoneNotes.length ? `<div class="set-zone-notes">${hiddenZoneNotes.map((item) => `<span class="set-zone-note ${zoneClass(item.key)}"><span class="dot"></span><span>${item.label}</span></span>`).join("")}</div>` : ""}
+                          ${labeledZones.hiddenNotes.length ? `<div class="set-zone-notes">${labeledZones.hiddenNotes.map((item) => `<span class="set-zone-note ${zoneClass(item.key)}"><span class="dot"></span><span>${item.label}</span></span>`).join("")}</div>` : ""}
                         </div>
                         <div class="set-row-meta">
                           <div class="v">${fmtSeconds(result.headlineRecommendation.anchorSec)}</div>
@@ -4698,6 +4844,10 @@
               {
                 q: "What does the read-noise contribution target mean?",
                 a: `It sets the tolerated read-noise penalty relative to the minimum achievable stack noise. The current setup is using ${contributionTargetLabel(t.readNoiseContributionTargetPct)}. Lower percentages require longer exposures and move the lower-bound thresholds later.`
+              },
+              {
+                q: "Why does the throughput value look lower than I expected?",
+                a: "The throughput value is an estimate for the full optical and filter path, not just the telescope objective. Even high-quality refractors, correctors, reducers, filters, camera windows, and other optical surfaces introduce small losses. These losses multiply through the system. For example, several 95–98% transmission elements can easily produce an overall optical/filter throughput in the 80–90% range.<br><br>This value is separate from camera quantum efficiency. Throughput estimates how much light reaches the sensor. Quantum efficiency estimates how efficiently the sensor converts that arriving light into electrons."
               },
               {
                 q: "What does the Read Noise Regime mean?",
@@ -6471,6 +6621,7 @@
           ["appendix-4", "How to think about the noise terms"],
           ["appendix-5", "Long enough is not the same as good"],
           ["appendix-6", "Data-source hierarchy"],
+          ["appendix-6a", "Optics + Filter Throughput"],
           ["appendix-6b", "Supported models and spectral data"],
           ["appendix-7", "How the regimes map to the problem"],
           ["appendix-8", "Core method"],
@@ -6633,6 +6784,23 @@
                 </div>
                 ${sensitivityFigure}
                 ${takeaway("The lower-bound estimate gets stronger as the background source becomes more measured and less assumed, but the operating band and upper constraints still remain partly modeled.")}
+              `)}
+  
+              ${section("appendix-6a", "Optics + Filter Throughput", `
+                <p>The model uses an estimated optics/filter throughput term to account for transmission losses before photons reach the sensor. This value represents the cascaded transmission of the optical path, including the telescope, correctors, reducers, flatteners, filters, camera window, and other relevant optical elements where applicable.</p>
+                <div class="ap-callout">
+                  <div class="ap-subhead" style="margin-top:0">Relationship to sensor QE</div>
+                  <p>Optics + filter throughput is separate from sensor quantum efficiency. A good shorthand for the signal model is:</p>
+                  <div class="ap-eqn-display">detected electrons ≈ incident photons × optics/filter throughput × sensor QE</div>
+                </div>
+                <p>Because throughput losses are multiplicative, several individually small losses can produce a noticeably lower combined value. For example:</p>
+                <div class="ap-eqn-display">0.98 × 0.98 × 0.97 × 0.95 × 0.90 ≈ 0.80</div>
+                <p>This does not imply that the telescope objective alone has poor transmission. It reflects the full modeled photon path.</p>
+                <div class="ap-callout">
+                  <div class="ap-subhead" style="margin-top:0">Why the default is an estimate</div>
+                  <p>For most users, the calculated estimate is preferable to a manual override. True end-to-end throughput is rarely known unless measured or carefully modeled from component-level data.</p>
+                </div>
+                ${takeaway("The throughput term is a full optical/filter-path estimate before sensor QE, not a telescope-only transmission number.")}
               `)}
   
               ${section("appendix-6b", "Supported models and spectral data", `
@@ -7281,7 +7449,26 @@
         } else {
           appState.fRatio = Number((appState.focalLengthMm / Math.max(1, appState.apertureMm)).toFixed(2));
         }
-        appState.throughputFrac = clamp(parseNumber("throughputFrac", appState.throughputFrac), 0.2, 1);
+        appState.throughputAdvancedOpen = !!document.getElementById("throughputAdvanced")?.open;
+        appState.customThroughputOverrideEnabled = !!document.getElementById("customThroughputOverrideEnabled")?.checked;
+        const customThroughputRaw = document.getElementById("customThroughputOverridePct")?.value ?? "";
+        if (appState.customThroughputOverrideEnabled) {
+          const parsedCustomThroughput = Number(customThroughputRaw);
+          if (!customThroughputRaw.trim() || !Number.isFinite(parsedCustomThroughput)) {
+            appState.throughputOverrideStatus = "Enter a numeric percentage between 30 and 99.";
+            appState.throughputOverrideStatusLevel = "error";
+          } else if (parsedCustomThroughput < 30 || parsedCustomThroughput > 99) {
+            appState.throughputOverrideStatus = "Enter a custom optics + filter throughput between 30% and 99%.";
+            appState.throughputOverrideStatusLevel = "error";
+          } else {
+            appState.customThroughputOverridePct = parsedCustomThroughput;
+            appState.throughputOverrideStatus = "";
+            appState.throughputOverrideStatusLevel = "neutral";
+          }
+        } else {
+          appState.throughputOverrideStatus = "";
+          appState.throughputOverrideStatusLevel = "neutral";
+        }
         appState.centralObstructionFrac = clamp(parseNumber("centralObstructionFrac", appState.centralObstructionFrac * 100) / 100, 0, 0.7);
         appState.filterSetId = document.getElementById("filterSetId")?.value || appState.filterSetId;
         if (changedId === "filterSetId") {
@@ -7373,6 +7560,7 @@
         });
   
         document.querySelectorAll("#setupPanel input, #setupPanel select").forEach((element) => {
+          if (["customThroughputOverrideEnabled", "customThroughputOverridePct"].includes(element.id)) return;
           element.addEventListener("change", () => {
             updateStateFromInputs(element.id);
             rerender();
@@ -7450,6 +7638,78 @@
         if (locationButton) locationButton.addEventListener("click", () => useCurrentLocation());
         const timeButton = document.getElementById("useCurrentDateTime");
         if (timeButton) timeButton.addEventListener("click", () => useCurrentDateTime());
+        const throughputAdvanced = document.getElementById("throughputAdvanced");
+        if (throughputAdvanced) {
+          throughputAdvanced.addEventListener("toggle", () => {
+            appState.throughputAdvancedOpen = throughputAdvanced.open;
+          });
+        }
+        const throughputOverrideToggle = document.getElementById("customThroughputOverrideEnabled");
+        if (throughputOverrideToggle) {
+          throughputOverrideToggle.addEventListener("change", () => {
+            appState.customThroughputOverrideEnabled = throughputOverrideToggle.checked;
+            appState.throughputAdvancedOpen = true;
+            if (throughputOverrideToggle.checked) {
+              appState.customThroughputOverridePct = hasValidCustomThroughputPct()
+                ? Number(appState.customThroughputOverridePct)
+                : Math.round(getCalculatedThroughputFrac() * 100);
+            }
+            appState.throughputOverrideStatus = "";
+            appState.throughputOverrideStatusLevel = "neutral";
+            markConfigDirty();
+            rerender();
+            if (throughputOverrideToggle.checked) {
+              requestAnimationFrame(() => {
+                const customInput = document.getElementById("customThroughputOverridePct");
+                if (customInput) {
+                  customInput.focus();
+                  if (typeof customInput.select === "function") customInput.select();
+                }
+              });
+            }
+          });
+        }
+        const customThroughputInput = document.getElementById("customThroughputOverridePct");
+        if (customThroughputInput) {
+          customThroughputInput.addEventListener("input", () => {
+            appState.customThroughputOverrideEnabled = true;
+            appState.throughputAdvancedOpen = true;
+            const raw = customThroughputInput.value.trim();
+            if (!raw) {
+              appState.throughputOverrideStatus = "Enter a numeric percentage between 30 and 99.";
+              appState.throughputOverrideStatusLevel = "error";
+            } else {
+              const parsed = Number(raw);
+              if (!Number.isFinite(parsed)) {
+                appState.throughputOverrideStatus = "Enter a numeric percentage between 30 and 99.";
+                appState.throughputOverrideStatusLevel = "error";
+              } else if (parsed < 30 || parsed > 99) {
+                appState.throughputOverrideStatus = "Enter a custom optics + filter throughput between 30% and 99%.";
+                appState.throughputOverrideStatusLevel = "error";
+              } else {
+                appState.customThroughputOverridePct = parsed;
+                appState.throughputOverrideStatus = "";
+                appState.throughputOverrideStatusLevel = "neutral";
+              }
+            }
+            markConfigDirty();
+          });
+          customThroughputInput.addEventListener("change", () => {
+            updateStateFromInputs("customThroughputOverridePct");
+            rerender();
+          });
+        }
+        const resetThroughputButton = document.getElementById("resetThroughputEstimate");
+        if (resetThroughputButton) {
+          resetThroughputButton.addEventListener("click", () => {
+            appState.customThroughputOverrideEnabled = false;
+            appState.customThroughputOverridePct = Math.round(getCalculatedThroughputFrac() * 100);
+            appState.throughputOverrideStatus = "";
+            appState.throughputOverrideStatusLevel = "neutral";
+            markConfigDirty();
+            rerender();
+          });
+        }
         const resetComputed = document.getElementById("resetComputedGeometry");
         if (resetComputed) {
           resetComputed.addEventListener("click", () => {
@@ -7468,6 +7728,11 @@
             apertureMm: 130,
             focalLengthMm: 910,
             throughputFrac: 0.82,
+            customThroughputOverrideEnabled: false,
+            customThroughputOverridePct: 82,
+            throughputAdvancedOpen: false,
+            throughputOverrideStatus: "",
+            throughputOverrideStatusLevel: "neutral",
             filterSetId: "narrowband-sho-astronomik-6nm",
             selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
@@ -7512,6 +7777,11 @@
             apertureMm: 80,
             focalLengthMm: 400,
             throughputFrac: 0.84,
+            customThroughputOverrideEnabled: false,
+            customThroughputOverridePct: 84,
+            throughputAdvancedOpen: false,
+            throughputOverrideStatus: "",
+            throughputOverrideStatusLevel: "neutral",
             filterSetId: "broadband-osc",
             selectedFilters: ["osc-broad"],
             activeFilterId: "osc-broad",
