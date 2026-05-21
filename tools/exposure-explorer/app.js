@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.2.html (v1.0.2). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.21.html (v1.0.21). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.2</span>
+            <span class="hero-version">v1.0.21</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -391,6 +391,9 @@
           "chroma-ha-8nm": { id:"chroma-ha-8nm", mode:"narrowband", label:"Chroma Ha 8nm", line:"Ha", compatible:["mono"], curve:{640:0.015,645.5:0.102,647.8:0.529,648.8:1.098,650.8:5.128,651.6:11.084,652.2:21.415,653:51.392,653.6:80.693,654:93.123,654.5:98.769,656.3:99.975,658.7:98.431,659.1:93.934,659.3:89.655,659.6:80.136,660.2:53.34,661.1:21.095,661.7:11.048,662.5:5.042,664.4:1.021,665.2:0.531,667.4:0.102,670:0.032} },
           "chroma-oiii-8nm": { id:"chroma-oiii-8nm", mode:"narrowband", label:"Chroma OIII 8nm", line:"OIII", compatible:["mono"], curve:{490:0.029,492.4:0.107,493.5:0.547,493.9:1.082,495.1:5.268,495.9:10.293,496.7:21.059,497.6:51.227,498.2:80.348,498.6:93.353,499.1:99.14,501.7:99.853,503.4:98.14,503.7:94.115,503.9:88.629,504.1:80.246,504.6:50.711,505.2:22.536,505.8:10.268,506.5:5.167,508.9:1.025,509.4:0.549,510:0.272} },
           "chroma-sii-8nm": { id:"chroma-sii-8nm", mode:"narrowband", label:"Chroma SII 8nm", line:"SII", compatible:["mono"], curve:{660:0.033,662.2:0.105,664.2:0.516,665:1.073,666.5:5.129,667.1:10.336,667.7:20.847,668.6:50.704,669.4:80.96,669.8:91.137,670.2:96.929,670.5:98.984,672.6:99.985,674.5:98.159,674.8:94.996,675.1:89.099,675.4:80.059,676.1:51.693,677.1:20.93,677.8:10.927,678.7:5.084,680:1.866} },
+          "antlia-ha-4p5nm": { id:"antlia-ha-4p5nm", mode:"narrowband", label:"Antlia Ha 4.5nm EDGE", line:"Ha", compatible:["mono"], curve:{652.5:0,653.5:20,654.4:70,655.2:90,656.3:93,657.4:90,658.2:70,659.1:20,660.1:0} },
+          "antlia-oiii-4p5nm": { id:"antlia-oiii-4p5nm", mode:"narrowband", label:"Antlia OIII 4.5nm EDGE", line:"OIII", compatible:["mono"], curve:{497.0:0,497.9:15,498.8:78,499.7:89,500.7:90,501.7:89,502.6:78,503.5:15,504.4:0} },
+          "antlia-sii-4p5nm": { id:"antlia-sii-4p5nm", mode:"narrowband", label:"Antlia SII 4.5nm EDGE", line:"SII", compatible:["mono"], curve:{668.6:0,669.6:20,670.5:70,671.3:90,672.4:93,673.5:90,674.3:70,675.2:20,676.2:0} },
           "baader-l": { id:"baader-l", mode:"broadband", label:"Baader L CMOS", line:"L", compatible:["mono"], curve:{410:0,420:5,430:98,500:98,600:98,675:98,685:5,695:0} },
           "baader-r": { id:"baader-r", mode:"broadband", label:"Baader R CMOS", line:"R", compatible:["mono"], curve:{585:0,595:5,600:97,640:97,680:97,688:5,695:0} },
           "baader-g": { id:"baader-g", mode:"broadband", label:"Baader G CMOS", line:"G", compatible:["mono"], curve:{480:0,490:5,495:97,530:97,570:97,578:5,585:0} },
@@ -444,6 +447,7 @@
           "narrowband-sho-chroma-3nm": { id:"narrowband-sho-chroma-3nm", label:"Mono SHO — Chroma 3nm", mode:"narrowband", compatible:["mono"], filters:["chroma-ha-3nm","chroma-oiii-3nm","chroma-sii-3nm"] },
           "narrowband-sho-chroma-5nm": { id:"narrowband-sho-chroma-5nm", label:"Mono SHO — Chroma 5nm", mode:"narrowband", compatible:["mono"], filters:["chroma-ha-5nm","chroma-oiii-5nm","chroma-sii-5nm"] },
           "narrowband-sho-chroma-8nm": { id:"narrowband-sho-chroma-8nm", label:"Mono SHO — Chroma 8nm", mode:"narrowband", compatible:["mono"], filters:["chroma-ha-8nm","chroma-oiii-8nm","chroma-sii-8nm"] },
+          "narrowband-sho-antlia-4p5nm": { id:"narrowband-sho-antlia-4p5nm", label:"Mono SHO — Antlia 4.5nm EDGE", mode:"narrowband", compatible:["mono"], filters:["antlia-ha-4p5nm","antlia-oiii-4p5nm","antlia-sii-4p5nm"] },
           "narrowband-sho-zwo": { id:"narrowband-sho-zwo", label:"Mono SHO — ZWO 7nm", mode:"narrowband", compatible:["mono"], filters:["zwo-ha-7nm","zwo-oiii-7nm","zwo-sii-7nm"] },
           "narrowband-sho-astronomik-6nm": { id:"narrowband-sho-astronomik-6nm", label:"Mono SHO — Astronomik 6nm", mode:"narrowband", compatible:["mono"], filters:["astronomik-ha-6nm","astronomik-oiii-6nm","astronomik-sii-6nm"] },
           "narrowband-sho-astronomik-12nm": { id:"narrowband-sho-astronomik-12nm", label:"Mono SHO — Astronomik 12nm", mode:"narrowband", compatible:["mono"], filters:["astronomik-ha-12nm","astronomik-oiii-12nm","astronomik-sii-12nm"] },
@@ -835,6 +839,80 @@
             }
           },
           {
+            cameraId: "zwo-asi585mm-pro",
+            name: "ASI585MM Pro",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX585",
+            colorType: "mono",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 3840, heightPx: 2160 },
+            adcBits: 12,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,450,500,530,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.58,0.78,0.88,0.91,0.90,0.88,0.82,0.79,0.72,0.60,0.45,0.31,0.18,0.09]
+            },
+            modes: [
+              {
+                modeId: "auto",
+                modeName: "Auto HCG transition",
+                gainRange: { min: 0, max: 400 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,6.4],[120,3.8],[252,0.7],[400,0.7]] },
+                  fullWellE: { interpolation: "linear", points: [[0,47000],[120,18000],[252,11000],[400,10000]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,1.25],[120,0.55],[252,0.18],[400,0.11]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,13.2],[120,12.1],[252,11.0],[400,10.2]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0008],[0,0.0018],[10,0.0042]] }
+                },
+                recommendedPresets: [0,252]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 50 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "System Compare 585-series import with estimated companion curves for exposure modeling",
+              lastVerified: "2026-05-21"
+            }
+          },
+          {
+            cameraId: "zwo-asi585mc-pro",
+            name: "ASI585MC Pro",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX585",
+            colorType: "osc",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 3840, heightPx: 2160 },
+            adcBits: 12,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [450,500,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.27,0.47,0.36,0.33,0.33,0.32,0.32,0.31,0.30,0.24,0.13,0.05]
+            },
+            modes: [
+              {
+                modeId: "auto",
+                modeName: "Auto HCG transition",
+                gainRange: { min: 0, max: 400 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,6.67],[120,3.8],[252,0.7],[400,0.7]] },
+                  fullWellE: { interpolation: "linear", points: [[0,47000],[120,18000],[252,11000],[400,10000]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,1.25],[120,0.55],[252,0.18],[400,0.11]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,13.0],[120,11.9],[252,10.9],[400,10.1]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0008],[0,0.0018],[10,0.0042]] }
+                },
+                recommendedPresets: [0,252]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 50 },
+            dataQuality: {
+              level: "generic",
+              curveSource: "System Compare 585-series import with OSC-averaged QE and estimated companion curves",
+              lastVerified: "2026-05-21"
+            }
+          },
+          {
             cameraId: "qhy600m",
             name: "QHY600M",
             manufacturer: "QHY",
@@ -1124,7 +1202,7 @@
       }
   
       function currentToolVersion() {
-        return "v1.0.2";
+          return "v1.0.21";
       }
   
       function buildConfigFileName() {
@@ -1412,9 +1490,10 @@
           outerPadding + 78
         );
   
+        const displayThresholds = results.map((result) => displayThresholdsForResult(result));
         const domainBase = multiFilterMode
-          ? Math.max(...results.map((result) => result.thresholds.hardMaxSec * 1.08), 120)
-          : Math.max(results[0].thresholds.hardMaxSec * 1.08, results[0].thresholds.sweetSpotMaxSec * 1.15, 120);
+          ? Math.max(...displayThresholds.map((thresholds) => thresholds.hardMaxSec * 1.08), 120)
+          : Math.max(displayThresholds[0].hardMaxSec * 1.08, displayThresholds[0].sweetSpotMaxSec * 1.15, 120);
         const axis = buildAxisTicks(domainBase);
         const maxDomain = axis.majorTicks[axis.majorTicks.length - 1];
         const barStartX = outerPadding + panelPadding + 360;
@@ -1423,6 +1502,7 @@
         const posX = (value) => barStartX + clamp(value / maxDomain, 0, 1) * barWidth;
   
         results.forEach((result, index) => {
+          const displayT = displayThresholdsForResult(result);
           const y = outerPadding + titleHeight + index * rowHeight;
           const cardX = outerPadding + panelPadding;
           const cardY = y + 10;
@@ -1456,7 +1536,7 @@
           ctx.fillText(fmtSeconds(result.headlineRecommendation.anchorSec), cardX + cardWidth - 22, cardY + 34);
           ctx.fillStyle = "#bfd0e5";
           ctx.font = "600 14px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-          ctx.fillText(fmtRange(result.thresholds.sweetSpotMinSec, result.thresholds.sweetSpotMaxSec), cardX + cardWidth - 22, cardY + 62);
+          ctx.fillText(fmtRange(displayT.sweetSpotMinSec, displayT.sweetSpotMaxSec), cardX + cardWidth - 22, cardY + 62);
           ctx.textAlign = "left";
   
           const railTop = cardY + 56;
@@ -1483,8 +1563,8 @@
           });
           ctx.restore();
   
-          const sweetStartX = posX(result.thresholds.sweetSpotMinSec);
-          const sweetEndX = posX(result.thresholds.sweetSpotMaxSec);
+          const sweetStartX = posX(displayT.sweetSpotMinSec);
+          const sweetEndX = posX(displayT.sweetSpotMaxSec);
           drawRoundedRect(ctx, sweetStartX, railTop + 8, Math.max(6, sweetEndX - sweetStartX), barHeight - 16, 20, null, "rgba(255,255,255,0.92)", 3);
   
           const anchorX = posX(result.headlineRecommendation.anchorSec);
@@ -1497,10 +1577,10 @@
           drawRoundedRect(ctx, anchorX - 2, railTop - 2, 4, barHeight + 16, 2, "rgba(255,255,255,0.95)");
   
           const markers = [
-            { label: "Op start", value: result.thresholds.sweetSpotMinSec },
+            { label: "Op start", value: displayT.sweetSpotMinSec },
             ...(result.thresholds.skyPedestalCautionSec <= maxDomain * 1.02 ? [{ label: "Sky", value: result.thresholds.skyPedestalCautionSec }] : []),
             { label: "Sat", value: result.thresholds.saturationCautionSec },
-            { label: "Ceiling", value: result.thresholds.hardMaxSec }
+            { label: "Ceiling", value: displayT.hardMaxSec }
           ];
           markers.forEach((marker) => {
             drawThresholdMarker(ctx, posX(marker.value), railTop, barHeight, marker.label);
@@ -1543,8 +1623,7 @@
   
         const legendItems = [
           ["Read Noise Regime", "#7386bf"],
-          ["Overhead / Practical Floor", "#8393a4"],
-          ["Sensor/Shot Noise Regime", "#39a2de"],
+          ["Operational Overhead Floor", "#8393a4"],
           ["Practical Operating Band", "#4cc67b"],
           ["Saturation / Workflow Risk", "#deb939"],
           ["Hard Ceiling", "#db713d"]
@@ -2670,11 +2749,96 @@
         return DATA.filterProfiles[filterId] || null;
       }
   
-      function compatibleFilterSets(camera) {
-        return Object.values(DATA.filterSets).filter((set) => set.compatible.includes(camera.colorType));
+      function extractFirstNumericFamily(text) {
+        const match = String(text || "").match(/(\d+(?:\.\d+)?)/);
+        return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
       }
   
-      function defaultFilterSetId(camera) {
+      function cameraFamilyPrefix(camera) {
+        const name = String(camera?.name || "");
+        if (/ASI/i.test(name)) return "ASI";
+        if (/QHY/i.test(name)) return "QHY";
+        return name.split(/\s+/)[0] || "";
+      }
+  
+      function cameraFamilyNumber(camera) {
+        const name = String(camera?.name || "");
+        const asiMatch = name.match(/ASI\s*(\d{3,4})/i);
+        if (asiMatch) return Number(asiMatch[1]);
+        const qhyMatch = name.match(/QHY\s*(\d{3,4})/i);
+        if (qhyMatch) return Number(qhyMatch[1]);
+        return extractFirstNumericFamily(name);
+      }
+  
+      function cameraColorSortKey(camera) {
+        const name = String(camera?.name || "");
+        if (/MM/i.test(name)) return 0;
+        if (/MC/i.test(name)) return 1;
+        return 2;
+      }
+  
+      function compareCamerasForUi(a, b) {
+        const vendorCompare = String(a.manufacturer || "").localeCompare(String(b.manufacturer || ""), undefined, { sensitivity: "base" });
+        if (vendorCompare !== 0) return vendorCompare;
+        const familyPrefixCompare = cameraFamilyPrefix(a).localeCompare(cameraFamilyPrefix(b), undefined, { sensitivity: "base" });
+        if (familyPrefixCompare !== 0) return familyPrefixCompare;
+        const familyNumberCompare = cameraFamilyNumber(a) - cameraFamilyNumber(b);
+        if (familyNumberCompare !== 0) return familyNumberCompare;
+        const colorCompare = cameraColorSortKey(a) - cameraColorSortKey(b);
+        if (colorCompare !== 0) return colorCompare;
+        return String(a.name || "").localeCompare(String(b.name || ""), undefined, { sensitivity: "base", numeric: true });
+      }
+  
+      function filterSetVendorLabel(filterSet) {
+        const label = String(filterSet?.label || "");
+        if (label.includes("—")) {
+          return label.split("—").slice(1).join("—").trim();
+        }
+        if (/^OSC Broadband$/i.test(label)) return "Broadband";
+        return label;
+      }
+  
+      function filterSetModeSortKey(filterSet) {
+        return filterSet?.mode === "broadband" ? 0 : 1;
+      }
+  
+      function filterSetVendorKey(filterSet) {
+        const vendorLabel = filterSetVendorLabel(filterSet);
+        return vendorLabel.split(/\s+/)[0] || vendorLabel;
+      }
+  
+      function filterSetCutWidthKey(filterSet) {
+        const label = filterSetVendorLabel(filterSet);
+        const nmMatch = label.match(/(\d+(?:\.\d+)?)\s*nm/i);
+        if (nmMatch) return Number(nmMatch[1]);
+        const lCutMatch = label.match(/\bL-(\d+)\b/i);
+        if (lCutMatch) return Number(lCutMatch[1]);
+        return Number.POSITIVE_INFINITY;
+      }
+  
+      function compareFilterSetsForUi(a, b) {
+        const modeCompare = filterSetModeSortKey(a) - filterSetModeSortKey(b);
+        if (modeCompare !== 0) return modeCompare;
+        const vendorCompare = filterSetVendorKey(a).localeCompare(filterSetVendorKey(b), undefined, { sensitivity: "base" });
+        if (vendorCompare !== 0) return vendorCompare;
+        const cutCompare = filterSetCutWidthKey(a) - filterSetCutWidthKey(b);
+        if (cutCompare !== 0) return cutCompare;
+        return String(a.label || "").localeCompare(String(b.label || ""), undefined, { sensitivity: "base", numeric: true });
+      }
+  
+      function compatibleFilterSets(camera) {
+        return Object.values(DATA.filterSets).filter((set) => {
+          if (!set.compatible.includes(camera.colorType)) return false;
+          if (Array.isArray(set.allowedCameraIds) && !set.allowedCameraIds.includes(camera.cameraId)) return false;
+          return true;
+        });
+      }
+  
+      function activeFilterMode(camera = getCamera(appState.cameraId)) {
+        return resolveFilterSet(appState.filterSetId, camera)?.mode || "broadband";
+      }
+  
+      function defaultFilterSetId(camera, preferredMode = null) {
         const preferred = camera.colorType === "osc" ? "broadband-osc" : "narrowband-sho-astronomik-6nm";
         const compatible = compatibleFilterSets(camera);
         return compatible.find((set) => set.id === preferred)?.id || compatible[0]?.id || null;
@@ -2735,6 +2899,12 @@
         const family = skyFamilyKey(filterProfile);
         if (filterProfile.mode === "broadband") {
           return DATA.skyBaselines[family] || DATA.skyBaselines.OSC_RGB;
+        }
+        if (family === "OSC_RGB") {
+          const refRate = DATA.skyBaselines.OSC_RGB || 0.24;
+          const broadbandBandwidthNm = 110;
+          const referencePeakFrac = 0.9;
+          return refRate * (metrics.effectiveBandwidthNm / broadbandBandwidthNm) * (metrics.peakFrac / referencePeakFrac);
         }
         const refFamily6 = `${family}_6nm`;
         const refFamily3 = `${family}_3nm`;
@@ -3017,7 +3187,7 @@
           broadbandSkyPracticalCapScale,
           broadbandSkyAnchorAdjustment,
           preferredStartSec,
-          sweetSpotMinSec: collapsed ? collapsedStartSec : practicalLowerFloorSec,
+          sweetSpotMinSec: collapsed ? collapsedStartSec : Math.max(practicalLowerFloorSec, preferredStartSec),
           sweetSpotMaxSec,
           hardMaxSec,
           lowerBoundSec,
@@ -3095,7 +3265,7 @@
             name: "lean_workable",
             startSec: tlower,
             endSec: tsweetMin,
-            reason: "Shot noise starts to dominate, but the system is not yet in its best practical operating band."
+            reason: "The read-noise criterion has cleared, but operational overhead or comfort-margin penalties still keep the setup below the practical operating band."
           },
           {
             name: "sweet_spot",
@@ -3127,12 +3297,20 @@
         };
       }
   
+      function buildPracticalExposureGuidance(input, thresholds, synthesis) {
+        return null;
+      }
+  
+      function displayThresholdsForResult(result) {
+        return result.thresholds;
+      }
+  
       function buildExplanation(payload) {
         const { filter, cameraState, thresholds, synthesis, sky, sourceScenario, thermal, lowerBoundBackground } = payload;
         const lowerLeader = synthesis.lowerBoundDrivers[0]?.label || "Read noise";
         const upperLeader = synthesis.upperBoundDrivers[0]?.label || "Bright-star saturation";
         const lowerRegime = zoneNames("too_short").full;
-        const middleRegime = zoneNames("lean_workable").full;
+        const middleRegime = zoneNames("lower_floor_gap").full;
         const operatingBand = zoneNames("sweet_spot").full;
         const riskRegime = zoneNames("long_risky").full;
         const hardCeiling = zoneNames("too_long").full;
@@ -3227,6 +3405,10 @@
             ? "sky-background headroom"
             : "workflow limits";
         return `A good first try is about ${fmtSeconds(result.headlineRecommendation.anchorSec)}. Shorter subs start running into ${lowerPhrase}, and longer subs become less forgiving near ${fmtSeconds(result.thresholds.sweetSpotMaxSec)} because of ${upperPhrase}.`;
+      }
+  
+      function driverLabelForDisplay(result, label) {
+        return label;
       }
   
       function summarizeWorkflowDisplay(workflow, results) {
@@ -3414,6 +3596,7 @@
         }
         const confidence = computeConfidence(input, { thresholds, synthesis });
         const explanation = buildExplanation({ ...input, sky, sourceScenario, thresholds, synthesis, thermal, lowerBoundBackground });
+        const practicalGuidance = buildPracticalExposureGuidance(input, thresholds, synthesis);
         return {
           filterId,
           input,
@@ -3428,11 +3611,17 @@
           sourceScenario,
           thresholds,
           zones: synthesis.zones,
-          headlineRecommendation: {
+          theoreticalRecommendation: {
             rangeSec: [thresholds.sweetSpotMinSec, thresholds.sweetSpotMaxSec],
             anchorSec: synthesis.anchorSec,
-            summary: `A ${fmtSeconds(synthesis.anchorSec)} sub is a suggested starting sub length for this ${input.filter.name} setup.`
+            summary: `A ${fmtSeconds(synthesis.anchorSec)} sub is the computed theoretical starting sub length for this ${input.filter.name} setup.`
           },
+          headlineRecommendation: {
+            rangeSec: practicalGuidance?.rangeSec ?? [thresholds.sweetSpotMinSec, thresholds.sweetSpotMaxSec],
+            anchorSec: practicalGuidance?.anchorSec ?? synthesis.anchorSec,
+            summary: practicalGuidance?.summary ?? `A ${fmtSeconds(synthesis.anchorSec)} sub is a suggested starting sub length for this ${input.filter.name} setup.`
+          },
+          practicalGuidance,
           drivers: [...synthesis.lowerBoundDrivers, ...synthesis.upperBoundDrivers],
           synthesis,
           confidence,
@@ -3463,8 +3652,8 @@
       function zoneNames(name) {
         return ({
           too_short: { full: "Read Noise Regime", short: "Read Noise" },
-          lower_floor_gap: { full: "Overhead / Practical floor", short: "Overhead / Practical" },
-          lean_workable: { full: "Sensor/Shot Noise Regime", short: "Sensor/Shot" },
+          lower_floor_gap: { full: "Operational Overhead Floor", short: "Operations" },
+          lean_workable: { full: "Operational Transition", short: "Transition" },
           sweet_spot: { full: "Practical Operating Band", short: "Operating Band" },
           long_risky: { full: "Saturation / Workflow Risk", short: "Sat/Workflow Risk" },
           too_long: { full: "Hard Ceiling", short: "Ceiling" }
@@ -3487,21 +3676,18 @@
       }
   
       function buildDisplayRailZones(result) {
-        const t = result.thresholds;
+        const t = displayThresholdsForResult(result);
         const rnDisplayEnd = clamp(Math.max(0, t.moderatedReadNoiseFloorSec || t.readNoiseFloorSec), 0, t.hardMaxSec);
-        const lowerBound = Math.max(rnDisplayEnd, t.lowerBoundSec);
+        const operationalEnd = Math.max(rnDisplayEnd, t.sweetSpotMinSec);
         const zones = [];
         const pushZone = (name, startSec, endSec, reason) => {
           if (endSec == null || endSec - startSec > 0.5) {
             zones.push({ name, startSec, endSec, reason });
           }
         };
-        pushZone("too_short", 0, rnDisplayEnd, "The sub-exposure remains below the read-noise floor for the active contribution target.");
-        if (lowerBound > rnDisplayEnd + 0.5) {
-          pushZone("lower_floor_gap", rnDisplayEnd, lowerBound, "Workflow overhead or a practical floor is pushing the displayed lower bound later than the raw read-noise floor.");
-        }
-        if (t.sweetSpotMinSec > lowerBound + 0.5) {
-          pushZone("lean_workable", lowerBound, t.sweetSpotMinSec, "Shot noise starts to dominate, but the system is not yet in its preferred operating band.");
+        pushZone("too_short", 0, rnDisplayEnd, "The sub-exposure remains below the displayed read-noise criterion.");
+        if (operationalEnd > rnDisplayEnd + 0.5) {
+          pushZone("lower_floor_gap", rnDisplayEnd, operationalEnd, "Read noise has cleared, but short subs still carry operational overhead or comfort-margin penalties.");
         }
         pushZone("sweet_spot", t.sweetSpotMinSec, t.sweetSpotMaxSec, "This is the practical operating band where noise efficiency, overhead, and headroom are best balanced.");
         pushZone("long_risky", t.sweetSpotMaxSec, t.hardMaxSec, "Additional exposure time brings diminishing benefit while saturation and workflow risk rise.");
@@ -3674,7 +3860,8 @@
           </section>
         `;
         const computedPreview = computeMoonGeometry(appState);
-        const cameraOptions = DATA.cameras
+        const cameraOptions = [...DATA.cameras]
+          .sort(compareCamerasForUi)
           .map((entry) => `<option value="${entry.cameraId}" ${entry.cameraId === appState.cameraId ? "selected" : ""}>${entry.manufacturer} ${entry.name}</option>`)
           .join("");
         const modeOptions = camera.modes
@@ -3683,7 +3870,8 @@
         const modeControl = camera.modes.length > 1
           ? `<select id="modeId">${modeOptions}</select>`
           : `<div class="readonly-value system-mode" aria-label="Camera mode">${camera.modes[0]?.modeName || "Fixed camera mode"}</div>`;
-        const filterSetOptions = compatibleSets
+        const filterSetOptions = [...compatibleSets]
+          .sort(compareFilterSetsForUi)
           .map((set) => `<option value="${set.id}" ${set.id === activeFilterSet?.id ? "selected" : ""}>${set.label}</option>`)
           .join("");
         const filterPills = activeFilterMembers.map((filter) => {
@@ -3696,8 +3884,8 @@
           `;
         }).join("");
         const recommendedGains = camera.modes[0].recommendedPresets.map((value) => `
-          <button type="button" class="ghost" data-gain-preset="${value}">Gain ${value}</button>
-        `).join("");
+              <button type="button" class="ghost" data-gain-preset="${value}">Gain ${value}</button>
+            `).join("");
         const throughputUi = getThroughputUiState();
   
         document.getElementById("setupPanel").innerHTML = `
@@ -3731,8 +3919,14 @@
             <div class="field-grid">
               <div class="field"><label>Camera</label><select id="cameraId">${cameraOptions}</select></div>
               <div class="field"><label>Mode</label>${modeControl}</div>
-              <div class="field"><label>Gain</label><input id="gain" type="number" inputmode="numeric" min="0" max="300" step="1" value="${appState.gain}"></div>
-              <div class="field"><label>Sensor temp (°C)</label><input id="tempC" type="number" inputmode="numeric" min="-30" max="25" step="1" value="${appState.tempC}"></div>
+              <div class="field">
+                <label>Gain</label>
+                <input id="gain" type="number" inputmode="numeric" min="0" max="400" step="1" value="${appState.gain}">
+              </div>
+              <div class="field">
+                <label>Sensor temp (°C)</label>
+                <input id="tempC" type="number" inputmode="numeric" min="-30" max="25" step="1" value="${appState.tempC}">
+              </div>
               <div class="field"><label>Aperture (mm)</label><input id="apertureMm" type="number" inputmode="numeric" min="40" max="500" step="1" value="${appState.apertureMm}"></div>
               <div class="field"><label>Focal length (mm)</label><input id="focalLengthMm" type="number" inputmode="numeric" min="100" max="5000" step="1" value="${appState.focalLengthMm}"></div>
               <div class="field"><label>Focal ratio</label><input id="fRatio" type="number" inputmode="decimal" min="1.5" max="15" step="0.1" value="${appState.fRatio}"></div>
@@ -3781,7 +3975,6 @@
             <div class="actions">${recommendedGains}</div>
             <div class="small-note" style="margin-top:8px">${camera.manufacturer} ${camera.name} ${camera.dataQuality.level === "full-modeled" ? "is <strong>fully modeled</strong>" : camera.dataQuality.level === "partial" ? "uses a <strong>partial camera model</strong>" : "uses a <strong>generic camera model</strong>"}. Pixel size: ${fmtNumber(camera.pixelSizeUm, 2)} µm.</div>
           `)}
-  
           ${setupGroup("setupOpenFilters", "Filter Set", "Select a filter set and active filters", `
             <div class="field-grid-full" style="margin-bottom:8px">
               <div class="field">
@@ -4049,10 +4242,11 @@
               </div>
             ` : `<div class="small-note">Empirical calibration fields appear here when Empirical Calibration Mode is active.</div>`}
             <div class="actions">
-              <button type="button" class="primary" id="loadMonoExample">Load mono narrowband example</button>
-              <button type="button" class="ghost" id="loadOscExample">Load OSC broadband example</button>
+              <button type="button" class="primary" id="loadMonoExample">Load mono empirical example</button>
+              <button type="button" class="ghost" id="loadOscExample">Load OSC empirical example</button>
               <button type="button" class="ghost" id="resetDefaults">Reset</button>
             </div>
+            <div class="small-note" style="margin-top:8px">These buttons load sample empirical calibration values and keep the tool in Empirical Calibration Mode so you can inspect how the measured path works.</div>
           `)}
         `;
         attachSetupEvents();
@@ -4089,21 +4283,66 @@
         `;
       }
   
+      function renderReleaseNotes() {
+        return `
+          <details class="release-notes-card">
+            <summary>
+              <div>
+                <div class="release-notes-title">What’s New</div>
+                <div class="release-notes-meta">${currentToolVersion()} · recent camera, filter, and workflow-model updates</div>
+              </div>
+              <div class="summary-meta">Show release notes</div>
+            </summary>
+            <div class="release-notes-body">
+              <div class="release-notes-intro">Recent releases added new camera support, throughput clarification, and cleaner sorting so the tool is easier to scan and closer to how real systems are configured.</div>
+              <div class="release-notes-grid">
+                <div class="release-note-block">
+                  <h4>New cameras</h4>
+                  <ul>
+                    <li>ZWO ASI585MM Pro</li>
+                    <li>ZWO ASI585MC Pro</li>
+                  </ul>
+                </div>
+                <div class="release-note-block">
+                  <h4>New filter support</h4>
+                  <ul>
+                    <li>Mono SHO — Antlia 4.5nm EDGE</li>
+                  </ul>
+                </div>
+                <div class="release-note-block">
+                  <h4>Other recent improvements</h4>
+                  <ul>
+                    <li>Optics + Filter Throughput is now explained and can be overridden in Advanced mode</li>
+                    <li>Filter-set dropdowns now group broadband before narrowband, then sort by maker and cut width</li>
+                    <li>Hero plots now keep raw read-noise diagnostics out of the main regime bar so the displayed zones match the active recommendation boundary</li>
+                    <li>Single-filter hero plots now use the same clear operating-band outline treatment as filter-set rows, with the outline contained inside the displayed green band</li>
+                    <li>Hero plots restore the two-stage lower-side story: read-noise criterion first, then operational overhead/comfort floor before the green band</li>
+                    <li>FAQ and Technical Appendix now explain why shot noise is part of the model but not a separate plotted recommendation zone</li>
+                    <li>FAQ and Technical Appendix updated to reflect the newer support model</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </details>
+        `;
+      }
+  
       function renderExposureZoneBar(result) {
-        const maxDomainBase = Math.max(result.thresholds.hardMaxSec * 1.08, result.thresholds.sweetSpotMaxSec * 1.15, 120);
+        const tDisplay = displayThresholdsForResult(result);
+        const maxDomainBase = Math.max(tDisplay.hardMaxSec * 1.08, tDisplay.sweetSpotMaxSec * 1.15, 120);
         const axis = buildAxisTicks(maxDomainBase);
         const maxDomain = axis.majorTicks[axis.majorTicks.length - 1];
         const pos = (value) => `${clamp((value / maxDomain) * 100, 0, 100)}%`;
-        const rnFloorDelta = Math.abs(result.thresholds.lowerBoundSec - result.thresholds.readNoiseFloorSec);
-        const showRawRnMarker = rnFloorDelta >= 8;
+        const lowerBoundOpStartGapSec = Math.abs(tDisplay.sweetSpotMinSec - tDisplay.lowerBoundSec);
+        const showLowerBoundMarker = lowerBoundOpStartGapSec > Math.max(8, maxDomain * 0.015);
         const lowerBoundDriver = result.thresholds.practicalFloorSec > result.thresholds.overheadFloorSec
           ? "practical floor"
-          : result.thresholds.overheadFloorSec > result.thresholds.readNoiseFloorSec
+          : result.thresholds.overheadFloorSec > result.thresholds.moderatedReadNoiseFloorSec
             ? "overhead floor"
-            : "read-noise floor";
+            : "read-noise criterion";
         const thresholdMarkersRaw = [
           { key: "overhead", label: "Overhead floor", longLabel: "Overhead floor threshold", value: result.thresholds.overheadFloorSec },
-          { key: "comfort", label: "Op start", longLabel: "Operating-band start threshold", value: result.thresholds.sweetSpotMinSec },
+          { key: "comfort", label: "Op start", longLabel: "Operating-band start threshold", value: tDisplay.sweetSpotMinSec },
           ...(result.thresholds.skyPedestalCautionSec <= maxDomain * 1.02 ? [{
             key: "sky",
             label: "Sky pedestal",
@@ -4111,9 +4350,9 @@
             value: result.thresholds.skyPedestalCautionSec
           }] : []),
           { key: "caution", label: "Saturation caution", longLabel: "Saturation caution threshold", value: result.thresholds.saturationCautionSec },
-          { key: "hard", label: "Hard ceiling", longLabel: "Hard-ceiling threshold", value: result.thresholds.hardMaxSec }
+          { key: "hard", label: "Hard ceiling", longLabel: "Hard-ceiling threshold", value: tDisplay.hardMaxSec }
         ];
-        const overheadComfortGapSec = Math.abs(result.thresholds.sweetSpotMinSec - result.thresholds.overheadFloorSec);
+        const overheadComfortGapSec = Math.abs(tDisplay.sweetSpotMinSec - result.thresholds.overheadFloorSec);
         const thresholdMarkers = assignThresholdRows(
           overheadComfortGapSec <= Math.max(18, maxDomain * 0.025)
             ? thresholdMarkersRaw.filter((marker) => marker.key !== "overhead")
@@ -4145,8 +4384,12 @@
             }
           }
         }
-        const lowerDriverLabel = result.synthesis.lowerBoundDrivers.slice(0, 2).map((driver) => driver.label).join(" + ");
-        const upperDriverLabel = result.synthesis.upperBoundDrivers.slice(0, 2).map((driver) => driver.label).join(" + ");
+        const lowerDriverLabel = result.synthesis.lowerBoundDrivers.slice(0, 2).map((driver) => driverLabelForDisplay(result, driver.label)).join(" + ");
+        const upperDriverLabel = result.synthesis.upperBoundDrivers.slice(0, 2).map((driver) => driverLabelForDisplay(result, driver.label)).join(" + ");
+        const anchorNearThreshold = thresholdMarkers.some((marker) => Math.abs(marker.value - result.headlineRecommendation.anchorSec) <= Math.max(50, maxDomain * 0.06));
+        const sweetDisplayEntry = interiorZoneLabels.find((entry) => entry.zone.name === "sweet_spot");
+        const sweetBandLeft = sweetDisplayEntry ? `calc(${sweetDisplayEntry.displayStartPct}% + 4px)` : pos(tDisplay.sweetSpotMinSec);
+        const sweetBandWidth = sweetDisplayEntry ? `calc(${Math.max(sweetDisplayEntry.displayPct, 1.2)}% - 8px)` : `${clamp(((tDisplay.sweetSpotMaxSec - tDisplay.sweetSpotMinSec) / maxDomain) * 100, 1.2, 100)}%`;
         return `
           <div class="zone-panel card">
             <div class="zone-meta">
@@ -4162,14 +4405,13 @@
             </div>
             <div class="chart-telemetry">
               <div class="chart-chip focus"><strong>Suggested start</strong><span>${fmtSeconds(result.headlineRecommendation.anchorSec)}</span></div>
-              <div class="chart-chip"><strong>Operating band</strong><span>${fmtRange(result.thresholds.sweetSpotMinSec, result.thresholds.sweetSpotMaxSec)}</span></div>
+              <div class="chart-chip"><strong>Operating band</strong><span>${fmtRange(tDisplay.sweetSpotMinSec, tDisplay.sweetSpotMaxSec)}</span></div>
               <div class="chart-chip"><strong>Lower driver</strong><span>${lowerDriverLabel}</span></div>
               <div class="chart-chip"><strong>Upper driver</strong><span>${upperDriverLabel}</span></div>
             </div>
             <div class="lower-floor-readout">
-              ${showRawRnMarker ? `<span class="lower-floor-key"><span class="lower-floor-swatch rn"></span><span>Raw RN floor <strong>${fmtSeconds(result.thresholds.readNoiseFloorSec)}</strong></span></span>` : ""}
-              <span class="lower-floor-key"><span class="lower-floor-swatch practical"></span><span>Lighter gray zone = <strong>Overhead / Practical Floor</strong></span></span>
-              <span class="lower-floor-key"><span class="lower-floor-swatch practical"></span><span>Practical lower bound <strong>${fmtSeconds(result.thresholds.lowerBoundSec)}</strong> set by ${lowerBoundDriver}</span></span>
+              <span class="lower-floor-key"><span class="lower-floor-swatch practical"></span><span>Lighter gray zone = <strong>operational overhead floor</strong></span></span>
+              <span class="lower-floor-key"><span class="lower-floor-swatch practical"></span><span>Read-noise criterion clears at <strong>${fmtSeconds(result.thresholds.lowerBoundSec)}</strong>; green begins at <strong>${fmtSeconds(result.thresholds.sweetSpotMinSec)}</strong></span></span>
               <span class="lower-floor-key"><span class="lower-floor-swatch risk"></span><span>Sky-pedestal caution <strong>${fmtSeconds(result.thresholds.skyPedestalCautionSec)}</strong></span></span>
             </div>
             <div class="instrument">
@@ -4182,24 +4424,19 @@
                 `).join("")}
               </div>
               <div class="instrument-middle">
-                <div class="anchor-value-pill" style="left:${pos(result.headlineRecommendation.anchorSec)}">${fmtSeconds(result.headlineRecommendation.anchorSec)}</div>
-                ${showRawRnMarker ? `
-                  <div class="floor-marker rn" style="left:${pos(result.thresholds.readNoiseFloorSec)}">
-                    <div class="floor-marker-label">RN floor</div>
-                    <div class="floor-marker-line"></div>
-                  </div>
-                ` : ""}
-                <div class="floor-marker practical" style="left:${pos(result.thresholds.lowerBoundSec)}">
+                <div class="anchor-value-pill ${anchorNearThreshold ? "raised" : ""}" style="left:${pos(result.headlineRecommendation.anchorSec)}">${fmtSeconds(result.headlineRecommendation.anchorSec)}</div>
+                ${showLowerBoundMarker ? `<div class="floor-marker practical" style="left:${pos(tDisplay.lowerBoundSec)}">
                   <div class="floor-marker-label">Lower bound</div>
                   <div class="floor-marker-line"></div>
-                </div>
+                </div>` : ""}
                 <div class="zone-bar">
                   ${interiorZoneLabels.map(({ zone, showInside, displayPct }) => {
                     const names = zoneNames(zone.name);
                     return `<div class="zone ${zoneClass(zone.name)}" style="width:${displayPct}%" title="${names.full}: ${zone.reason}"><span class="${showInside ? "" : "zone-label-hidden"}">${names.short}</span></div>`;
                   }).join("")}
-                  <div class="sweet-band" style="left:${pos(result.thresholds.sweetSpotMinSec)}; width:${clamp(((result.thresholds.sweetSpotMaxSec - result.thresholds.sweetSpotMinSec) / maxDomain) * 100, 1.2, 100)}%"></div>
+                  <div class="sweet-band" style="left:${sweetBandLeft}; width:${sweetBandWidth}"></div>
                 </div>
+                
                 <div class="anchor-marker" style="left:${pos(result.headlineRecommendation.anchorSec)}"></div>
               </div>
               <div class="instrument-bottom">
@@ -4212,9 +4449,8 @@
               </div>
             </div>
             <div class="hero-legend" aria-label="Exposure regime legend">
-              <span class="hero-legend-item"><span class="hero-legend-swatch short"></span><span>Read Noise Regime</span></span>
-              <span class="hero-legend-item"><span class="hero-legend-swatch floorgap"></span><span>Overhead / Practical Floor Gap</span></span>
-              <span class="hero-legend-item"><span class="hero-legend-swatch lean"></span><span>Sensor/Shot Noise Regime</span></span>
+              <span class="hero-legend-item"><span class="hero-legend-swatch short"></span><span>Calculated Read Noise Domain</span></span>
+              <span class="hero-legend-item"><span class="hero-legend-swatch floorgap"></span><span>Operational Overhead Floor</span></span>
               <span class="hero-legend-item"><span class="hero-legend-swatch sweet"></span><span>Practical Operating Band</span></span>
               <span class="hero-legend-item"><span class="hero-legend-swatch risk"></span><span>Saturation / Workflow Risk</span></span>
               <span class="hero-legend-item"><span class="hero-legend-swatch long"></span><span>Hard Ceiling</span></span>
@@ -4440,8 +4676,7 @@
                 </div>
                 <div class="set-legend" aria-label="Shared overview regime legend">
                   <span class="hero-legend-item"><span class="hero-legend-swatch short"></span><span>Read Noise Regime</span></span>
-                  <span class="hero-legend-item"><span class="hero-legend-swatch floorgap"></span><span>Overhead / Practical Floor Gap</span></span>
-                  <span class="hero-legend-item"><span class="hero-legend-swatch lean"></span><span>Sensor/Shot Noise Regime</span></span>
+                  <span class="hero-legend-item"><span class="hero-legend-swatch floorgap"></span><span>Operational Overhead Floor</span></span>
                   <span class="hero-legend-item"><span class="hero-legend-swatch sweet"></span><span>Practical Operating Band</span></span>
                   <span class="hero-legend-item"><span class="hero-legend-swatch risk"></span><span>Saturation / Workflow Risk</span></span>
                   <span class="hero-legend-item"><span class="hero-legend-swatch long"></span><span>Hard Ceiling</span></span>
@@ -4459,10 +4694,8 @@
                     const labeledZones = (() => {
                       const sweetEntry = zones.find((entry) => entry.zone.name === "sweet_spot");
                       const riskEntry = zones.find((entry) => entry.zone.name === "long_risky");
-                      const leanEntry = zones.find((entry) => entry.zone.name === "lean_workable");
                       let showSweet = !!sweetEntry && sweetEntry.pct >= 18;
                       let showRisk = !!riskEntry && riskEntry.pct >= 14;
-                      const showLean = !!leanEntry && leanEntry.pct >= 14;
                       if (showSweet && showRisk) {
                         const combinedPct = sweetEntry.pct + riskEntry.pct;
                         if (combinedPct < 62 || sweetEntry.pct < 24 || riskEntry.pct < 22) {
@@ -4470,17 +4703,23 @@
                           else showRisk = false;
                         }
                       }
+                      if (!showSweet && !showRisk) {
+                        if (riskEntry && riskEntry.pct >= 10) showRisk = true;
+                        else if (sweetEntry && sweetEntry.pct >= 10) showSweet = true;
+                        else if (riskEntry && riskEntry.displayPct >= 12) showRisk = true;
+                        else if (sweetEntry && sweetEntry.displayPct >= 12) showSweet = true;
+                      }
                       const rendered = zones.map((entry) => {
                         const names = zoneNames(entry.zone.name);
                         let show = false;
                         if (entry.zone.name === "sweet_spot") show = showSweet;
                         else if (entry.zone.name === "long_risky") show = showRisk;
-                        else if (entry.zone.name === "lean_workable") show = showLean;
                         return { entry, show, label: names.short };
                       });
                       const hiddenNotes = rendered
                         .filter(({ entry, show }) => {
                           if (show) return false;
+                          if (["sweet_spot", "long_risky"].includes(entry.zone.name)) return entry.displayPct >= 5;
                           if (["too_long", "lower_floor_gap"].includes(entry.zone.name)) return entry.displayPct > 0 && entry.displayPct < 13;
                           return entry.pct >= 8 || (entry.displayPct > 0 && entry.displayPct < 13);
                         })
@@ -4688,7 +4927,7 @@
       function renderRegimeDefinitions(result) {
         const t = result.thresholds;
         const sweetCapFraction = getSweetCapFraction(result.input.filter);
-        const readFloor = t.readNoiseFloorSec;
+        const readFloor = t.moderatedReadNoiseFloorSec || t.readNoiseFloorSec;
         const overheadFloor = t.overheadFloorSec;
         const lowerBound = t.lowerBoundSec;
         const operatingStart = t.sweetSpotMinSec;
@@ -4700,12 +4939,12 @@
           {
             key: "too_short",
             dominant: "sky/background signal has not yet cleared the current lower-floor threshold.",
-            criterion: `t < max(${fmtSeconds(readFloor)} RN floor at ${t.readNoiseContributionTargetPct}%, ${fmtSeconds(overheadFloor)} overhead floor)`,
-            bound: `0 s-${fmtSeconds(lowerBound)}, ending at max(RN floor ${fmtSeconds(readFloor)}, overhead floor ${fmtSeconds(overheadFloor)})`
+            criterion: `t < max(${fmtSeconds(readFloor)} read-noise criterion at ${t.readNoiseContributionTargetPct}%, ${fmtSeconds(overheadFloor)} overhead floor)`,
+            bound: `0 s-${fmtSeconds(lowerBound)}, ending at max(read-noise criterion ${fmtSeconds(readFloor)}, overhead floor ${fmtSeconds(overheadFloor)})`
           },
           {
-            key: "lean_workable",
-            dominant: "the lower floor has been cleared, but the operating-band start threshold has not yet been reached.",
+            key: "lower_floor_gap",
+            dominant: "the read-noise criterion has cleared, but operational overhead or comfort margin still argues against treating this as the preferred operating band.",
             criterion: `${fmtSeconds(lowerBound)} <= t < ${fmtSeconds(operatingStart)}`,
             bound: `${fmtSeconds(lowerBound)}-${fmtSeconds(operatingStart)}`
           },
@@ -4855,7 +5094,11 @@
               },
               {
                 q: "What does shot noise mean here?",
-                a: "Shot noise means Poisson noise from accumulated photons and electrons. As exposure length increases, sky and source signal become large enough that read noise matters less. The tool treats this as a transition regime rather than a binary switch."
+                a: "Shot noise means Poisson noise from the photons and electrons actually collected. Read noise is paid every frame, but shot noise is tied to real signal and improves mainly by collecting more total photons across the whole stack. Longer individual subs help until read noise and overhead stop wasting efficiency, but after that point shot noise does not create a new sub-exposure boundary by itself."
+              },
+              {
+                q: "Should the chart show a shot-noise zone?",
+                a: "Not as a separate colored zone. The chart draws boundaries where the recommended sub-exposure behavior changes: read noise, operational overhead, practical operating band, and upper-side risk. Shot noise is already inside the read-noise criterion, because that criterion asks when real background/source signal has become large enough that read noise is only a small contributor. Once that is true, more total integration is what mainly improves shot-noise statistics."
               },
               {
                 q: "What about sensor thermal noise?",
@@ -4866,8 +5109,8 @@
                 a: `Because for many modern cooled cameras dark current is tiny compared with sky background. In the current setup it is about ${fmtPercentFromRatio(result.thermal.ratioToSky, 1)} of sky. Temperature matters much more when dark current approaches the background, which is more likely with narrowband filters, warmer operation, darker skies, or longer subs.`
               },
               {
-                q: "Why can the Sensor/Shot Noise Regime be very narrow?",
-                a: `Because the lower bound and operating-band start can nearly coincide. In the current setup that span is ${fmtSeconds(Math.max(0, t.sweetSpotMinSec - t.lowerBoundSec))}. When that gap is small, the model is saying the system moves quickly from read-noise-limited territory into the preferred operating band.`
+                q: "Why can the operational overhead zone be narrow?",
+                a: `Because the read-noise criterion and operating-band start can be close. In the current setup that span is ${fmtSeconds(Math.max(0, t.sweetSpotMinSec - t.lowerBoundSec))}. When the gap is small, the model is saying the system moves quickly from read-noise-limited territory into the preferred operating band.`
               },
               {
                 q: "How is the Practical Operating Band defined?",
@@ -4995,7 +5238,7 @@
       }
   
       function renderThresholdCards(result) {
-        const t = result.thresholds;
+        const t = displayThresholdsForResult(result);
         return `
           <div class="cards-4">
             <div class="mini-card"><h4>${zoneNames("too_short").full} ${helpBadge("Read-noise floor = the lower-bound threshold driven by the active read-noise contribution target and any overhead/practical floor. Based on the Robin Glover / SharpCap style lower-bound framework.")}</h4><div class="big-number">${fmtSeconds(t.lowerBoundSec)}</div><div class="muted">${t.practicalFloorSec ? "max(read-noise, overhead, practical floor)" : "max(read-noise, overhead floor)"}</div></div>
@@ -5013,9 +5256,9 @@
         const lowerRate = result.lowerBoundBackground.rateEPerPxPerSec;
         const lower = result.synthesis.lowerBoundDrivers.map((driver) => `
           <div class="driver">
-            <div class="driver-top"><strong>${driver.label}</strong><span class="impact ${driver.impact}">${driver.impact}</span></div>
+            <div class="driver-top"><strong>${driverLabelForDisplay(result, driver.label)}</strong><span class="impact ${driver.impact}">${driver.impact}</span></div>
             <div class="driver-copy">${driver.label === "Read noise"
-              ? `Read noise is the main thing setting the lower edge. With a lower-bound background of ${fmtNumber(lowerRate, 4)} e-/px/s and a ${contributionTargetLabel(t.readNoiseContributionTargetPct)}, the raw RN floor lands near ${fmtSeconds(t.readNoiseFloorSec)} and the moderated floor lands near ${fmtSeconds(t.moderatedReadNoiseFloorSec)}.`
+              ? `Read noise is the main thing setting the lower edge. With a lower-bound background of ${fmtNumber(lowerRate, 4)} e-/px/s and a ${contributionTargetLabel(t.readNoiseContributionTargetPct)}, the unmoderated read-noise estimate lands near ${fmtSeconds(t.readNoiseFloorSec)} and the displayed read-noise criterion lands near ${fmtSeconds(t.moderatedReadNoiseFloorSec)}.`
               : driver.label === "Frame overhead"
                 ? `Frame overhead is pushing the lower side upward. With about ${fmtSeconds(result.input.workflow.frameOverheadSec)} of dead time per sub, the tool waits until roughly ${fmtSeconds(t.overheadFloorSec)} before calling the exposure operationally worthwhile.`
                 : driver.label === "Practical floor"
@@ -5025,7 +5268,7 @@
         `).join("");
         const upper = result.synthesis.upperBoundDrivers.map((driver) => `
           <div class="driver">
-            <div class="driver-top"><strong>${driver.label}</strong><span class="impact ${driver.impact}">${driver.impact}</span></div>
+            <div class="driver-top"><strong>${driverLabelForDisplay(result, driver.label)}</strong><span class="impact ${driver.impact}">${driver.impact}</span></div>
             <div class="driver-copy">${driver.label === "Bright-star saturation"
               ? `Bright structures are setting the main caution point. The representative star-core model reaches its caution zone around ${fmtSeconds(t.saturationCautionSec)}, so the tool treats longer subs as increasingly less forgiving above that area unless another cap closes earlier.`
               : driver.label === "Sky-pedestal headroom"
@@ -6699,7 +6942,8 @@
                   <li><strong>2% target:</strong> stricter lower bound, more conservative, more sensitive to dark sky and narrow filters</li>
                 </ul>
                 <div class="ap-subhead">Shot noise</div>
-                <p>Shot noise is the unavoidable statistical fluctuation in the photons or electrons actually collected. It exists in source signal and in sky/background signal. Once read noise is no longer the dominant floor, shot noise becomes the more relevant stochastic term, but that does not mean the image is now “perfect.”</p>
+                <p>Shot noise is the unavoidable statistical fluctuation in the photons or electrons actually collected. It exists in source signal and in sky/background signal. Read noise is paid every frame; shot noise is attached to real collected signal and improves mainly with total integration time. Longer individual subs help only up to the point where read noise and operational overhead are no longer wasting efficiency.</p>
+                <p>The tool therefore treats shot noise as part of the lower-bound physics rather than as its own plotted regime. The read-noise criterion asks when accumulated background/source signal is large enough that read noise has become a small contributor. Past that point, the chart switches to practical operating-band and upper-headroom questions instead of drawing a separate shot-noise zone.</p>
                 <div class="ap-subhead">Thermal noise / dark current</div>
                 <p>Dark current is the thermally generated signal produced even with no incoming light. It matters more when the sensor is warm, the background is very dark, or the exposures are long. In many cooled modern systems it is present but often not the dominant driver under common conditions.</p>
                 <div class="ap-subhead">Saturation and headroom</div>
@@ -6733,7 +6977,7 @@
                 <div class="ap-subhead">When read noise dominates</div>
                 <p>Read noise dominates in very short subs and under low-background conditions because too little real charge has been collected before the camera is read out again. The shorter the sub, the more often that fixed penalty is paid.</p>
                 <div class="ap-subhead">When shot noise dominates</div>
-                <p>Shot noise becomes the more relevant stochastic term once read noise is no longer the main floor. That does not automatically mean the sky is “too bright”; it means the image statistics are now being driven more by real collected signal than by the readout penalty.</p>
+                <p>Shot noise becomes the more relevant stochastic term once read noise is no longer the main floor. That does not automatically mean the sky is “too bright”; it means the image statistics are now being driven more by real collected signal than by the readout penalty. This is why shot noise belongs in the teaching model, but it is not shown as a separate colored chart zone: it improves mostly by adding total integration time, not by crossing a distinct per-sub exposure threshold.</p>
                 <div class="ap-subhead">When thermal noise matters</div>
                 <p>Thermal terms matter more with warm sensors, long narrowband subs, or very dark backgrounds. In many cooled systems they remain a secondary contributor compared with sky/background and read-noise effects, but the tool still includes them because some setups really do operate near that edge.</p>
                 <div class="ap-subhead">Why none of these alone define the final recommendation</div>
@@ -6809,8 +7053,8 @@
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Camera library currently included</div>
                     <ul class="ap-bullets">
-                      <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI294MM Pro, QHY268M, QHY600M</li>
-                      <li><strong>OSC CMOS:</strong> ZWO ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI294MC Pro, QHY268C</li>
+                      <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI294MM Pro, ASI585MM Pro, QHY268M, QHY600M</li>
+                      <li><strong>OSC CMOS:</strong> ZWO ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI294MC Pro, ASI585MC Pro, QHY268C</li>
                       <li><strong>Support meaning:</strong> each included camera has a gain-dependent state model for read noise, full well, system gain, dark current, and mode behavior at the selected gain and temperature</li>
                     </ul>
                   </div>
@@ -6827,8 +7071,8 @@
                     <div class="ap-method-group-title">Filter and set support</div>
                     <ul class="ap-bullets">
                       <li><strong>Mono LRGB sets:</strong> ZWO, Chroma, Baader, Astronomik L-1 / L-2 / L-3</li>
-                      <li><strong>Mono SHO sets:</strong> Astronomik 4 nm / 6 nm / 12 nm, Chroma 3 nm / 5 nm / 8 nm, Baader 3.5/4 nm and 6.5 nm, ZWO 7 nm</li>
-                      <li><strong>OSC / dual- and tri-band sets:</strong> OSC broadband, Optolong L-eXtreme, L-Ultimate, L-eNhance, Antlia ALP-T 5 nm / 3 nm, IDAS NBZ-II, Radian Triad Ultra</li>
+                      <li><strong>Mono SHO sets:</strong> Astronomik 4 nm / 6 nm / 12 nm, Chroma 3 nm / 5 nm / 8 nm, Baader 3.5/4 nm and 6.5 nm, ZWO 7 nm, Antlia 4.5 nm EDGE</li>
+                      <li><strong>OSC / dual- and tri-band sets:</strong> OSC broadband, Optolong L-eXtreme, L-Ultimate, L-eNhance, Antlia ALP-T 5 nm / 3 nm, IDAS NBZ-II, and Radian Triad Ultra</li>
                       <li><strong>Support meaning:</strong> the active filter is resolved from a named profile with line family, compatibility, sampled transmission curve, and derived effective bandwidth</li>
                     </ul>
                     ${methodRow("Current selected filter", `<strong>${input.filter.name}</strong> · ${input.filter.bandType} · effective bandwidth <strong>${fmtNumber(input.filter.bandwidthNm, 2)} nm</strong> · reference wavelength <strong>${fmtNumber(input.filter.referenceNm, 1)} nm</strong>`)}
@@ -6865,11 +7109,11 @@
                     </ul>
                   </div>
                   <div class="ap-method-group">
-                    <div class="ap-method-group-title">Sensor/Shot Noise Regime</div>
+                    <div class="ap-method-group-title">Operational Overhead Floor</div>
                     <ul class="ap-bullets">
-                      <li><strong>Dominant issue:</strong> read noise is no longer the main floor, but the system has not yet reached the preferred working interval</li>
-                      <li><strong>Practical meaning:</strong> transitional region; the recommendation may move quickly through it</li>
-                      <li><strong>Not saying:</strong> the sky is already ruining the data</li>
+                      <li><strong>Dominant issue:</strong> the read-noise criterion has cleared, but short subs still carry too much operational overhead or too little comfort margin</li>
+                      <li><strong>Practical meaning:</strong> this is the gap between the calculated lower noise criterion and the preferred working interval</li>
+                      <li><strong>Not saying:</strong> shot noise has disappeared or has its own separate plotted boundary</li>
                     </ul>
                   </div>
                   <div class="ap-method-group">
@@ -7308,6 +7552,7 @@
         }
         const active = results.find((result) => result.filterId === appState.activeFilterId) || results[0];
         const multiFilterMode = results.length > 1;
+        const activeDisplayThresholds = displayThresholdsForResult(active);
         const strictPlanLabel = multiFilterMode
           ? results.map((result) => `${planFamilyCode(result)} ${fmtSeconds(result.headlineRecommendation.anchorSec)}`).join(" • ")
           : "";
@@ -7317,22 +7562,26 @@
         const workflowDisplay = summarizeWorkflowDisplay(active.input.workflow, results);
         const workflowSummary = workflowDisplay.headline;
         const workflowAdvisory = workflowDisplay.advisory;
+        const primaryRecommendationLabel = fmtSeconds(active.headlineRecommendation.anchorSec);
+        const primaryRecommendationSub = "Recommended starting point inside the current operating band.";
+        const operatingBandTitle = "Operating Band";
         const validationRuns = runValidationSuite();
         const resultsPanel = document.getElementById("resultsPanel");
         const camera = getCamera(appState.cameraId);
         resultsPanel.innerHTML = `
           ${renderMainTabs()}
+          ${renderReleaseNotes()}
           <section class="tab-panel ${appState.activeMainTab === "recommendation" ? "active" : ""}" data-panel="recommendation">
             <div class="recommendation-stage">
               <section class="result-banner">
                 <div class="result-banner-card primary">
                   <div class="result-banner-k">${multiFilterMode ? "Suggested starts by filter" : "Suggested Start"}</div>
-                  <div class="result-banner-v ${multiFilterMode ? "plan" : ""}">${multiFilterMode ? strictPlanLabel : fmtSeconds(active.headlineRecommendation.anchorSec)}</div>
-                  <div class="result-banner-sub">${multiFilterMode ? "Direct computed starts across the active filter set." : "Recommended starting point inside the current operating band."}</div>
+                  <div class="result-banner-v ${multiFilterMode ? "plan" : ""}">${multiFilterMode ? strictPlanLabel : primaryRecommendationLabel}</div>
+                  <div class="result-banner-sub">${multiFilterMode ? "Direct computed starts across the active filter set." : primaryRecommendationSub}</div>
                 </div>
                 <div class="result-banner-card">
-                  <div class="result-banner-k">${multiFilterMode ? "Set operating range" : "Operating Band"}</div>
-                  <div class="result-banner-v ${multiFilterMode ? "plan" : ""}">${multiFilterMode ? setSpanLabel : fmtRange(active.thresholds.sweetSpotMinSec, active.thresholds.sweetSpotMaxSec)}</div>
+                  <div class="result-banner-k">${multiFilterMode ? "Set operating range" : operatingBandTitle}</div>
+                  <div class="result-banner-v ${multiFilterMode ? "plan" : ""}">${multiFilterMode ? setSpanLabel : fmtRange(activeDisplayThresholds.sweetSpotMinSec, activeDisplayThresholds.sweetSpotMaxSec)}</div>
                   <div class="result-banner-meta">
                     <div class="result-banner-row">
                       <div class="k">Mode</div>
@@ -7416,6 +7665,7 @@
       }
   
       function updateStateFromInputs(changedId) {
+        const previousCameraId = appState.cameraId;
         const parseNumber = (id, fallback) => {
           const value = Number(document.getElementById(id)?.value);
           return Number.isFinite(value) ? value : fallback;
@@ -7471,6 +7721,10 @@
         }
         appState.centralObstructionFrac = clamp(parseNumber("centralObstructionFrac", appState.centralObstructionFrac * 100) / 100, 0, 0.7);
         appState.filterSetId = document.getElementById("filterSetId")?.value || appState.filterSetId;
+        if (changedId === "cameraId" && appState.cameraId !== previousCameraId) {
+          const nextSetId = defaultFilterSetId(getCamera(appState.cameraId));
+          if (nextSetId) appState.filterSetId = nextSetId;
+        }
         if (changedId === "filterSetId") {
           const nextSet = resolveFilterSet(appState.filterSetId, getCamera(appState.cameraId));
           appState.selectedFilters = [...(nextSet?.filters || [])];
@@ -7758,12 +8012,31 @@
             rejectionRiskTolerance: "medium",
             saturationTolerance: "medium",
             subExposureStrategy: "balanced",
-            exposureMode: "planning",
+            exposureMode: "empirical",
             readNoiseContributionTargetPct: 5,
             trueGainEPerAdu: 0.27,
             empiricalReadNoiseE: 0.75,
-            optionalDarkCurrentEPerPxPerSec: 0.0008
+            optionalDarkCurrentEPerPxPerSec: 0.0008,
+            empiricalCalibrationsByFilter: {
+              "astronomik-ha-6nm": {
+                ...defaultEmpiricalCalibrationRecord(),
+                testExposureSec: 120,
+                measuredBackgroundValue: 21.6,
+                measuredBackgroundUnits: "electrons",
+                backgroundMeasurementStatus: "corrected_mean",
+                biasPedestalAdu: 0,
+                bitDepthScalingMode: "native_1x",
+                optionalDarkCurrentEPerPxPerSec: 0.0008,
+                captureCameraId: "zwo-asi2600mm-pro",
+                captureModeId: "auto",
+                captureGain: 100,
+                captureTempC: -10,
+                captureFilterId: "astronomik-ha-6nm",
+                captureFilterName: "Astronomik Ha 6nm"
+              }
+            }
           });
+          syncActiveFilterCalibrationToFlatFields();
           markConfigDirty();
           rerender();
         });
@@ -7807,12 +8080,31 @@
             rejectionRiskTolerance: "medium",
             saturationTolerance: "medium",
             subExposureStrategy: "balanced",
-            exposureMode: "planning",
+            exposureMode: "empirical",
             readNoiseContributionTargetPct: 5,
             trueGainEPerAdu: 0.28,
             empiricalReadNoiseE: 1.0,
-            optionalDarkCurrentEPerPxPerSec: 0.0008
+            optionalDarkCurrentEPerPxPerSec: 0.0008,
+            empiricalCalibrationsByFilter: {
+              "osc-broad": {
+                ...defaultEmpiricalCalibrationRecord(),
+                testExposureSec: 90,
+                measuredBackgroundValue: 28.5,
+                measuredBackgroundUnits: "electrons",
+                backgroundMeasurementStatus: "corrected_mean",
+                biasPedestalAdu: 0,
+                bitDepthScalingMode: "native_1x",
+                optionalDarkCurrentEPerPxPerSec: 0.0008,
+                captureCameraId: "zwo-asi2600mc-pro",
+                captureModeId: "auto",
+                captureGain: 100,
+                captureTempC: -10,
+                captureFilterId: "osc-broad",
+                captureFilterName: "OSC Broadband"
+              }
+            }
           });
+          syncActiveFilterCalibrationToFlatFields();
           markConfigDirty();
           rerender();
         });

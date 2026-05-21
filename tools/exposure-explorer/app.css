@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.2.html (v1.0.2). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.21.html (v1.0.21). Do not edit by hand. */
 :root{
       --bg0:#050912;
       --bg1:#0b1421;
@@ -1053,6 +1053,67 @@
       line-height:1.35;
       min-height:1.1em;
     }
+    .release-notes-card{
+      margin-bottom:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.022), rgba(255,255,255,.012));
+    }
+    .release-notes-card summary{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      cursor:pointer;
+      list-style:none;
+    }
+    .release-notes-card summary::-webkit-details-marker{display:none}
+    .release-notes-title{
+      color:#f2cb62;
+      font-size:.9rem;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .release-notes-meta{
+      color:var(--soft);
+      font-size:.74rem;
+    }
+    .release-notes-body{
+      margin-top:12px;
+      display:grid;
+      gap:10px;
+    }
+    .release-notes-intro{
+      color:#dce8f4;
+      font-size:.82rem;
+      line-height:1.45;
+    }
+    .release-notes-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+    }
+    .release-note-block{
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.018);
+    }
+    .release-note-block h4{
+      margin:0 0 6px;
+      color:#eef5fb;
+      font-size:.82rem;
+      font-weight:850;
+    }
+    .release-note-block ul{
+      margin:0;
+      padding-left:16px;
+      color:var(--soft);
+      font-size:.77rem;
+      line-height:1.45;
+    }
     .plan-toolbar{
       display:grid;
       gap:6px;
@@ -1886,6 +1947,19 @@
       max-width:100%;
       text-shadow:0 2px 10px rgba(0,0,0,.52);
     }
+    .zone-label-strong{
+      display:grid !important;
+      gap:4px;
+      line-height:1.1;
+    }
+    .zone-label-strong small{
+      display:block;
+      color:rgba(238,247,255,.78);
+      font-size:.66rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
     .zone::after{
       content:"";
       position:absolute;
@@ -1906,15 +1980,17 @@
     .zone.long{background:linear-gradient(180deg,rgba(247,134,78,.98),rgba(191,86,42,.99) 56%, rgba(145,58,26,.99))}
     .sweet-band{
       position:absolute;
-      top:7px;
-      bottom:7px;
-      border:2px solid rgba(255,255,255,.95);
-      border-radius:20px;
+      top:12px;
+      bottom:12px;
+      box-sizing:border-box;
+      border:3px solid rgba(255,255,255,.90);
+      border-radius:24px;
       background:
-        radial-gradient(circle at 50% 50%, rgba(132,240,207,.28), transparent 62%),
-        linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.03));
-      box-shadow:0 0 0 2px rgba(255,255,255,.05),0 0 34px rgba(132,240,207,.28), inset 0 0 32px rgba(255,255,255,.08);
+        radial-gradient(circle at 50% 50%, rgba(132,240,207,.22), transparent 62%),
+        linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.025));
+      box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 26px rgba(132,240,207,.24), inset 0 0 26px rgba(255,255,255,.07);
       pointer-events:none;
+      z-index:3;
       transition:left .4s ease, width .4s ease;
     }
     .anchor-marker,.threshold,.axis-tick,.minor-tick{
@@ -1944,7 +2020,7 @@
     }
     .anchor-value-pill{
       position:absolute;
-      top:-64px;
+      top:-44px;
       transform:translateX(-50%);
       padding:6px 11px;
       border-radius:999px;
@@ -1958,6 +2034,9 @@
       white-space:nowrap;
       z-index:5;
       transition:left .42s ease;
+    }
+    .anchor-value-pill.raised{
+      top:-44px;
     }
     .lower-floor-readout{
       display:flex;
@@ -2131,6 +2210,10 @@
     .threshold.sky .threshold-label{
       border-color:rgba(132,240,207,.24);
       box-shadow:0 6px 14px rgba(0,0,0,.18), 0 0 18px rgba(132,240,207,.08);
+    }
+    .threshold.zwo .threshold-label{
+      border-color:rgba(132,240,207,.34);
+      box-shadow:0 6px 14px rgba(0,0,0,.18), 0 0 20px rgba(132,240,207,.16);
     }
     .threshold.caution .threshold-label,
     .threshold.hard .threshold-label{
@@ -2946,6 +3029,7 @@
     @media (max-width: 760px){
       body.exposure-explorer-standalone{padding:10px}
       .field-grid,.field-grid-3,.cards-2,.cards-3,.cards-4,.summary-band,.definition-grid,.source-summary,.hero-strip,.hero-substats,.result-banner,.interpret-strip,.hero-summary-row,.plan-summary{grid-template-columns:1fr}
+      .release-notes-grid{grid-template-columns:1fr}
       .ap-example-summary{grid-template-columns:1fr}
       .hero-inner{align-items:flex-start}
       .hero-logo{width:120px;height:auto}
