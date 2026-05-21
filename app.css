@@ -1,4 +1,4 @@
-/* Generated from master.html v2.4.31. Do not edit by hand. */
+/* Generated from master.html v2.4.41. Do not edit by hand. */
 /* ── Design tokens ── */
     :root{
       --bg0:#050912; --bg1:#0b1421; --bg2:#101a2b;
@@ -38,6 +38,8 @@
     #ac-tool .release-title{font-size:.72rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
     #ac-tool .release-sub{font-size:.74rem;color:var(--soft);line-height:1.45}
     #ac-tool .release-note{font-size:.72rem;color:var(--soft);line-height:1.5}
+    #ac-tool .release-bullet-list{margin:8px 0 0 18px;padding:0;display:grid;gap:6px}
+    #ac-tool .release-bullet-list li{color:var(--text);font-size:.78rem;line-height:1.45}
     #ac-tool details.release-disclosure{position:relative;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.018));padding:0 11px;overflow:hidden}
     #ac-tool details.release-disclosure::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,rgba(124,224,195,.0),rgba(124,224,195,.42),rgba(110,193,255,.0));opacity:.65}
     #ac-tool details.release-disclosure + details.release-disclosure{margin-top:8px}
@@ -204,6 +206,11 @@
     #ac-tool .io-status.error{color:#ffd0c3}
     #ac-tool .io-status.warn{color:#f1ddb0}
     #ac-tool .io-helper{margin:0;font-size:.66rem;line-height:1.35;color:rgba(207,221,240,.72)}
+    #ac-tool .integrated-system-notice{display:grid;gap:4px;margin:8px 0 2px;padding:9px 10px;border-radius:11px;border:1px solid rgba(124,224,195,.22);background:linear-gradient(180deg,rgba(124,224,195,.08),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+    #ac-tool .integrated-system-notice.hide{display:none !important}
+    #ac-tool .integrated-system-notice-title{font-size:.69rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#dff8ee}
+    #ac-tool .integrated-system-notice-body{font-size:.73rem;line-height:1.42;color:rgba(220,233,245,.88)}
+    #ac-tool .integrated-system-notice-meta{font-size:.67rem;line-height:1.35;color:#f0d78e}
     #ac-tool .report-only{display:none}
 
     @media print{
@@ -240,6 +247,8 @@
     #ac-tool .tab-nav-label{font-size:1.55rem;font-weight:980;letter-spacing:.14em;text-transform:uppercase;color:#f2f8ff;line-height:.98;display:flex;align-items:flex-end;gap:14px}
     #ac-tool .tab-nav-label::after{content:'';flex:1;height:1px;margin-bottom:.24em;background:linear-gradient(90deg,rgba(124,224,195,.40),rgba(110,193,255,.18),rgba(255,255,255,.08))}
     #ac-tool .tab-nav-subtitle{font-size:.84rem;font-weight:820;line-height:1.35;color:#c4d5e8;max-width:980px;letter-spacing:.01em}
+    #ac-tool .release-tracker{margin:12px 0 14px}
+    #ac-tool .release-tracker .release-note{max-width:980px}
     #ac-tool .tab-bar{display:flex;gap:6px;padding:6px;background:linear-gradient(180deg,#08111d,#040b13);border-radius:14px;border:1px solid rgba(255,255,255,.14);box-shadow:0 6px 20px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.05)}
     #ac-tool .tab-btn{position:relative;background:linear-gradient(180deg,rgba(94,120,154,.34),rgba(42,60,84,.34));border:1px solid rgba(182,205,228,.22);border-radius:11px;padding:11px 10px 10px;font-weight:950;color:#e0ecf8;cursor:pointer;transition:all .15s;margin:0;letter-spacing:.05em;flex:1;text-align:center;line-height:1;text-transform:uppercase;font-size:.78rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 4px 12px rgba(0,0,0,.18)}
     #ac-tool .tab-btn::after{content:'';position:absolute;bottom:0;left:15%;right:15%;height:3px;border-radius:3px;background:transparent;transition:background .15s}
@@ -397,6 +406,8 @@
     #ac-tool .hero-ratio-x{font-size:52%;opacity:.60;vertical-align:super;font-weight:800}
     #ac-tool .hero-sub{color:#ecd79e;font-size:.92rem;font-weight:820;line-height:1.28;margin-bottom:4px;max-width:430px;text-shadow:0 1px 0 rgba(0,0,0,.26)}
     #ac-tool .hero-secondary-summary{font-size:.66rem;font-weight:800;line-height:1.33;color:#e6d49b;padding:6px 10px;border-radius:10px;border:1px solid rgba(230,212,155,.14);background:linear-gradient(180deg,rgba(230,212,155,.07),rgba(255,255,255,.016));max-width:360px}
+    #ac-tool .hero-context-note{margin-top:8px;max-width:430px;padding:8px 11px;border-radius:12px;border:1px solid rgba(110,193,255,.22);background:linear-gradient(180deg,rgba(110,193,255,.10),rgba(255,255,255,.02));color:#d9ebfb;font-size:.72rem;line-height:1.45;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+    #ac-tool .hero-context-note strong{color:#f2f8ff}
     #ac-tool .verdict-pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;padding:5px 13px;border-radius:8px;box-shadow:none;cursor:default}
     #ac-tool .verdict-a{background:rgba(74,222,128,.13);color:#4ade80;border:1px solid rgba(74,222,128,.35)}
     #ac-tool .verdict-b{background:rgba(248,113,113,.13);color:#ff6b6b;border:1px solid rgba(248,113,113,.35)}
