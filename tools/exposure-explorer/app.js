@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.21.html (v1.0.21). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.28.html (v1.0.28). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.21</span>
+            <span class="hero-version">v1.0.28</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -164,7 +164,7 @@
         constants: {
           readNoiseFloorFactor: 5.0,
           readNoiseFloorFactors: {
-            broadband: 3.0,
+            broadband: 2.0,
             narrowband: 5.0
           },
           readNoiseContributionFactors: {
@@ -174,14 +174,14 @@
           },
           comfortMultipliers: {
             broadband_mono: 1.0,
-            broadband_osc: 1.7,
+            broadband_osc: 1.0,
             narrowband_6nm: 1.55,
             narrowband_3nm: 1.75
           },
           anchorBiasByBand: {
             broadband_luminance: 0.18,
             broadband_mono: 0.14,
-            broadband_osc: 0.20,
+            broadband_osc: 0.16,
             narrowband: 0.28
           },
           overheadEfficiencyTargets: {
@@ -469,6 +469,43 @@
         },
         cameras: [
           {
+            cameraId: "zwo-asi2400mc-pro",
+            name: "ASI2400MC Pro",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX410",
+            colorType: "osc",
+            pixelSizeUm: 5.94,
+            resolution: { widthPx: 6072, heightPx: 4042 },
+            adcBits: 14,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,430,460,500,550,600,650,680,700,750,800],
+              relativeQe: [0.15,0.28,0.40,0.41,0.38,0.36,0.31,0.27,0.21,0.11,0.04]
+            },
+            modes: [
+              {
+                modeId: "auto",
+                modeName: "Auto HCG transition",
+                gainRange: { min: 0, max: 450 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 140 },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,6.4],[80,3.6],[140,1.1],[300,1.1],[450,1.1]] },
+                  fullWellE: { interpolation: "linear", points: [[0,100000],[80,56000],[140,20000],[300,19000],[450,18000]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,1.50],[80,0.88],[140,0.35],[300,0.18],[450,0.11]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,13.9],[80,13.9],[140,14.2],[300,14.1],[450,14.0]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0008],[-10,0.0015],[0,0.0035],[10,0.0080]] }
+                },
+                recommendedPresets: [0,140]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 30 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "System Compare ASI2400MC Pro import using ZWO IMX410 specs and compact OSC QE control points",
+              lastVerified: "2026-05-21"
+            }
+          },
+          {
             cameraId: "zwo-asi2600mm-pro",
             name: "ASI2600MM Pro",
             manufacturer: "ZWO",
@@ -526,7 +563,7 @@
                 gainRange: { min: 0, max: 300 },
                 modeSwitchBehavior: { hcgActive: false, switchGain: 100 },
                 curves: {
-                  readNoiseE: { interpolation: "linear", points: [[0,4.0],[100,1.0],[300,1.0]] },
+                  readNoiseE: { interpolation: "linear", points: [[0,3.0],[100,1.0],[300,1.0]] },
                   fullWellE: { interpolation: "linear", points: [[0,51000],[100,19000],[300,19000]] },
                   systemGainEPerAdu: { interpolation: "linear", points: [[0,0.82],[100,0.29],[300,0.11]] },
                   dynamicRangeStops: { interpolation: "linear", points: [[0,14.3],[100,12.9],[300,11.2]] },
@@ -1068,6 +1105,36 @@
         return DATA.cameras.find((camera) => camera.cameraId === cameraId) || DATA.cameras[0];
       }
   
+      function recommendedDefaultGain(camera) {
+        const mode = camera?.modes?.[0];
+        const presets = Array.isArray(mode?.recommendedPresets) ? mode.recommendedPresets : [];
+        const switchGain = mode?.modeSwitchBehavior?.switchGain;
+        if (Number.isFinite(switchGain) && presets.includes(switchGain)) return switchGain;
+        const nonZeroPreset = presets.find((value) => Number.isFinite(value) && value > 0);
+        if (Number.isFinite(nonZeroPreset)) return nonZeroPreset;
+        return Number.isFinite(presets[0]) ? presets[0] : 0;
+      }
+  
+      function gainPresetLabel(camera, value) {
+        const mode = camera?.modes?.[0];
+        const switchGain = mode?.modeSwitchBehavior?.switchGain;
+        if (Number.isFinite(switchGain) && value === switchGain) {
+          return `HCG / default ${value}`;
+        }
+        if (value === 0) return "Low gain 0";
+        if (Number.isFinite(switchGain) && value > switchGain) return `High gain ${value}`;
+        return `Gain ${value}`;
+      }
+  
+      function gainBehaviorNote(camera) {
+        const mode = camera?.modes?.[0];
+        const switchGain = mode?.modeSwitchBehavior?.switchGain;
+        if (Number.isFinite(switchGain)) {
+          return `This camera has a modeled HCG switch at gain ${switchGain}: read noise drops there, while full-well headroom is lower. The camera does not change gain during capture.`;
+        }
+        return "Gain changes read noise, full well, and system gain according to the selected camera model.";
+      }
+  
       function defaultEmpiricalCalibrationRecord() {
         const record = {};
         EMPIRICAL_CAL_KEYS.forEach((key) => {
@@ -1202,7 +1269,7 @@
       }
   
       function currentToolVersion() {
-          return "v1.0.21";
+          return "v1.0.28";
       }
   
       function buildConfigFileName() {
@@ -3867,9 +3934,9 @@
         const modeOptions = camera.modes
           .map((mode) => `<option value="${mode.modeId}" ${mode.modeId === appState.modeId || (appState.modeId === "auto" && mode === camera.modes[0]) ? "selected" : ""}>${mode.modeName}</option>`)
           .join("");
-        const modeControl = camera.modes.length > 1
+        const modeField = camera.modes.length > 1
           ? `<select id="modeId">${modeOptions}</select>`
-          : `<div class="readonly-value system-mode" aria-label="Camera mode">${camera.modes[0]?.modeName || "Fixed camera mode"}</div>`;
+          : "";
         const filterSetOptions = [...compatibleSets]
           .sort(compareFilterSetsForUi)
           .map((set) => `<option value="${set.id}" ${set.id === activeFilterSet?.id ? "selected" : ""}>${set.label}</option>`)
@@ -3884,7 +3951,7 @@
           `;
         }).join("");
         const recommendedGains = camera.modes[0].recommendedPresets.map((value) => `
-              <button type="button" class="ghost" data-gain-preset="${value}">Gain ${value}</button>
+              <button type="button" class="ghost" data-gain-preset="${value}">${gainPresetLabel(camera, value)}</button>
             `).join("");
         const throughputUi = getThroughputUiState();
   
@@ -3918,7 +3985,7 @@
             </div>
             <div class="field-grid">
               <div class="field"><label>Camera</label><select id="cameraId">${cameraOptions}</select></div>
-              <div class="field"><label>Mode</label>${modeControl}</div>
+              ${modeField ? `<div class="field"><label>Camera mode</label>${modeField}</div>` : ""}
               <div class="field">
                 <label>Gain</label>
                 <input id="gain" type="number" inputmode="numeric" min="0" max="400" step="1" value="${appState.gain}">
@@ -3973,6 +4040,7 @@
               </details>
             </div>
             <div class="actions">${recommendedGains}</div>
+            <div class="micro-note" style="margin-top:6px">Gain presets are camera-specific shortcuts, not universal recommendations. ${gainBehaviorNote(camera)}</div>
             <div class="small-note" style="margin-top:8px">${camera.manufacturer} ${camera.name} ${camera.dataQuality.level === "full-modeled" ? "is <strong>fully modeled</strong>" : camera.dataQuality.level === "partial" ? "uses a <strong>partial camera model</strong>" : "uses a <strong>generic camera model</strong>"}. Pixel size: ${fmtNumber(camera.pixelSizeUm, 2)} µm.</div>
           `)}
           ${setupGroup("setupOpenFilters", "Filter Set", "Select a filter set and active filters", `
@@ -4299,6 +4367,7 @@
                 <div class="release-note-block">
                   <h4>New cameras</h4>
                   <ul>
+                    <li>ZWO ASI2400MC Pro</li>
                     <li>ZWO ASI585MM Pro</li>
                     <li>ZWO ASI585MC Pro</li>
                   </ul>
@@ -4318,6 +4387,12 @@
                     <li>Single-filter hero plots now use the same clear operating-band outline treatment as filter-set rows, with the outline contained inside the displayed green band</li>
                     <li>Hero plots restore the two-stage lower-side story: read-noise criterion first, then operational overhead/comfort floor before the green band</li>
                     <li>FAQ and Technical Appendix now explain why shot noise is part of the model but not a separate plotted recommendation zone</li>
+                    <li>Camera changes now switch to that camera’s recommended gain preset, so HCG defaults like ASI2400MC Pro gain 140 are not silently compared at the previous camera’s gain</li>
+                    <li>Gain preset buttons now use camera-specific labels such as Low gain and HCG/default instead of implying that Gain 0 and Gain 100 are universal choices</li>
+                    <li>Broadband recommendations are now less over-conservative at low gain, especially for ASI2600MC-style OSC broadband workflows</li>
+                    <li>ASI2600MC Pro gain-0 read noise now uses the same IMX571-class baseline as the ASI2600MM Pro; OSC signal efficiency remains modeled separately.</li>
+                    <li>Main hero plots now keep colored regimes on the true time axis so the suggested-start marker lands in the same visual band described by the operating-band numbers.</li>
+                    <li>The camera setup no longer shows a misleading single camera “Mode” field; HCG behavior is now explained beside gain instead.</li>
                     <li>FAQ and Technical Appendix updated to reflect the newer support model</li>
                   </ul>
                 </div>
@@ -4359,7 +4434,7 @@
             : thresholdMarkersRaw,
           maxDomain
         );
-        const displayZones = computeDisplayZoneWidths(buildDisplayRailZones(result), maxDomain);
+        const displayZones = computeDisplayZoneWidths(buildDisplayRailZones(result), maxDomain, { applyMinWidth: false });
         const zoneInteriorLabelMinPct = {
           too_short: 999,
           lower_floor_gap: 999,
@@ -7054,7 +7129,7 @@
                     <div class="ap-method-group-title">Camera library currently included</div>
                     <ul class="ap-bullets">
                       <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI294MM Pro, ASI585MM Pro, QHY268M, QHY600M</li>
-                      <li><strong>OSC CMOS:</strong> ZWO ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI294MC Pro, ASI585MC Pro, QHY268C</li>
+                      <li><strong>OSC CMOS:</strong> ZWO ASI2400MC Pro, ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI294MC Pro, ASI585MC Pro, QHY268C</li>
                       <li><strong>Support meaning:</strong> each included camera has a gain-dependent state model for read noise, full well, system gain, dark current, and mode behavior at the selected gain and temperature</li>
                     </ul>
                   </div>
@@ -7722,7 +7797,10 @@
         appState.centralObstructionFrac = clamp(parseNumber("centralObstructionFrac", appState.centralObstructionFrac * 100) / 100, 0, 0.7);
         appState.filterSetId = document.getElementById("filterSetId")?.value || appState.filterSetId;
         if (changedId === "cameraId" && appState.cameraId !== previousCameraId) {
-          const nextSetId = defaultFilterSetId(getCamera(appState.cameraId));
+          const nextCamera = getCamera(appState.cameraId);
+          appState.modeId = nextCamera.modes[0]?.modeId || appState.modeId;
+          appState.gain = recommendedDefaultGain(nextCamera);
+          const nextSetId = defaultFilterSetId(nextCamera);
           if (nextSetId) appState.filterSetId = nextSetId;
         }
         if (changedId === "filterSetId") {
