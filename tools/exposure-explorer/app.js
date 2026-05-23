@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.28.html (v1.0.28). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.31.html (v1.0.31). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.28</span>
+            <span class="hero-version">v1.0.31</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -121,9 +121,11 @@
           fieldPresetId: "average_field",
           captureSequencing: "filter_blocks",
           filterBlockLengthSubs: 10,
-          focusHandling: "refocus_every_change",
-          ditherFrequency: "every_1",
+          focusHandling: "focus_offsets_monitoring",
+          ditherFrequency: "every_3",
           ditherSettleSec: 8,
+          overheadAssumptionPreset: "typical",
+          customEventOverheadSec: 10,
           badFrameRiskTolerance: "medium",
           fileCountPreference: "balanced",
           customFilterSwitchPenaltySec: null,
@@ -215,7 +217,12 @@
             broadband: 600,
             narrowband: 1800
           },
-          captureBaseOverheadSec: 3,
+          captureBaseOverheadSec: 9,
+          overheadAssumptionSeconds: {
+            low: 5,
+            typical: 10,
+            high: 20
+          },
           sequencingFocusSwitchPenaltySec: {
             filter_blocks: {
               refocus_every_change: 10,
@@ -230,10 +237,10 @@
           },
           ditherFrequencyMultipliers: {
             off: 0,
-            every_5: 0.2,
-            every_3: 0.34,
-            every_2: 0.5,
-            every_1: 1.0
+            every_5: 0.1,
+            every_3: 0.2,
+            every_2: 0.34,
+            every_1: 0.5
           },
           workflowCapBiasBySequencingFocus: {
             filter_blocks: {
@@ -1269,7 +1276,7 @@
       }
   
       function currentToolVersion() {
-          return "v1.0.28";
+          return "v1.0.31";
       }
   
       function buildConfigFileName() {
@@ -2477,23 +2484,98 @@
         return value === "filter_cycling" ? "Filter cycling" : "Filter blocks";
       }
   
-      function focusHandlingLabel(value) {
+      function focusHandlingLabel(value, hasFilterSequencing = false) {
         const normalized = value === "refocus_on_degradation" ? "focus_offsets_monitoring" : value;
         return ({
-          refocus_every_change: "Refocus on every filter change",
-          focus_offsets: "Use filter offsets + refocus when needed",
-          focus_offsets_monitoring: "Use filter offsets + refocus when needed"
-        })[normalized] || "Use filter offsets + refocus when needed";
+          refocus_every_change: "On filter change",
+          focus_offsets: hasFilterSequencing ? "Filter offsets + refocus when needed" : "Periodic / temperature-based",
+          focus_offsets_monitoring: hasFilterSequencing ? "Filter offsets + refocus when needed" : "Periodic / temperature-based",
+          manual_not_modeled: "Manual / not modeled"
+        })[normalized] || "Periodic / temperature-based";
       }
   
       function ditherFrequencyLabel(value) {
         return ({
-          off: "Off",
-          every_5: "Every 5 subs",
-          every_3: "Every 3 subs",
-          every_2: "Every 2 subs",
-          every_1: "Every sub"
-        })[value] || "Every sub";
+          off: "Not modeled",
+          every_5: "Every 5 frames",
+          every_3: "Every 3 frames",
+          every_2: "Every 2 frames",
+          every_1: "Every frame"
+        })[value] || "Every 3 frames";
+      }
+  
+      function overheadAssumptionSeconds(state) {
+        const preset = state.overheadAssumptionPreset || "typical";
+        if (preset === "custom") {
+          return clamp(Number.isFinite(state.customEventOverheadSec) ? state.customEventOverheadSec : 10, 0, 120);
+        }
+        return DATA.constants.overheadAssumptionSeconds[preset] ?? DATA.constants.overheadAssumptionSeconds.typical;
+      }
+  
+      function overheadAssumptionLabel(state) {
+        const preset = state.overheadAssumptionPreset || "typical";
+        if (preset === "custom") return `Custom ${fmtSeconds(overheadAssumptionSeconds(state))}`;
+        return ({
+          low: "Low",
+          typical: "Typical",
+          high: "High"
+        })[preset] || "Typical";
+      }
+  
+      function workflowFamilyForState(state = appState) {
+        const camera = getCamera(state.cameraId);
+        const filterSet = resolveFilterSet(state.filterSetId, camera);
+        const selected = normalizeSelectedFilters(camera, state.selectedFilters);
+        if (camera.colorType === "mono") {
+          return selected.length > 1 ? "mono_filter_set" : "mono_single_filter";
+        }
+        if (filterSet?.mode === "narrowband") return "osc_filtered";
+        if (selected.length > 1 && filterSet?.mode !== "narrowband") return "osc_with_filter_changes";
+        return "osc_broadband";
+      }
+  
+      function workflowFamilyMeta(family) {
+        return ({
+          mono_filter_set: {
+            sectionTitle: "Filter Workflow",
+            sectionSubtitle: "Filter sequencing, dithering, overhead, and focus handling",
+            topHeading: "Suggested Starts by Filter",
+            planHeading: "Filter Set Plan"
+          },
+          mono_single_filter: {
+            sectionTitle: "Capture Workflow",
+            sectionSubtitle: "Dithering, overhead, and focus handling",
+            topHeading: "Suggested Start",
+            planHeading: "Capture Plan"
+          },
+          osc_broadband: {
+            sectionTitle: "OSC Workflow",
+            sectionSubtitle: "Dithering, overhead, and focus handling",
+            topHeading: "Suggested OSC Start",
+            planHeading: "OSC Capture Plan"
+          },
+          osc_filtered: {
+            sectionTitle: "Filtered OSC Workflow",
+            sectionSubtitle: "Dithering, overhead, and focus handling for filtered OSC capture",
+            topHeading: "Suggested Filtered OSC Start",
+            planHeading: "Filtered OSC Plan"
+          },
+          osc_with_filter_changes: {
+            sectionTitle: "OSC Filter Workflow",
+            sectionSubtitle: "Simple filter sequencing, dithering, overhead, and focus handling",
+            topHeading: "Suggested Starts by Filter",
+            planHeading: "OSC Filter Plan"
+          }
+        })[family] || {
+          sectionTitle: "Capture Workflow",
+          sectionSubtitle: "Dithering, overhead, and focus handling",
+          topHeading: "Suggested Start",
+          planHeading: "Capture Plan"
+        };
+      }
+  
+      function workflowHasFilterSequencing(family) {
+        return family === "mono_filter_set" || family === "osc_with_filter_changes";
       }
   
       function fileCountPreferenceLabel(value) {
@@ -2505,28 +2587,35 @@
       }
   
       function workflowLevelFromScore(score) {
-        if (score >= 2.35) return "High";
+        if (score >= 2.0) return "High";
         if (score >= 1.3) return "Moderate";
         return "Low";
       }
   
       function deriveWorkflowSettings(state) {
-        const captureSequencing = state.captureSequencing || "filter_blocks";
+        const workflowFamily = workflowFamilyForState(state);
+        const hasFilterSequencing = workflowHasFilterSequencing(workflowFamily);
+        const captureSequencing = hasFilterSequencing ? (state.captureSequencing || "filter_blocks") : "filter_blocks";
         const filterBlockLengthSubs = clamp(
           Number.isFinite(state.filterBlockLengthSubs) ? state.filterBlockLengthSubs : 10,
           1,
           50
         );
-        const focusHandling = state.focusHandling === "refocus_every_change"
-          ? "refocus_every_change"
-          : "focus_offsets_monitoring";
-        const ditherFrequency = state.ditherFrequency || "every_1";
-        const ditherSettleSec = Number.isFinite(state.ditherSettleSec) ? state.ditherSettleSec : 8;
+        const requestedFocusHandling = state.focusHandling === "manual_not_modeled"
+          ? "manual_not_modeled"
+          : state.focusHandling === "refocus_every_change"
+            ? "refocus_every_change"
+            : "focus_offsets_monitoring";
+        const focusHandling = hasFilterSequencing ? requestedFocusHandling : (requestedFocusHandling === "manual_not_modeled" ? "manual_not_modeled" : "focus_offsets_monitoring");
+        const ditherFrequency = state.ditherFrequency || "every_3";
+        const perEventOverheadSec = overheadAssumptionSeconds(state);
         const badFrameRiskTolerance = state.badFrameRiskTolerance || state.rejectionRiskTolerance || "medium";
         const fileCountPreference = state.fileCountPreference || "balanced";
         const saturationTolerance = state.saturationTolerance || "medium";
-        const customFilterSwitchPenaltySec = Number.isFinite(state.customFilterSwitchPenaltySec) ? state.customFilterSwitchPenaltySec : null;
-        const switchPenaltyPerEventSec = customFilterSwitchPenaltySec != null
+        const customFilterSwitchPenaltySec = hasFilterSequencing && Number.isFinite(state.customFilterSwitchPenaltySec) ? state.customFilterSwitchPenaltySec : null;
+        const switchPenaltyPerEventSec = !hasFilterSequencing
+          ? 0
+          : customFilterSwitchPenaltySec != null
           ? customFilterSwitchPenaltySec
           : (
             DATA.constants.sequencingFocusSwitchPenaltySec[captureSequencing]?.[focusHandling]
@@ -2536,33 +2625,46 @@
           ? switchPenaltyPerEventSec / filterBlockLengthSubs
           : switchPenaltyPerEventSec;
         const ditherMultiplier = DATA.constants.ditherFrequencyMultipliers[ditherFrequency] ?? 1;
-        const effectiveFrameOverheadSec = DATA.constants.captureBaseOverheadSec + ditherSettleSec * ditherMultiplier + perSubSwitchPenaltySec;
+        const ditherOverheadContributionSec = perEventOverheadSec * ditherMultiplier;
+        const baseCaptureOverheadSec = DATA.constants.captureBaseOverheadSec;
+        const effectiveFrameOverheadSec = baseCaptureOverheadSec + ditherOverheadContributionSec + perSubSwitchPenaltySec;
         const focusInterruptionCost = focusHandling === "refocus_every_change"
           ? "High"
+          : focusHandling === "manual_not_modeled"
+            ? "Not modeled"
           : "Low";
         const blockPenaltyScale = captureSequencing === "filter_blocks"
           ? clamp(10 / filterBlockLengthSubs, 0.2, 2.0)
           : 1;
         const switchingPenalty = workflowLevelFromScore(
-          (captureSequencing === "filter_cycling" ? 1.05 : 0.75)
+          (hasFilterSequencing ? (captureSequencing === "filter_cycling" ? 1.05 : 0.75) : 0.35)
           + (focusHandling === "refocus_every_change" ? 1.0 : 0.22) * blockPenaltyScale
         );
         const favorsSharedExposure = captureSequencing === "filter_cycling"
           ? "Shared exposure can be practical"
-          : "Per-filter starts can stay distinct";
+          : hasFilterSequencing ? "Per-filter starts can stay distinct" : "No filter sequencing needed";
         const advisory = customFilterSwitchPenaltySec != null
           ? `A custom filter-switch penalty of ${fmtSeconds(customFilterSwitchPenaltySec)} is overriding the built-in workflow assumption.`
+          : !hasFilterSequencing
+          ? `${ditherFrequencyLabel(ditherFrequency)} dithering and ${overheadAssumptionLabel(state).toLowerCase()} overhead are included as practical assumptions.`
           : captureSequencing === "filter_cycling" && focusHandling === "refocus_every_change"
           ? "Cycling keeps filter coverage balanced, but refocusing on every filter change makes the switching overhead more noticeable."
           : captureSequencing === "filter_cycling"
             ? "Cycling keeps filter coverage balanced. Without refocus-on-change, it should usually nudge the recommendation only modestly."
             : `${fmtNumber(filterBlockLengthSubs, 0)}-sub filter blocks keep switching overhead low. Cycling can still be a reasonable choice if even filter coverage matters more.`;
         return {
+          workflowFamily,
+          hasFilterSequencing,
           captureSequencing,
           filterBlockLengthSubs,
           focusHandling,
           ditherFrequency,
-          ditherSettleSec,
+          ditherSettleSec: perEventOverheadSec,
+          overheadAssumptionPreset: state.overheadAssumptionPreset || "typical",
+          customEventOverheadSec: Number.isFinite(state.customEventOverheadSec) ? state.customEventOverheadSec : 10,
+          perEventOverheadSec,
+          baseCaptureOverheadSec,
+          ditherOverheadContributionSec,
           badFrameRiskTolerance,
           fileCountPreference,
           saturationTolerance,
@@ -3485,6 +3587,31 @@
             advisory: "Workflow settings mainly tune convenience and simplification, not the underlying physics."
           };
         }
+        const family = workflow.workflowFamily || workflowFamilyForState(appState);
+        if (family === "mono_single_filter") {
+          return {
+            headline: "Simple mono workflow",
+            advisory: "No filter sequencing is needed. Main workflow costs are dithering, settling, focus events, and rejected-frame risk."
+          };
+        }
+        if (family === "osc_broadband") {
+          return {
+            headline: "OSC-friendly workflow",
+            advisory: "No filter cycling is required. Main workflow costs are download time, dithering, settling, focus events, and rejected-frame risk."
+          };
+        }
+        if (family === "osc_filtered") {
+          return {
+            headline: "Filtered OSC workflow",
+            advisory: "Dual-band or tri-band filters reduce sky background and may support longer subs, but star saturation and rejected-frame cost still matter."
+          };
+        }
+        if (family === "osc_with_filter_changes") {
+          return {
+            headline: "Simple filter workflow",
+            advisory: "Fewer filter changes than mono, but separate OSC filters may still need different exposure ranges and saturation checks."
+          };
+        }
         const multiFilter = Array.isArray(results) && results.length > 1;
         const anchors = multiFilter ? results.map((result) => result.headlineRecommendation.anchorSec) : [];
         const anchorSpread = anchors.length ? Math.max(...anchors) - Math.min(...anchors) : 0;
@@ -3492,23 +3619,19 @@
   
         if (workflow.captureSequencing === "filter_cycling" && workflow.focusHandling === "refocus_every_change") {
           return {
-            headline: `${workflow.switchingPenalty} switching cost · balanced coverage`,
-            advisory: "Cycling keeps filter coverage balanced, but refocusing on every filter change makes the switching overhead more noticeable."
+            headline: "Cycling gives even coverage",
+            advisory: "Cycling filters spreads data across the filter set, but may increase switching and focus overhead depending on your sequence."
           };
         }
         if (workflow.captureSequencing === "filter_cycling") {
           return {
-            headline: `${workflow.switchingPenalty} switching cost · balanced coverage`,
-            advisory: sharedFeasible
-              ? "Cycling keeps coverage more even across filters, and without refocus-on-change it should usually act as a modest convenience trade rather than a major timing penalty."
-              : "Cycling keeps coverage more even across the session. Without refocus-on-change, the recommendation should still be driven mostly by the filter-specific numbers."
+            headline: "Cycling gives even coverage",
+            advisory: "Cycling filters spreads data across the filter set, but may increase switching and focus overhead depending on your sequence."
           };
         }
         return {
-          headline: `${workflow.switchingPenalty} switching cost · block-friendly`,
-          advisory: sharedFeasible
-            ? `${fmtNumber(workflow.filterBlockLengthSubs, 0)}-sub blocks keep switching overhead low, but cycling would still be a reasonable choice if you prefer more even filter coverage.`
-            : `${fmtNumber(workflow.filterBlockLengthSubs, 0)}-sub blocks keep switching overhead low. That slightly favors distinct per-filter starts, but it is still a convenience effect rather than a hard rule.`
+          headline: "Filter sequencing matters",
+          advisory: "Per-filter starts and saturation limits may differ. Blocks reduce switching overhead; cycling gives more even filter coverage if conditions change."
         };
       }
   
@@ -3705,6 +3828,78 @@
         return appState.selectedFilters.map((filterId) => evaluateFilter(filterId));
       }
   
+      function displayResultsForWorkflow(results) {
+        const family = workflowFamilyForState(appState);
+        if (family !== "osc_filtered" || !Array.isArray(results) || results.length <= 1) return results;
+        return [buildFilteredOscCompositeResult(results)];
+      }
+  
+      function buildFilteredOscCompositeResult(results) {
+        const camera = getCamera(appState.cameraId);
+        const filterSet = resolveFilterSet(appState.filterSetId, camera);
+        const lowerDriverResult = results.reduce((best, result) => result.thresholds.sweetSpotMinSec > best.thresholds.sweetSpotMinSec ? result : best, results[0]);
+        const upperDriverResult = results.reduce((best, result) => result.thresholds.sweetSpotMaxSec < best.thresholds.sweetSpotMaxSec ? result : best, results[0]);
+        const anchorDriverResult = results.reduce((best, result) => result.headlineRecommendation.anchorSec > best.headlineRecommendation.anchorSec ? result : best, results[0]);
+        const composite = cloneData(anchorDriverResult);
+        const sweetMin = Math.max(...results.map((result) => result.thresholds.sweetSpotMinSec));
+        const sweetMax = Math.min(...results.map((result) => result.thresholds.sweetSpotMaxSec));
+        const hardMax = Math.min(...results.map((result) => result.thresholds.hardMaxSec));
+        const lowerBound = Math.max(...results.map((result) => result.thresholds.lowerBoundSec));
+        const readNoiseFloor = Math.max(...results.map((result) => result.thresholds.readNoiseFloorSec));
+        const moderatedReadNoiseFloor = Math.max(...results.map((result) => result.thresholds.moderatedReadNoiseFloorSec));
+        const saturationCaution = Math.min(...results.map((result) => result.thresholds.saturationCautionSec));
+        const saturationHard = Math.min(...results.map((result) => result.thresholds.saturationHardSec));
+        const skyPedestalCaution = Math.min(...results.map((result) => result.thresholds.skyPedestalCautionSec));
+        const skyPedestalHard = Math.min(...results.map((result) => result.thresholds.skyPedestalHardSec));
+        const anchorSec = roundExposure(clamp(
+          Math.max(...results.map((result) => result.headlineRecommendation.anchorSec)),
+          sweetMin,
+          Math.max(sweetMin, sweetMax)
+        ));
+        const filterLabel = filterSet?.label || "Filtered OSC";
+        composite.filterId = filterSet?.id || "filtered-osc";
+        composite.componentFilterIds = results.map((result) => result.filterId);
+        composite.componentResults = results;
+        composite.input.filter.filterId = composite.filterId;
+        composite.input.filter.profileId = composite.filterId;
+        composite.input.filter.name = filterLabel;
+        composite.input.filter.sourceLabel = filterLabel;
+        composite.thresholds = {
+          ...composite.thresholds,
+          lowerBoundSec: lowerBound,
+          readNoiseFloorSec: readNoiseFloor,
+          moderatedReadNoiseFloorSec: moderatedReadNoiseFloor,
+          sweetSpotMinSec: sweetMin,
+          sweetSpotMaxSec: sweetMax,
+          hardMaxSec: hardMax,
+          saturationCautionSec: saturationCaution,
+          saturationHardSec: saturationHard,
+          skyPedestalCautionSec: skyPedestalCaution,
+          skyPedestalHardSec: skyPedestalHard
+        };
+        composite.synthesis = {
+          ...composite.synthesis,
+          anchorSec,
+          lowerBoundDrivers: lowerDriverResult.synthesis.lowerBoundDrivers,
+          upperBoundDrivers: upperDriverResult.synthesis.upperBoundDrivers
+        };
+        composite.theoreticalRecommendation = {
+          rangeSec: [sweetMin, sweetMax],
+          anchorSec,
+          summary: `A ${fmtSeconds(anchorSec)} sub is the computed theoretical starting sub length for this ${filterLabel} setup.`
+        };
+        composite.headlineRecommendation = {
+          rangeSec: [sweetMin, sweetMax],
+          anchorSec,
+          summary: `A ${fmtSeconds(anchorSec)} sub is a suggested starting sub length for this ${filterLabel} setup.`
+        };
+        composite.explanation = {
+          ...composite.explanation,
+          lead: `This is a combined filtered OSC recommendation for the physical ${filterLabel} filter. The internal passbands are checked separately, then collapsed to one practical sub length.`
+        };
+        return composite;
+      }
+  
       function zoneClass(name) {
         return ({
           too_short: "short",
@@ -3886,6 +4081,9 @@
             || Number.isFinite(activeCalibration.captureTempC) && activeCalibration.captureTempC !== appState.tempC
           );
         const workflowModel = deriveWorkflowSettings(appState);
+        const workflowFamily = workflowModel.workflowFamily;
+        const workflowMeta = workflowFamilyMeta(workflowFamily);
+        const showFilterSequencing = workflowHasFilterSequencing(workflowFamily);
         const helpText = {
           planningMode: "Uses modeled sky/background assumptions to estimate exposure regimes before capture.",
           empiricalMode: "Uses a real test exposure and measured image background to calibrate the lower-bound regime more directly.",
@@ -3904,15 +4102,14 @@
           operatingBand: "Operating band = the recommended interval after the lower floor is cleared but before saturation/workflow penalties dominate.",
           hardCeiling: "Hard ceiling = the terminal cap from saturation-hard and workflow-hard limits. Exposures beyond this point are outside the recommended range under the current assumptions.",
           workflowCap: "Upper workflow limit derived from filter class and bad-frame-risk tolerance.",
-          captureSequencing: "Capture many subs with one filter before switching. This minimizes filter-switch overhead and makes per-filter optimization easier.",
-          captureCycling: "Rotate through filters in short repeating cycles. This keeps channels balanced during the session, but filter-switch overhead matters more.",
+          captureSequencing: "Filter blocks reduce switching overhead. Filter cycling spreads coverage across filters but may increase switching and focus overhead.",
           filterBlocksLength: "How many subs you usually take before changing filters when using Filter blocks. Longer blocks reduce per-sub switching cost.",
-          focusEveryChange: "Assume a full autofocus run after each filter change. This applies the strongest filter-switch penalty.",
-          focusOffsets: "Assume stored filter offsets handle normal filter changes, with autofocus only when star size worsens enough to justify it.",
-          focusOffsetsMonitoring: "Assume stored filter offsets handle normal filter changes, with autofocus only when star size worsens enough to justify it.",
+          ditherCadence: "How often the sequence dithers. Dithering every frame improves pattern-noise control but increases overhead, especially with short subs.",
+          perEventOverhead: "Estimated time not collecting light around events such as download, dither, settle, and similar sequence overhead.",
+          focusHandling: "Focus events can interrupt imaging time. For mono filter sets, filter offsets plus refocus when needed means using offsets during cycling while letting your capture software trigger autofocus when focus trends worse.",
           testFilter: "Choose which filter you are entering a measured test frame for. Calibration is stored separately for each filter.",
           backgroundMeasurementType: "Use raw mean for an uncorrected frame. Use bias/dark-subtracted mean only if the value already has pedestal and dark signal removed.",
-          frameOverhead: "Frame overhead is the dead time wrapped around each sub: download time, dither/settle time, filter-switch cost spread across the sequence, and any autofocus interruption cost the current workflow implies. It is not exposure time on target."
+          frameOverhead: "Frame overhead is an estimated per-sub practical cost: baseline capture overhead, dither/settle cost averaged by cadence, and any filter-switch cost spread across the sequence. It is not exposure time on target."
         };
         const setupGroup = (id, title, subtitle, body, extraClass = "") => `
           <section class="setup-group ${extraClass} ${appState[id] ? "open" : ""}">
@@ -4159,48 +4356,82 @@
             ` : ""}
           `, "sky-field-group")}
   
-          ${setupGroup("setupOpenWorkflow", "Workflow", "Capture sequencing and focus behavior", `
+          ${setupGroup("setupOpenWorkflow", workflowMeta.sectionTitle, workflowMeta.sectionSubtitle, `
             <div class="field-grid-full">
-              <div class="field">
-                <label>Capture sequencing ${helpBadge(`${helpText.captureSequencing} ${helpText.captureCycling}`)}</label>
-                <div class="mode-toggle">
-                  <button type="button" class="toggle-chip ${appState.captureSequencing === "filter_blocks" ? "active" : ""}" data-capture-sequencing="filter_blocks">Filter blocks</button>
-                  <button type="button" class="toggle-chip ${appState.captureSequencing === "filter_cycling" ? "active" : ""}" data-capture-sequencing="filter_cycling">Filter cycling</button>
-                </div>
-                <div class="mode-note">${appState.captureSequencing === "filter_blocks" ? "Capture many subs with one filter before switching." : "Rotate through filters in short repeating cycles."}</div>
-                ${appState.captureSequencing === "filter_blocks" ? `
-                  <div class="field-grid" style="margin-top:10px">
-                    <div class="field">
-                      <label>Subs per filter block ${helpBadge(helpText.filterBlocksLength)}</label>
-                      <input id="filterBlockLengthSubs" type="number" inputmode="numeric" min="1" max="50" step="1" value="${appState.filterBlockLengthSubs}">
-                    </div>
+              ${showFilterSequencing ? `
+                <div class="field">
+                  <label>Filter strategy ${helpBadge(helpText.captureSequencing)}</label>
+                  <div class="mode-toggle">
+                    <button type="button" class="toggle-chip ${appState.captureSequencing === "filter_blocks" ? "active" : ""}" data-capture-sequencing="filter_blocks">Filter blocks</button>
+                    <button type="button" class="toggle-chip ${appState.captureSequencing === "filter_cycling" ? "active" : ""}" data-capture-sequencing="filter_cycling">Filter cycling</button>
                   </div>
-                ` : ""}
+                  <div class="mode-note">${appState.captureSequencing === "filter_blocks" ? "Capture many subs with one filter before switching." : "Rotate through filters in short repeating cycles."}</div>
+                  ${appState.captureSequencing === "filter_blocks" ? `
+                    <div class="field-grid" style="margin-top:10px">
+                      <div class="field">
+                        <label>Block size ${helpBadge(helpText.filterBlocksLength)}</label>
+                        <select id="filterBlockLengthPreset">
+                          ${[5,10,20].map((value) => `<option value="${value}" ${Number(appState.filterBlockLengthSubs) === value ? "selected" : ""}>${value} subs</option>`).join("")}
+                          <option value="custom" ${[5,10,20].includes(Number(appState.filterBlockLengthSubs)) ? "" : "selected"}>Custom</option>
+                        </select>
+                      </div>
+                      <div class="field ${[5,10,20].includes(Number(appState.filterBlockLengthSubs)) ? "inactive" : ""}">
+                        <label>Custom block size</label>
+                        <input id="filterBlockLengthSubs" type="number" inputmode="numeric" min="1" max="50" step="1" value="${appState.filterBlockLengthSubs}">
+                      </div>
+                    </div>
+                  ` : ""}
+                </div>
+              ` : ""}
+              <div class="field-grid">
+                <div class="field"><label>Dither cadence ${helpBadge(helpText.ditherCadence)}</label>
+                  <select id="ditherFrequency">
+                    ${[
+                      ["every_1","Every frame"],
+                      ["every_2","Every 2 frames"],
+                      ["every_3","Every 3 frames"],
+                      ["every_5","Every 5 frames"],
+                      ["off","Not modeled"]
+                    ].map(([value,label]) => `<option value="${value}" ${value === appState.ditherFrequency ? "selected" : ""}>${label}</option>`).join("")}
+                  </select>
+                </div>
+                <div class="field"><label>Per-event overhead ${helpBadge(helpText.perEventOverhead)}</label>
+                  <select id="overheadAssumptionPreset">
+                    ${[
+                      ["low","Low"],
+                      ["typical","Typical"],
+                      ["high","High"],
+                      ["custom","Custom"]
+                    ].map(([value,label]) => `<option value="${value}" ${value === appState.overheadAssumptionPreset ? "selected" : ""}>${label}</option>`).join("")}
+                  </select>
+                </div>
+                <div class="field ${appState.overheadAssumptionPreset === "custom" ? "" : "inactive"}">
+                  <label>Custom overhead seconds</label>
+                  <input id="customEventOverheadSec" type="number" inputmode="numeric" min="0" max="120" step="1" value="${appState.customEventOverheadSec}">
+                </div>
               </div>
               <div class="field">
-                <label>Focus handling ${helpBadge(`${helpText.focusEveryChange} ${helpText.focusOffsets}`)}</label>
+                <label>Focus handling ${helpBadge(helpText.focusHandling)}</label>
                 <div class="mode-toggle">
-                  <button type="button" class="toggle-chip ${appState.focusHandling === "refocus_every_change" ? "active" : ""}" data-focus-handling="refocus_every_change">Refocus on every filter change</button>
-                  <button type="button" class="toggle-chip ${appState.focusHandling !== "refocus_every_change" ? "active" : ""}" data-focus-handling="focus_offsets_monitoring">Use filter offsets + refocus when needed</button>
+                  ${showFilterSequencing ? `<button type="button" class="toggle-chip ${appState.focusHandling === "refocus_every_change" ? "active" : ""}" data-focus-handling="refocus_every_change">On filter change</button>` : ""}
+                  <button type="button" class="toggle-chip ${appState.focusHandling !== "refocus_every_change" && appState.focusHandling !== "manual_not_modeled" ? "active" : ""}" data-focus-handling="focus_offsets_monitoring">${showFilterSequencing ? "Filter offsets + refocus when needed" : "Periodic / temperature-based"}</button>
+                  <button type="button" class="toggle-chip ${appState.focusHandling === "manual_not_modeled" ? "active" : ""}" data-focus-handling="manual_not_modeled">Manual / not modeled</button>
                 </div>
-                <div class="mode-note">${({
-                  refocus_every_change: helpText.focusEveryChange,
-                  focus_offsets: helpText.focusOffsets,
-                  focus_offsets_monitoring: helpText.focusOffsets
-                })[appState.focusHandling]}</div>
+                <div class="mode-note">Focus handling is a practical workflow factor here, not a full autofocus scheduler.</div>
               </div>
             </div>
-            <div class="small-note" style="margin-top:10px"><strong>Frame overhead ${helpBadge(helpText.frameOverhead)}</strong> means the non-imaging time wrapped around each sub, such as download time, dithering/settle time, filter-switch cost, and autofocus interruptions. Current per-sub overhead estimate: <strong>${fmtSeconds(workflowModel.frameOverheadSec)}</strong>.</div>
+            <div class="small-note" style="margin-top:10px"><strong>Effective overhead estimate ${helpBadge(helpText.frameOverhead)}</strong>: <strong>${fmtSeconds(workflowModel.frameOverheadSec)}</strong> per sub after baseline capture overhead, dither cadence, and any filter-switch assumption. This is an estimate, not a full sequencing model.</div>
+            ${appState.overheadAssumptionPreset === "custom" && workflowModel.perEventOverheadSec > 60 ? `<div class="warning" style="margin-top:8px">Large overhead values can strongly favor longer subs. Use only if this reflects your actual sequence behavior.</div>` : ""}
             <div class="cards-3" style="margin-top:12px">
               <div class="mini-card">
                 <h4>Workflow impact</h4>
-                <div class="muted">Switching penalty</div>
+                <div class="muted">${showFilterSequencing ? "Switching penalty" : "Workflow cost"}</div>
                 <div class="big-number" style="font-size:1.45rem">${workflowModel.switchingPenalty}</div>
               </div>
               <div class="mini-card">
                 <h4>&nbsp;</h4>
-                <div class="muted">Favors</div>
-                <div class="big-number" style="font-size:1.02rem;line-height:1.15">${workflowModel.favorsSharedExposure}</div>
+                <div class="muted">Dither cadence</div>
+                <div class="big-number" style="font-size:1.02rem;line-height:1.15">${ditherFrequencyLabel(workflowModel.ditherFrequency)}</div>
               </div>
               <div class="mini-card">
                 <h4>&nbsp;</h4>
@@ -4210,21 +4441,9 @@
             </div>
             <div class="small-note" style="margin-top:8px">${workflowModel.advisory}</div>
             <details class="collapsible-secondary workflow-refinements">
-              <summary><span>Workflow refinements</span><span class="summary-meta">Dither, risk, file-count, and custom penalties</span></summary>
+              <summary><span>Additional practical limits</span><span class="summary-meta">Rejected-frame risk, file count, and optional switch penalty</span></summary>
               <div class="collapsible-secondary-body">
                 <div class="field-grid">
-                  <div class="field"><label>Dither frequency</label>
-                    <select id="ditherFrequency">
-                      ${[
-                        ["every_1","Every sub"],
-                        ["every_2","Every 2 subs"],
-                        ["every_3","Every 3 subs"],
-                        ["every_5","Every 5 subs"],
-                        ["off","Off"]
-                      ].map(([value,label]) => `<option value="${value}" ${value === appState.ditherFrequency ? "selected" : ""}>${label}</option>`).join("")}
-                    </select>
-                  </div>
-                  <div class="field"><label>Dither settle time (s)</label><input id="ditherSettleSec" type="number" inputmode="numeric" min="0" max="90" step="1" value="${appState.ditherSettleSec}"></div>
                   <div class="field"><label>Bad-frame risk tolerance</label>
                     <select id="badFrameRiskTolerance">
                       ${["low","medium","high"].map((level) => `<option value="${level}" ${level === appState.badFrameRiskTolerance ? "selected" : ""}>${level[0].toUpperCase()}${level.slice(1)}</option>`).join("")}
@@ -4239,7 +4458,7 @@
                       ].map(([value,label]) => `<option value="${value}" ${value === appState.fileCountPreference ? "selected" : ""}>${label}</option>`).join("")}
                     </select>
                   </div>
-                  <div class="field"><label>Optional custom filter-switch penalty (s)</label><input id="customFilterSwitchPenaltySec" type="number" inputmode="numeric" min="0" max="120" step="1" value="${appState.customFilterSwitchPenaltySec ?? ""}"></div>
+                  ${showFilterSequencing ? `<div class="field"><label>Optional custom filter-switch penalty (s)</label><input id="customFilterSwitchPenaltySec" type="number" inputmode="numeric" min="0" max="120" step="1" value="${appState.customFilterSwitchPenaltySec ?? ""}"></div>` : ""}
                 </div>
                 <div class="small-note" style="margin-top:8px">These settings shape the practical recommendation, not the physics floor.</div>
                 <div class="small-note" style="margin-top:6px">This same overhead estimate is what the tool uses when it decides whether very short subs are becoming operationally wasteful.</div>
@@ -4393,6 +4612,9 @@
                     <li>ASI2600MC Pro gain-0 read noise now uses the same IMX571-class baseline as the ASI2600MM Pro; OSC signal efficiency remains modeled separately.</li>
                     <li>Main hero plots now keep colored regimes on the true time axis so the suggested-start marker lands in the same visual band described by the operating-band numbers.</li>
                     <li>The camera setup no longer shows a misleading single camera “Mode” field; HCG behavior is now explained beside gain instead.</li>
+                    <li>Workflow controls are now context-sensitive for mono filter sets, single-filter mono capture, OSC broadband, and filtered OSC workflows.</li>
+                    <li>Filtered OSC sets now display one combined recommendation for the physical filter instead of separate Ha/OIII/SII passband rows.</li>
+                    <li>Mono filter workflow now names the common filter-offsets plus refocus-when-needed approach, and default overhead wiring is less aggressive for normal LRGB sequencing.</li>
                     <li>FAQ and Technical Appendix updated to reflect the newer support model</li>
                   </ul>
                 </div>
@@ -4560,6 +4782,7 @@
       function buildPlanAdvisory(results) {
         if (!Array.isArray(results) || results.length < 2) return "";
         const workflow = deriveWorkflowSettings(appState);
+        if (!workflow.hasFilterSequencing) return workflow.advisory || "";
         const overlapStart = Math.max(...results.map((result) => result.thresholds.sweetSpotMinSec));
         const overlapEnd = Math.min(...results.map((result) => result.thresholds.sweetSpotMaxSec));
         const anchors = results.map((result) => result.headlineRecommendation.anchorSec);
@@ -4582,6 +4805,23 @@
         return "";
       }
   
+      function contextSummaryLine(results) {
+        const family = workflowFamilyForState(appState);
+        const starts = results.map((result) => `${planFamilyCode(result)} ${fmtSeconds(result.headlineRecommendation.anchorSec)}`).join(" · ");
+        const first = results[0];
+        if (family === "osc_broadband") {
+          return `Suggested OSC start: ${fmtSeconds(first.headlineRecommendation.anchorSec)}. No filter cycling is required; main workflow costs are dithering, settling, focus events, and rejected-frame risk.`;
+        }
+        if (family === "osc_filtered") {
+          const componentNote = first.componentFilterIds?.length > 1 ? " Internal passbands are checked together for one physical filter." : "";
+          return `Suggested filtered OSC start: ${fmtSeconds(first.headlineRecommendation.anchorSec)}. Reduced sky background may support longer subs, but saturation and rejected-frame cost still set practical limits.${componentNote}`;
+        }
+        if (family === "mono_single_filter") {
+          return `Suggested start: ${fmtSeconds(first.headlineRecommendation.anchorSec)}. No filter sequencing is needed; main workflow costs are dithering, settling, focus events, and rejected-frame risk.`;
+        }
+        return `Suggested starts by filter: ${starts}.`;
+      }
+  
       function buildPlanExportText(results) {
         const camera = getCamera(appState.cameraId);
         const filterSet = resolveFilterSet(appState.filterSetId, camera);
@@ -4592,14 +4832,15 @@
           Math.max(...results.map((result) => result.thresholds.sweetSpotMaxSec))
         );
         const advisory = buildPlanAdvisory(results);
+        const workflow = deriveWorkflowSettings(appState);
         return [
           `${planName} — ${filterSet?.label || "Custom set"}`,
           `Camera: ${camera.manufacturer} ${camera.name}`,
           `Mode: ${appState.exposureMode === "empirical" ? "Empirical calibration" : "Planning"} · RN target: ${appState.readNoiseContributionTargetPct}%`,
           `Weighting: ${weightLabelForPreset(appState.planWeightPreset)} · ${results.map((result) => `${planFamilyCode(result)}×${weights[result.filterId]}`).join(" · ")}`,
-          `Workflow: ${captureSequencingLabel(appState.captureSequencing)} · ${focusHandlingLabel(appState.focusHandling)}`,
+          `Workflow: ${workflowFamilyMeta(workflow.workflowFamily).sectionTitle} · ${ditherFrequencyLabel(workflow.ditherFrequency)} · ${overheadAssumptionLabel(appState)} overhead · ${focusHandlingLabel(workflow.focusHandling, workflow.hasFilterSequencing)}`,
           "",
-          `Suggested starts by filter: ${results.map((result) => `${planFamilyCode(result)} ${fmtSeconds(result.headlineRecommendation.anchorSec)}`).join(" · ")}`,
+          contextSummaryLine(results),
           `Set operating range: ${setOperatingSpan}`,
           advisory,
           advisory ? "" : null,
@@ -4650,10 +4891,17 @@
             }))
           },
           workflow: {
+            family: workflow.workflowFamily,
+            familyLabel: workflowFamilyMeta(workflow.workflowFamily).sectionTitle,
             captureSequencing: appState.captureSequencing,
             captureSequencingLabel: captureSequencingLabel(appState.captureSequencing),
             focusHandling: appState.focusHandling,
-            focusHandlingLabel: focusHandlingLabel(appState.focusHandling)
+            focusHandlingLabel: focusHandlingLabel(appState.focusHandling, workflow.hasFilterSequencing),
+            ditherFrequency: workflow.ditherFrequency,
+            ditherFrequencyLabel: ditherFrequencyLabel(workflow.ditherFrequency),
+            overheadAssumptionPreset: appState.overheadAssumptionPreset,
+            overheadAssumptionLabel: overheadAssumptionLabel(appState),
+            perEventOverheadSec: workflow.perEventOverheadSec
           },
           operatingRange,
           advisory: buildPlanAdvisory(results) || "",
@@ -4715,6 +4963,7 @@
       }
   
       function renderSetPlan(results) {
+        const workflowMeta = workflowFamilyMeta(workflowFamilyForState(appState));
         const activePreset = sanitizePlanWeightPreset(results);
         const maxDomainBase = Math.max(...results.map((result) => result.thresholds.hardMaxSec * 1.08), 120);
         const axis = buildAxisTicks(maxDomainBase);
@@ -4732,7 +4981,7 @@
         const advisory = buildPlanAdvisory(results);
         return `
           <section class="card section section-quiet">
-            <div class="section-label section-label-major">Filter Set Plan</div>
+            <div class="section-label section-label-major">${workflowMeta.planHeading}</div>
             <div class="plan-shell">
               <div class="plan-toolbar">
                 ${renderPlanControls(results, { showWeightPreset: true })}
@@ -5409,7 +5658,7 @@
               <div class="assumption"><div class="k">Lower-bound background</div><div class="v">${result.lowerBoundBackground.source === "measured" ? `${fmtNumber(result.lowerBoundBackground.rateEPerPxPerSec, 4)} e-/px/s from test frame` : `${fmtNumber(result.lowerBoundBackground.rateEPerPxPerSec, 4)} e-/px/s modeled`}</div></div>
               <div class="assumption"><div class="k">Capture sequencing</div><div class="v">${captureSequencingLabel(input.workflow.captureSequencing)}</div></div>
               <div class="assumption"><div class="k">Filter block length</div><div class="v">${input.workflow.captureSequencing === "filter_blocks" ? `${fmtNumber(input.workflow.filterBlockLengthSubs, 0)} subs` : "n/a in cycling mode"}</div></div>
-              <div class="assumption"><div class="k">Focus handling</div><div class="v">${focusHandlingLabel(input.workflow.focusHandling)}</div></div>
+              <div class="assumption"><div class="k">Focus handling</div><div class="v">${focusHandlingLabel(input.workflow.focusHandling, input.workflow.hasFilterSequencing)}</div></div>
               <div class="assumption"><div class="k">Workflow impact</div><div class="v">${input.workflow.switchingPenalty} switching · ${input.workflow.focusInterruptionCost} focus cost</div></div>
               <div class="assumption"><div class="k">Refinement path</div><div class="v">${ditherFrequencyLabel(input.workflow.ditherFrequency)} dither · ${fileCountPreferenceLabel(input.workflow.fileCountPreference)}</div></div>
               <div class="assumption"><div class="k">Read noise / full well</div><div class="v">${fmtNumber(input.cameraState.readNoiseE, 2)} e- / ${Math.round(input.cameraState.fullWellE)} e-</div></div>
@@ -5435,7 +5684,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -5474,7 +5723,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 19.6,
@@ -5511,7 +5760,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -5548,7 +5797,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -5578,7 +5827,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -6143,7 +6392,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -6184,7 +6433,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -6225,7 +6474,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -6266,7 +6515,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -6307,7 +6556,7 @@
             throughputFrac: 0.82,
             centralObstructionFrac: 0,
             filterSetId: "narrowband-sho-astronomik-6nm",
-            selectedFilters: ["astronomik-ha-6nm"],
+            selectedFilters: ["astronomik-ha-6nm", "astronomik-oiii-6nm", "astronomik-sii-6nm"],
             activeFilterId: "astronomik-ha-6nm",
             skyInputMode: "measured",
             skyBrightnessMagPerArcsec2: 20.8,
@@ -7507,7 +7756,7 @@
                     <div class="ap-method-group-title">Current workflow state</div>
                     ${methodRow("Capture sequencing", `<strong>${captureSequencingLabel(exampleInput.workflow.captureSequencing)}</strong>`)}
                     ${methodRow("Filter block length", `<strong>${exampleInput.workflow.captureSequencing === "filter_blocks" ? `${fmtNumber(exampleInput.workflow.filterBlockLengthSubs, 0)} subs` : "n/a in cycling mode"}</strong>`)}
-                    ${methodRow("Focus handling", `<strong>${focusHandlingLabel(exampleInput.workflow.focusHandling)}</strong>`)}
+                    ${methodRow("Focus handling", `<strong>${focusHandlingLabel(exampleInput.workflow.focusHandling, exampleInput.workflow.hasFilterSequencing)}</strong>`)}
                     ${methodRow("Filter switching penalty", `<strong>${exampleInput.workflow.switchingPenalty}</strong>`)}
                     ${methodRow("Current style favors", `<strong>${exampleInput.workflow.favorsSharedExposure}</strong>`)}
                     ${methodRow("Focus interruption cost", `<strong>${exampleInput.workflow.focusInterruptionCost}</strong>`)}
@@ -7620,7 +7869,9 @@
       }
   
       function renderResults() {
-        const results = computeAllResults();
+        const rawResults = computeAllResults();
+        const results = displayResultsForWorkflow(rawResults);
+        const workflowMeta = workflowFamilyMeta(workflowFamilyForState(appState));
         sanitizePlanWeightPreset(results);
         if (!appState.validationUnlocked && appState.activeMainTab === "validation") {
           appState.activeMainTab = "recommendation";
@@ -7650,7 +7901,7 @@
             <div class="recommendation-stage">
               <section class="result-banner">
                 <div class="result-banner-card primary">
-                  <div class="result-banner-k">${multiFilterMode ? "Suggested starts by filter" : "Suggested Start"}</div>
+                  <div class="result-banner-k">${multiFilterMode ? workflowMeta.topHeading : workflowMeta.topHeading}</div>
                   <div class="result-banner-v ${multiFilterMode ? "plan" : ""}">${multiFilterMode ? strictPlanLabel : primaryRecommendationLabel}</div>
                   <div class="result-banner-sub">${multiFilterMode ? "Direct computed starts across the active filter set." : primaryRecommendationSub}</div>
                 </div>
@@ -7691,9 +7942,9 @@
               <div class="secondary-stack">
                 ${multiFilterMode ? renderSelectedFilterDetail(active) : `
                   <section class="card section section-quiet">
-                    <div class="section-label">Export Recommendation</div>
+                    <div class="section-label">${workflowMeta.planHeading}</div>
                     ${renderPlanControls([active], { showWeightPreset: false })}
-                    <div class="plan-status">${renderPlanStatus([active], `Single-filter recommendation for ${active.input.filter.name} ready to copy or export.`)}</div>
+                    <div class="plan-status">${renderPlanStatus([active], contextSummaryLine([active]))}</div>
                   </section>
                   ${renderSelectedFilterDetail(active)}
                 `}
@@ -7732,6 +7983,15 @@
         }
         if (appState.focusHandling === "refocus_on_degradation") {
           appState.focusHandling = "focus_offsets_monitoring";
+        }
+        if (!workflowHasFilterSequencing(workflowFamilyForState(appState)) && appState.focusHandling === "refocus_every_change") {
+          appState.focusHandling = "focus_offsets_monitoring";
+        }
+        if (!["low","typical","high","custom"].includes(appState.overheadAssumptionPreset)) {
+          appState.overheadAssumptionPreset = "typical";
+        }
+        if (!["off","every_5","every_3","every_2","every_1"].includes(appState.ditherFrequency)) {
+          appState.ditherFrequency = "every_3";
         }
         const derivedWorkflow = deriveWorkflowSettings(appState);
         appState.frameOverheadSec = derivedWorkflow.frameOverheadSec;
@@ -7846,8 +8106,13 @@
           appState.computedMoonOverride = false;
         }
         appState.ditherFrequency = document.getElementById("ditherFrequency")?.value || appState.ditherFrequency;
-        appState.filterBlockLengthSubs = clamp(parseNumber("filterBlockLengthSubs", appState.filterBlockLengthSubs), 1, 50);
-        appState.ditherSettleSec = parseNumber("ditherSettleSec", appState.ditherSettleSec);
+        const blockPreset = document.getElementById("filterBlockLengthPreset")?.value;
+        appState.filterBlockLengthSubs = blockPreset && blockPreset !== "custom"
+          ? Number(blockPreset)
+          : clamp(parseNumber("filterBlockLengthSubs", appState.filterBlockLengthSubs), 1, 50);
+        appState.overheadAssumptionPreset = document.getElementById("overheadAssumptionPreset")?.value || appState.overheadAssumptionPreset || "typical";
+        appState.customEventOverheadSec = clamp(parseNumber("customEventOverheadSec", appState.customEventOverheadSec), 0, 120);
+        appState.ditherSettleSec = appState.customEventOverheadSec;
         appState.badFrameRiskTolerance = document.getElementById("badFrameRiskTolerance")?.value || appState.badFrameRiskTolerance;
         appState.fileCountPreference = document.getElementById("fileCountPreference")?.value || appState.fileCountPreference;
         appState.customFilterSwitchPenaltySec = parseNullableNumber("customFilterSwitchPenaltySec", null);
@@ -8210,7 +8475,7 @@
       }
   
       function attachResultEvents() {
-        const activeResults = computeAllResults();
+        const activeResults = displayResultsForWorkflow(computeAllResults());
         document.querySelectorAll("[data-main-tab]").forEach((button) => {
           button.addEventListener("click", () => {
             appState.activeMainTab = button.getAttribute("data-main-tab");
