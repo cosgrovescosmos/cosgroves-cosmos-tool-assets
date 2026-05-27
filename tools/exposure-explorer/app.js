@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.31.html (v1.0.31). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.32.html (v1.0.32). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.31</span>
+            <span class="hero-version">v1.0.32</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -1276,7 +1276,7 @@
       }
   
       function currentToolVersion() {
-          return "v1.0.31";
+          return "v1.0.32";
       }
   
       function buildConfigFileName() {
@@ -4615,6 +4615,7 @@
                     <li>Workflow controls are now context-sensitive for mono filter sets, single-filter mono capture, OSC broadband, and filtered OSC workflows.</li>
                     <li>Filtered OSC sets now display one combined recommendation for the physical filter instead of separate Ha/OIII/SII passband rows.</li>
                     <li>Mono filter workflow now names the common filter-offsets plus refocus-when-needed approach, and default overhead wiring is less aggressive for normal LRGB sequencing.</li>
+                    <li>Filter-set overview rows now align their shared bottom time axis to the same plot rectangle used by the colored recommendation bars.</li>
                     <li>FAQ and Technical Appendix updated to reflect the newer support model</li>
                   </ul>
                 </div>

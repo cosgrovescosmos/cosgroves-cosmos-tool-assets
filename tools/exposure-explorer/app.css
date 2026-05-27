@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.31.html (v1.0.31). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.32.html (v1.0.32). Do not edit by hand. */
 :root{
       --bg0:#050912;
       --bg1:#0b1421;
@@ -1126,6 +1126,8 @@
       border-radius:18px;
       border:1px solid rgba(255,255,255,.08);
       background:linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.01));
+      --set-axis-left:182px;
+      --set-axis-right:150px;
     }
     .set-overview-head{
       display:flex;
@@ -1394,7 +1396,7 @@
     .set-axis{
       position:relative;
       height:38px;
-      margin:0 172px 0;
+      margin:0 var(--set-axis-right) 0 var(--set-axis-left);
       border-top:1px solid rgba(255,255,255,.14);
     }
     .set-axis-tick,.set-axis-minor,.set-axis-label{
@@ -3025,6 +3027,7 @@
       .ap-header-actions{width:100%}
       .result-banner,.hero-strip,.hero-substats,.interpret-strip,.hero-summary-row,.plan-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
       .set-row{grid-template-columns:140px 1fr 108px}
+      .set-overview{--set-axis-left:162px;--set-axis-right:130px}
     }
     @media (max-width: 760px){
       body.exposure-explorer-standalone{padding:10px}
