@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.33.html (v1.0.33). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.35.html (v1.0.35). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.33</span>
+            <span class="hero-version">v1.0.35</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -630,6 +630,80 @@
               level: "full-modeled",
               curveSource: "Published behavior with interpolated secondary curves",
               lastVerified: "2026-04-06"
+            }
+          },
+          {
+            cameraId: "zwo-asi183mm-pro",
+            name: "ASI183MM Pro",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX183CLK-J",
+            colorType: "mono",
+            pixelSizeUm: 2.4,
+            resolution: { widthPx: 5496, heightPx: 3672 },
+            adcBits: 12,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,430,460,500,530,550,600,650,680,700,750,800],
+              relativeQe: [0.12,0.28,0.52,0.74,0.84,0.84,0.80,0.72,0.62,0.52,0.28,0.10]
+            },
+            modes: [
+              {
+                modeId: "auto",
+                modeName: "Gain curve",
+                gainRange: { min: 0, max: 300 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: null },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,3.0],[50,2.6],[100,2.2],[150,2.0],[200,1.85],[250,1.75],[270,1.68],[300,1.6]] },
+                  fullWellE: { interpolation: "linear", points: [[0,15000],[50,8000],[100,5000],[150,2800],[200,1500],[250,900],[270,700],[300,450]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,3.6],[50,2.1],[100,1.15],[120,1.0],[150,0.65],[200,0.35],[250,0.22],[300,0.12]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,12.2],[50,11.6],[100,11.0],[150,10.4],[200,9.7],[250,9.0],[270,8.7],[300,8.2]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-15,0.0030],[-10,0.0037],[-5,0.0050],[0,0.0068],[5,0.0098],[10,0.0156],[15,0.025],[20,0.040],[25,0.060]] }
+                },
+                recommendedPresets: [0,120]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 10 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "System Comparison ASI183MM Pro import using ZWO IMX183 specs and compact mono QE control points",
+              lastVerified: "2026-05-29"
+            }
+          },
+          {
+            cameraId: "zwo-asi183mc-pro",
+            name: "ASI183MC Pro",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX183CQJ-J",
+            colorType: "osc",
+            pixelSizeUm: 2.4,
+            resolution: { widthPx: 5496, heightPx: 3672 },
+            adcBits: 12,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,430,460,500,530,550,600,650,680,700,750,800],
+              relativeQe: [0.13,0.25,0.38,0.33,0.50,0.46,0.37,0.28,0.22,0.17,0.08,0.03]
+            },
+            modes: [
+              {
+                modeId: "auto",
+                modeName: "Gain curve",
+                gainRange: { min: 0, max: 300 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: null },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,3.0],[50,2.6],[100,2.2],[150,2.0],[200,1.85],[250,1.75],[270,1.68],[300,1.6]] },
+                  fullWellE: { interpolation: "linear", points: [[0,15000],[50,8000],[100,5000],[150,2800],[200,1500],[250,900],[270,700],[300,450]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,3.6],[50,2.1],[100,1.15],[120,1.0],[150,0.65],[200,0.35],[250,0.22],[300,0.12]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,12.2],[50,11.6],[100,11.0],[150,10.4],[200,9.7],[250,9.0],[270,8.7],[300,8.2]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-15,0.0030],[-10,0.0037],[-5,0.0050],[0,0.0068],[5,0.0098],[10,0.0156],[15,0.025],[20,0.040],[25,0.060]] }
+                },
+                recommendedPresets: [0,120]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 10 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "System Comparison ASI183MC Pro import using ZWO IMX183 specs and compact OSC QE control points",
+              lastVerified: "2026-05-29"
             }
           },
           {
@@ -1284,9 +1358,9 @@
         };
       }
   
-      function currentToolVersion() {
-          return "v1.0.33";
-      }
+        function currentToolVersion() {
+            return "v1.0.35";
+        }
   
       function buildConfigFileName() {
         const camera = getCamera(appState.cameraId);
@@ -3012,6 +3086,14 @@
         });
       }
   
+      function isFilterSetCompatibleWithCamera(setId, camera) {
+        const set = DATA.filterSets[setId];
+        if (!set || !camera) return false;
+        if (!set.compatible.includes(camera.colorType)) return false;
+        if (Array.isArray(set.allowedCameraIds) && !set.allowedCameraIds.includes(camera.cameraId)) return false;
+        return true;
+      }
+  
       function activeFilterMode(camera = getCamera(appState.cameraId)) {
         return resolveFilterSet(appState.filterSetId, camera)?.mode || "broadband";
       }
@@ -4596,6 +4678,8 @@
                   <h4>New cameras</h4>
                   <ul>
                     <li>ZWO ASI2400MC Pro</li>
+                    <li>ZWO ASI183MM Pro</li>
+                    <li>ZWO ASI183MC Pro</li>
                     <li>ZWO ASI585MM Pro</li>
                     <li>ZWO ASI585MC Pro</li>
                   </ul>
@@ -7390,8 +7474,8 @@
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Camera library currently included</div>
                     <ul class="ap-bullets">
-                      <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI294MM Pro, ASI585MM Pro, QHY268M, QHY600M</li>
-                      <li><strong>OSC CMOS:</strong> ZWO ASI2400MC Pro, ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI294MC Pro, ASI585MC Pro, QHY268C</li>
+                      <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI183MM Pro, ASI294MM Pro, ASI585MM Pro, QHY268M, QHY600M</li>
+                      <li><strong>OSC CMOS:</strong> ZWO ASI2400MC Pro, ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI183MC Pro, ASI294MC Pro, ASI585MC Pro, QHY268C</li>
                       <li><strong>Support meaning:</strong> each included camera has a gain-dependent state model for read noise, full well, system gain, dark current, and mode behavior at the selected gain and temperature</li>
                     </ul>
                   </div>
@@ -7980,7 +8064,9 @@
         if (!availableModes.includes(appState.modeId)) {
           appState.modeId = camera.modes[0].modeId;
         }
-        const filterSet = resolveFilterSet(appState.filterSetId, camera);
+        const filterSet = isFilterSetCompatibleWithCamera(appState.filterSetId, camera)
+          ? DATA.filterSets[appState.filterSetId]
+          : resolveFilterSet(defaultFilterSetId(camera), camera);
         appState.filterSetId = filterSet?.id || defaultFilterSetId(camera);
         appState.selectedFilters = normalizeSelectedFilters(camera, appState.selectedFilters);
         if (!appState.selectedFilters.includes(appState.activeFilterId)) {
@@ -8073,7 +8159,9 @@
           const nextCamera = getCamera(appState.cameraId);
           appState.modeId = nextCamera.modes[0]?.modeId || appState.modeId;
           appState.gain = recommendedDefaultGain(nextCamera);
-          const nextSetId = defaultFilterSetId(nextCamera);
+          const nextSetId = isFilterSetCompatibleWithCamera(appState.filterSetId, nextCamera)
+            ? appState.filterSetId
+            : defaultFilterSetId(nextCamera);
           if (nextSetId) appState.filterSetId = nextSetId;
         }
         if (changedId === "filterSetId") {
