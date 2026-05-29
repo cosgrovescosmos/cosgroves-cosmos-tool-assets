@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.32.html (v1.0.32). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.33.html (v1.0.33). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.32</span>
+            <span class="hero-version">v1.0.33</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -389,9 +389,9 @@
           "baader-ha-6nm": { id:"baader-ha-6nm", mode:"narrowband", label:"Baader Ha 6.5nm", line:"Ha", compatible:["mono"], curve:{643:1,650:10,653:50,656:97,660:50,663:10,669:1} },
           "baader-oiii-6nm": { id:"baader-oiii-6nm", mode:"narrowband", label:"Baader OIII 6.5nm", line:"OIII", compatible:["mono"], curve:{488:1,494:10,497:50,501:97,504:50,507:10,514:1} },
           "baader-sii-6nm": { id:"baader-sii-6nm", mode:"narrowband", label:"Baader SII 6.5nm", line:"SII", compatible:["mono"], curve:{659:1,665:10,668:50,672:97,675:50,678:10,685:1} },
-          "chroma-ha-3nm": { id:"chroma-ha-3nm", mode:"narrowband", label:"Chroma Ha 3nm", line:"Ha", compatible:["mono"], curve:{650:1,653:10,655:50,656:99,658:50,659:10,662:1} },
-          "chroma-oiii-3nm": { id:"chroma-oiii-3nm", mode:"narrowband", label:"Chroma OIII 3nm", line:"OIII", compatible:["mono"], curve:{495:1,498:10,499:50,501:99,502:50,504:10,507:1} },
-          "chroma-sii-3nm": { id:"chroma-sii-3nm", mode:"narrowband", label:"Chroma SII 3nm", line:"SII", compatible:["mono"], curve:{666:1,669:10,671:50,672:99,674:50,675:10,678:1} },
+          "chroma-ha-3nm": {id:"chroma-ha-3nm", mode:"narrowband", label:"Chroma Ha 3nm", line:"Ha", compatible:["mono"], curve:{640:1.792e-9,640.2:1.983e-9,640.4:2.199e-9,640.6:2.444e-9,640.8:2.722e-9,641:3.038e-9,641.2:3.399e-9,641.4:3.811e-9,641.6:4.284e-9,641.8:4.826e-9,642:5.451e-9,642.2:6.173e-9,642.4:7.009e-9,642.6:7.978e-9,642.8:9.107e-9,643:1.042e-8,643.2:1.197e-8,643.4:1.377e-8,643.6:1.590e-8,643.8:1.841e-8,644:2.138e-8,644.2:2.491e-8,644.4:2.910e-8,644.6:3.411e-8,644.8:4.010e-8,645:4.729e-8,645.2:5.594e-8,645.4:6.639e-8,645.6:7.907e-8,645.8:9.450e-8,646:1.134e-7,646.2:1.366e-7,646.4:1.652e-7,646.6:2.006e-7,646.8:2.449e-7,647:3.004e-7,647.2:3.704e-7,647.4:4.594e-7,647.6:5.734e-7,647.8:7.202e-7,648:9.111e-7,648.2:1.161e-6,648.4:1.492e-6,648.6:1.934e-6,648.8:2.531e-6,649:3.344e-6,649.2:4.465e-6,649.4:6.030e-6,649.6:8.244e-6,649.8:1.142e-5,650:1.603e-5,650.2:2.282e-5,650.4:3.301e-5,650.6:4.856e-5,650.8:7.278e-5,651:1.113e-4,651.2:1.738e-4,651.4:2.780e-4,651.6:4.563e-4,651.8:7.707e-4,652:0.001343,652.2:0.002425,652.4:0.004557,652.6:0.008959,652.8:0.01856,653:0.04087,653.2:0.09682,653.4:0.2506,653.6:0.7226,653.8:2.359,654:8.353,654.2:25.29,654.4:52.25,654.6:78.8,654.8:95.28,655:99.47,655.2:99.78,655.4:99.76,655.6:99.76,655.8:99.82,656:99.9,656.2:99.94,656.4:99.89,656.6:99.81,656.8:99.68,657:97.89,657.2:88.67,657.4:68.37,657.6:41.94,657.8:18.71,658:6.511,658.2:2.219,658.4:0.8207,658.6:0.3324,658.8:0.1456,659:0.06805,659.2:0.0336,659.4:0.01738,659.6:0.009361,659.8:0.005224,660:0.00301,660.2:0.001785,660.4:0.001087,660.6:6.773e-4,660.8:4.315e-4,661:2.805e-4,661.2:1.857e-4,661.4:1.252e-4,661.6:8.571e-5,661.8:5.960e-5,662:4.203e-5,662.2:3.004e-5,662.4:2.174e-5,662.6:1.592e-5,662.8:1.178e-5,663:8.811e-6,663.2:6.654e-6,663.4:5.070e-6,663.6:3.896e-6,663.8:3.018e-6,664:2.356e-6,664.2:1.851e-6,664.4:1.464e-6,664.6:1.166e-6,664.8:9.331e-7,665:7.509e-7,665.2:6.076e-7,665.4:4.939e-7,665.6:4.033e-7,665.8:3.306e-7,666:2.721e-7,666.2:2.248e-7,666.4:1.864e-7,666.6:1.551e-7,666.8:1.294e-7,667:1.083e-7,667.2:9.093e-8,667.4:7.655e-8,667.6:6.463e-8,667.8:5.471e-8,668:4.643e-8,668.2:3.951e-8,668.4:3.371e-8,668.6:2.883e-8,668.8:2.472e-8,669:2.125e-8,669.2:1.831e-8,669.4:1.582e-8,669.6:1.370e-8,669.8:1.190e-8,670:1.035e-8,670.2:9.037e-9,670.4:7.907e-9,670.6:6.936e-9,670.8:6.100e-9,671:5.379e-9,671.2:4.755e-9,671.4:4.214e-9,671.6:3.745e-9,671.8:3.336e-9,672:2.980e-9,672.2:2.669e-9,672.4:2.396e-9,672.6:2.157e-9,672.8:1.946e-9,673:1.761e-9,673.2:1.597e-9,673.4:1.452e-9,673.6:1.323e-9,673.8:1.209e-9,674:1.107e-9,674.2:1.015e-9,674.4:9.337e-10,674.6:8.604e-10,674.8:7.943e-10,675:7.347e-10}},
+          "chroma-oiii-3nm": {id:"chroma-oiii-3nm", mode:"narrowband", label:"Chroma OIII 3nm", line:"OIII", compatible:["mono"], curve:{490:1.503e-7,490.2:1.810e-7,490.4:2.226e-7,490.6:2.797e-7,490.8:3.588e-7,491:4.685e-7,491.2:6.200e-7,491.4:8.265e-7,491.6:1.101e-6,491.8:1.455e-6,492:1.893e-6,492.2:2.417e-6,492.4:3.028e-6,492.6:3.737e-6,492.8:4.577e-6,493:5.610e-6,493.2:6.937e-6,493.4:8.715e-6,493.6:1.118e-5,493.8:1.469e-5,494:1.982e-5,494.2:2.745e-5,494.4:3.898e-5,494.6:5.668e-5,494.8:8.408e-5,495:1.267e-4,495.2:1.926e-4,495.4:2.948e-4,495.6:4.524e-4,495.8:6.952e-4,496:0.001071,496.2:0.001659,496.4:0.002601,496.6:0.004151,496.8:0.006795,497:0.01149,497.2:0.02022,497.4:0.03728,497.6:0.07265,497.8:0.1512,498:0.3405,498.2:0.8455,498.4:2.364,498.6:7.443,498.8:23.2,499:53.41,499.2:83.43,499.4:97.42,499.6:99.07,499.8:99.04,500:99.2,500.2:99.28,500.4:99.21,500.6:99.07,500.8:98.94,501:98.8,501.2:98.68,501.4:98.81,501.6:94.69,501.8:74.96,502:42.72,502.2:16.02,502.4:5.044,502.6:1.758,502.8:0.7074,503:0.3195,503.2:0.1567,503.4:0.08115,503.6:0.04343,503.8:0.02368,504:0.01308,504.2:0.007308,504.4:0.004155,504.6:0.002418,504.8:0.001448,505:8.968e-4,505.2:5.765e-4,505.4:3.840e-4,505.6:2.647e-4,505.8:1.885e-4,506:1.382e-4,506.2:1.038e-4,506.4:7.944e-5,506.6:6.150e-5,506.8:4.781e-5,507:3.707e-5,507.2:2.850e-5,507.4:2.167e-5,507.6:1.629e-5,507.8:1.215e-5,508:9.026e-6,508.2:6.722e-6,508.4:5.047e-6,508.6:3.838e-6,508.8:2.966e-6,509:2.335e-6,509.2:1.875e-6,509.4:1.535e-6,509.6:1.282e-6,509.8:1.089e-6,510:9.402e-7,510.2:8.227e-7,510.4:7.266e-7,510.6:6.451e-7,510.8:5.735e-7,511:5.084e-7,511.2:4.480e-7,511.4:3.916e-7,511.6:3.393e-7,511.8:2.916e-7,512:2.493e-7,512.2:2.125e-7,512.4:1.813e-7,512.6:1.553e-7,512.8:1.340e-7,513:1.166e-7,513.2:1.025e-7,513.4:9.106e-8,513.6:8.178e-8,513.8:7.418e-8,514:6.787e-8,514.2:6.253e-8,514.4:5.788e-8,514.6:5.370e-8,514.8:4.982e-8,515:4.612e-8}},
+          "chroma-sii-3nm": {id:"chroma-sii-3nm", mode:"narrowband", label:"Chroma SII 3nm", line:"SII", compatible:["mono"], curve:{655:3.716e-9,655.2:3.872e-9,655.4:4.055e-9,655.6:4.275e-9,655.8:4.545e-9,656:4.877e-9,656.2:5.287e-9,656.4:5.791e-9,656.6:6.410e-9,656.8:7.171e-9,657:8.103e-9,657.2:9.247e-9,657.4:1.065e-8,657.6:1.237e-8,657.8:1.448e-8,658:1.706e-8,658.2:2.021e-8,658.4:2.403e-8,658.6:2.866e-8,658.8:3.423e-8,659:4.087e-8,659.2:4.875e-8,659.4:5.802e-8,659.6:6.886e-8,659.8:8.148e-8,660:9.612e-8,660.2:1.131e-7,660.4:1.328e-7,660.6:1.560e-7,660.8:1.832e-7,661:2.156e-7,661.2:2.544e-7,661.4:3.014e-7,661.6:3.589e-7,661.8:4.297e-7,662:5.175e-7,662.2:6.273e-7,662.4:7.651e-7,662.6:9.390e-7,662.8:1.159e-6,663:1.439e-6,663.2:1.796e-6,663.4:2.252e-6,663.6:2.836e-6,663.8:3.586e-6,664:4.552e-6,664.2:5.804e-6,664.4:7.431e-6,664.6:9.563e-6,664.8:1.238e-5,665:1.613e-5,665.2:2.117e-5,665.4:2.805e-5,665.6:3.756e-5,665.8:5.088e-5,666:6.987e-5,666.2:9.736e-5,666.4:1.379e-4,666.6:1.987e-4,666.8:2.919e-4,667:4.377e-4,667.2:6.709e-4,667.4:0.001053,667.6:0.001694,667.8:0.002801,668:0.004771,668.2:0.008397,668.4:0.01533,668.6:0.02916,668.8:0.0582,669:0.123,669.2:0.2784,669.4:0.6853,669.6:1.859,669.8:5.475,670:15.37,670.2:33.57,670.4:55.89,670.6:77.1,670.8:92.66,671:98.89,671.2:99.79,671.4:99.81,671.6:99.79,671.8:99.76,672:99.77,672.2:99.81,672.4:99.8,672.6:99.76,672.8:99.71,673:98.04,673.2:89.83,673.4:73.17,673.6:51.73,673.8:29.45,674:12.21,674.2:4.194,674.4:1.503,674.6:0.6028,674.8:0.2694,675:0.1319,675.2:0.06959,675.4:0.03903,675.6:0.023,675.8:0.0141,676:0.008909,676.2:0.005753,676.4:0.003769,676.6:0.002489,676.8:0.001649,677:0.001093,677.2:7.229e-4,677.4:4.778e-4,677.6:3.161e-4,677.8:2.097e-4,678:1.400e-4,678.2:9.429e-5,678.4:6.417e-5,678.6:4.422e-5,678.8:3.088e-5,679:2.186e-5,679.2:1.569e-5,679.4:1.142e-5,679.6:8.422e-6,679.8:6.289e-6,680:4.752e-6,680.2:3.632e-6,680.4:2.804e-6,680.6:2.186e-6,680.8:1.718e-6,681:1.361e-6,681.2:1.085e-6,681.4:8.712e-7,681.6:7.033e-7,681.8:5.707e-7,682:4.654e-7,682.2:3.813e-7,682.4:3.138e-7,682.6:2.594e-7,682.8:2.154e-7,683:1.797e-7,683.2:1.507e-7,683.4:1.270e-7,683.6:1.076e-7,683.8:9.165e-8,684:7.855e-8,684.2:6.775e-8,684.4:5.880e-8,684.6:5.136e-8,684.8:4.516e-8,685:3.998e-8,685.2:3.562e-8,685.4:3.194e-8,685.6:2.881e-8,685.8:2.614e-8,686:2.384e-8,686.2:2.184e-8,686.4:2.009e-8,686.6:1.853e-8,686.8:1.713e-8,687:1.586e-8,687.2:1.468e-8,687.4:1.357e-8,687.6:1.253e-8,687.8:1.154e-8,688:1.060e-8,688.2:9.697e-9,688.4:8.844e-9,688.6:8.041e-9,688.8:7.291e-9,689:6.598e-9,689.2:5.963e-9,689.4:5.387e-9,689.6:4.869e-9,689.8:4.407e-9,690:3.998e-9}},
           "chroma-ha-5nm": { id:"chroma-ha-5nm", mode:"narrowband", label:"Chroma Ha 5nm", line:"Ha", compatible:["mono"], curve:{640:0,650.6:0.01,650.8:0.014,651.8:0.096,652:0.15,652.5:0.527,652.8:1.249,653.3:6.474,653.6:18.962,653.9:49.386,654.2:84.797,654.4:95.979,654.6:99.349,655.7:99.961,658.3:99.682,658.5:97.591,658.7:89.36,658.9:70.574,659.1:45.453,659.3:24.91,659.5:12.773,659.7:6.563,660.2:1.464,660.7:0.427,661.5:0.094,663.1:0.009,670:0} },
           "chroma-oiii-5nm": { id:"chroma-oiii-5nm", mode:"narrowband", label:"Chroma OIII 5nm", line:"OIII", compatible:["mono"], curve:{490:0.011,494:0.092,494.2:0.12,495.1:0.478,495.3:0.67,495.6:1.099,497:4.816,497.8:11.391,498.2:20.453,498.8:52.015,499.2:80.506,499.6:96.336,499.9:99.424,501.2:99.836,502.5:99.042,502.8:96.253,503.1:88.666,503.3:79.181,503.7:49.903,504.1:22.718,504.4:11.369,504.7:5.709,505.5:1.179,506.1:0.488,509.1:0.095,510:0.042} },
           "chroma-sii-5nm": { id:"chroma-sii-5nm", mode:"narrowband", label:"Chroma SII 5nm", line:"SII", compatible:["mono"], curve:{660:0,662.6:0.01,662.8:0.011,666.4:0.095,666.6:0.117,667.7:0.484,667.9:0.664,668.2:1.101,668.9:4.314,669.3:10.893,669.7:28.902,670:54.772,670.3:81.878,670.6:96.309,670.8:99.209,673:99.863,673.7:98.076,674:94.892,674.2:90.312,674.5:76.542,674.9:45.929,675.3:20.533,675.6:10.467,675.9:5.391,676.7:1.096,677.2:0.48,678.5:0.092,680:0.026} },
@@ -401,6 +401,9 @@
           "antlia-ha-4p5nm": { id:"antlia-ha-4p5nm", mode:"narrowband", label:"Antlia Ha 4.5nm EDGE", line:"Ha", compatible:["mono"], curve:{652.5:0,653.5:20,654.4:70,655.2:90,656.3:93,657.4:90,658.2:70,659.1:20,660.1:0} },
           "antlia-oiii-4p5nm": { id:"antlia-oiii-4p5nm", mode:"narrowband", label:"Antlia OIII 4.5nm EDGE", line:"OIII", compatible:["mono"], curve:{497.0:0,497.9:15,498.8:78,499.7:89,500.7:90,501.7:89,502.6:78,503.5:15,504.4:0} },
           "antlia-sii-4p5nm": { id:"antlia-sii-4p5nm", mode:"narrowband", label:"Antlia SII 4.5nm EDGE", line:"SII", compatible:["mono"], curve:{668.6:0,669.6:20,670.5:70,671.3:90,672.4:93,673.5:90,674.3:70,675.2:20,676.2:0} },
+          "antlia-ha-3nm":   {id:"antlia-ha-3nm",   mode:"narrowband", label:"Antlia Ha 3nm Pro",   line:"Ha", compatible:["mono"], curve:{653.6:0,654.4:10,655.0:50,655.6:86,656.3:91,657.0:86,657.6:50,658.2:10,659.0:0}},
+          "antlia-oiii-3nm": {id:"antlia-oiii-3nm", mode:"narrowband", label:"Antlia OIII 3nm Pro", line:"OIII", compatible:["mono"], curve:{498.0:0,498.8:10,499.4:50,500.0:86,500.7:91,501.4:86,502.0:50,502.6:10,503.4:0}},
+          "antlia-sii-3nm":  {id:"antlia-sii-3nm",  mode:"narrowband", label:"Antlia SII 3nm Pro",  line:"SII", compatible:["mono"], curve:{669.7:0,670.5:10,671.1:50,671.7:86,672.4:91,673.1:86,673.7:50,674.3:10,675.1:0}},
           "baader-l": { id:"baader-l", mode:"broadband", label:"Baader L CMOS", line:"L", compatible:["mono"], curve:{410:0,420:5,430:98,500:98,600:98,675:98,685:5,695:0} },
           "baader-r": { id:"baader-r", mode:"broadband", label:"Baader R CMOS", line:"R", compatible:["mono"], curve:{585:0,595:5,600:97,640:97,680:97,688:5,695:0} },
           "baader-g": { id:"baader-g", mode:"broadband", label:"Baader G CMOS", line:"G", compatible:["mono"], curve:{480:0,490:5,495:97,530:97,570:97,578:5,585:0} },
@@ -409,6 +412,10 @@
           "chroma-r": { id:"chroma-r", mode:"broadband", label:"Chroma R", line:"R", compatible:["mono"], curve:{590:0,600:5,610:97,650:97,690:97,698:5,705:0} },
           "chroma-g": { id:"chroma-g", mode:"broadband", label:"Chroma G", line:"G", compatible:["mono"], curve:{490:0,500:5,510:97,540:97,590:97,598:5,605:0} },
           "chroma-b": { id:"chroma-b", mode:"broadband", label:"Chroma B", line:"B", compatible:["mono"], curve:{385:0,395:5,405:97,450:97,490:97,498:5,505:0} },
+          "antlia-lrgb-l": {id:"antlia-lrgb-l", mode:"broadband", label:"Antlia LRGB-V L", line:"L", compatible:["mono"], curve:{390:0,405:8,420:95,500:95,600:95,680:94,692:8,705:0}},
+          "antlia-lrgb-r": {id:"antlia-lrgb-r", mode:"broadband", label:"Antlia LRGB-V R", line:"R", compatible:["mono"], curve:{585:0,596:5,603:95,640:95,680:94,690:8,698:0}},
+          "antlia-lrgb-g": {id:"antlia-lrgb-g", mode:"broadband", label:"Antlia LRGB-V G", line:"G", compatible:["mono"], curve:{485:0,495:5,500:95,530:95,575:95,582:6,588:0}},
+          "antlia-lrgb-b": {id:"antlia-lrgb-b", mode:"broadband", label:"Antlia LRGB-V B", line:"B", compatible:["mono"], curve:{395:0,405:5,415:95,450:95,505:95,512:6,518:0}},
           "zwo-lrgb-l": { id:"zwo-lrgb-l", mode:"broadband", label:"ZWO L", line:"L", compatible:["mono"], curve:{380:0,400:5,420:93,500:94,600:94,680:93,700:5,720:0} },
           "zwo-lrgb-r": { id:"zwo-lrgb-r", mode:"broadband", label:"ZWO R", line:"R", compatible:["mono"], curve:{560:0,580:5,590:92,620:93,670:92,690:5,700:0} },
           "zwo-lrgb-g": { id:"zwo-lrgb-g", mode:"broadband", label:"ZWO G", line:"G", compatible:["mono"], curve:{480:0,495:5,505:93,540:93,570:92,585:5,595:0} },
@@ -455,12 +462,14 @@
           "narrowband-sho-chroma-5nm": { id:"narrowband-sho-chroma-5nm", label:"Mono SHO — Chroma 5nm", mode:"narrowband", compatible:["mono"], filters:["chroma-ha-5nm","chroma-oiii-5nm","chroma-sii-5nm"] },
           "narrowband-sho-chroma-8nm": { id:"narrowband-sho-chroma-8nm", label:"Mono SHO — Chroma 8nm", mode:"narrowband", compatible:["mono"], filters:["chroma-ha-8nm","chroma-oiii-8nm","chroma-sii-8nm"] },
           "narrowband-sho-antlia-4p5nm": { id:"narrowband-sho-antlia-4p5nm", label:"Mono SHO — Antlia 4.5nm EDGE", mode:"narrowband", compatible:["mono"], filters:["antlia-ha-4p5nm","antlia-oiii-4p5nm","antlia-sii-4p5nm"] },
+          "narrowband-sho-antlia-3nm": { id:"narrowband-sho-antlia-3nm", mode:"narrowband", compatible:["mono"], label:"Mono SHO — Antlia 3nm Pro", filters:["antlia-ha-3nm","antlia-oiii-3nm","antlia-sii-3nm"] },
           "narrowband-sho-zwo": { id:"narrowband-sho-zwo", label:"Mono SHO — ZWO 7nm", mode:"narrowband", compatible:["mono"], filters:["zwo-ha-7nm","zwo-oiii-7nm","zwo-sii-7nm"] },
           "narrowband-sho-astronomik-6nm": { id:"narrowband-sho-astronomik-6nm", label:"Mono SHO — Astronomik 6nm", mode:"narrowband", compatible:["mono"], filters:["astronomik-ha-6nm","astronomik-oiii-6nm","astronomik-sii-6nm"] },
           "narrowband-sho-astronomik-12nm": { id:"narrowband-sho-astronomik-12nm", label:"Mono SHO — Astronomik 12nm", mode:"narrowband", compatible:["mono"], filters:["astronomik-ha-12nm","astronomik-oiii-12nm","astronomik-sii-12nm"] },
           "narrowband-sho-astronomik-4nm": { id:"narrowband-sho-astronomik-4nm", label:"Mono SHO — Astronomik 4nm", mode:"narrowband", compatible:["mono"], filters:["astronomik-ha-4nm","astronomik-oiii-4nm","astronomik-sii-4nm"] },
           "broadband-lrgb-baader": { id:"broadband-lrgb-baader", label:"Mono LRGB — Baader CMOS", mode:"broadband", compatible:["mono"], filters:["baader-l","baader-r","baader-g","baader-b"] },
           "broadband-lrgb-chroma": { id:"broadband-lrgb-chroma", label:"Mono LRGB — Chroma", mode:"broadband", compatible:["mono"], filters:["chroma-l","chroma-r","chroma-g","chroma-b"] },
+          "broadband-lrgb-antlia": { id:"broadband-lrgb-antlia", mode:"broadband", compatible:["mono"], label:"Mono LRGB — Antlia LRGB-V Pro", filters:["antlia-lrgb-l","antlia-lrgb-r","antlia-lrgb-g","antlia-lrgb-b"] },
           "broadband-lrgb-zwo": { id:"broadband-lrgb-zwo", label:"Mono LRGB — ZWO", mode:"broadband", compatible:["mono"], filters:["zwo-lrgb-l","zwo-lrgb-r","zwo-lrgb-g","zwo-lrgb-b"] },
           "broadband-rgb-astronomik-l1": { id:"broadband-rgb-astronomik-l1", label:"Mono LRGB — Astronomik RGB + L-1", mode:"broadband", compatible:["mono"], filters:["astronomik-l1","astronomik-r","astronomik-g","astronomik-b"] },
           "broadband-rgb-astronomik": { id:"broadband-rgb-astronomik", label:"Mono LRGB — Astronomik RGB + L-2", mode:"broadband", compatible:["mono"], filters:["astronomik-l2","astronomik-r","astronomik-g","astronomik-b"] },
@@ -1276,7 +1285,7 @@
       }
   
       function currentToolVersion() {
-          return "v1.0.32";
+          return "v1.0.33";
       }
   
       function buildConfigFileName() {
@@ -4594,7 +4603,10 @@
                 <div class="release-note-block">
                   <h4>New filter support</h4>
                   <ul>
+                    <li>Mono LRGB — Antlia LRGB-V Pro</li>
+                    <li>Mono SHO — Antlia 3nm Pro</li>
                     <li>Mono SHO — Antlia 4.5nm EDGE</li>
+                    <li>Chroma 3nm SHO curves updated from denser System Comparison control points</li>
                   </ul>
                 </div>
                 <div class="release-note-block">
@@ -7395,8 +7407,8 @@
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Filter and set support</div>
                     <ul class="ap-bullets">
-                      <li><strong>Mono LRGB sets:</strong> ZWO, Chroma, Baader, Astronomik L-1 / L-2 / L-3</li>
-                      <li><strong>Mono SHO sets:</strong> Astronomik 4 nm / 6 nm / 12 nm, Chroma 3 nm / 5 nm / 8 nm, Baader 3.5/4 nm and 6.5 nm, ZWO 7 nm, Antlia 4.5 nm EDGE</li>
+                      <li><strong>Mono LRGB sets:</strong> ZWO, Antlia LRGB-V Pro, Chroma, Baader, Astronomik L-1 / L-2 / L-3</li>
+                      <li><strong>Mono SHO sets:</strong> Astronomik 4 nm / 6 nm / 12 nm, Chroma 3 nm / 5 nm / 8 nm, Baader 3.5/4 nm and 6.5 nm, ZWO 7 nm, Antlia 3 nm Pro and 4.5 nm EDGE</li>
                       <li><strong>OSC / dual- and tri-band sets:</strong> OSC broadband, Optolong L-eXtreme, L-Ultimate, L-eNhance, Antlia ALP-T 5 nm / 3 nm, IDAS NBZ-II, and Radian Triad Ultra</li>
                       <li><strong>Support meaning:</strong> the active filter is resolved from a named profile with line family, compatibility, sampled transmission curve, and derived effective bandwidth</li>
                     </ul>
@@ -7404,7 +7416,7 @@
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">How the spectral data is represented</div>
-                    <p>Filter curves and QE curves are stored as discrete wavelength samples, then interpolated for the wavelengths needed by the model. This is planning-grade spectral support, not laboratory spectrophotometry.</p>
+                    <p>Filter curves and QE curves are stored as discrete wavelength samples, then interpolated for the wavelengths needed by the model. The Antlia LRGB-V Pro and 3 nm Pro entries are compact control-point approximations imported from the current System Comparison catalog; the Chroma 3 nm SHO family now uses that catalog’s denser control points. This is planning-grade spectral support, not laboratory spectrophotometry.</p>
                     <ul class="ap-bullets">
                       <li>Filter transmission is sampled as wavelength/transmission pairs in nm and percent</li>
                       <li>Effective bandwidth is derived from the sampled curve using trapezoidal integration normalized by peak transmission</li>
