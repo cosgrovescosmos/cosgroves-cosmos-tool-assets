@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.35.html (v1.0.35). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.39.html (v1.0.39). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.35</span>
+            <span class="hero-version">v1.0.39</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -1359,7 +1359,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.35";
+            return "v1.0.39";
         }
   
       function buildConfigFileName() {
@@ -2776,6 +2776,24 @@
         return result.input.filter.name;
       }
   
+      function formatPlanFamilyCodeHtml(code) {
+        const channelClassMap = {
+          L: "l",
+          R: "r",
+          G: "g",
+          B: "b",
+          Ha: "ha",
+          OIII: "oiii",
+          SII: "sii"
+        };
+        const channelClass = channelClassMap[code] ? ` ${channelClassMap[code]}` : "";
+        return `<span class="plan-channel-code${channelClass}">${code}</span>`;
+      }
+  
+      function formatSuggestedStartToken(result) {
+        return `${formatPlanFamilyCodeHtml(planFamilyCode(result))} <span class="plan-channel-value">${fmtSeconds(result.headlineRecommendation.anchorSec)}</span>`;
+      }
+  
       function suggestedPlanName(results) {
         const filterSet = resolveFilterSet(appState.filterSetId, getCamera(appState.cameraId));
         return filterSet?.label?.replace(/^Mono\s+/i, "").replace(/\s+—\s+/g, " ") || `${results.length}-filter plan`;
@@ -3317,7 +3335,7 @@
           representativeStarCoreRateEPerSec,
           explanationTags: [
             `${scenarioPreset.label.toLowerCase()} preset`,
-            areaScale > 1.1 ? "larger aperture pushes saturation earlier" : "aperture near reference",
+            areaScale > 1.1 ? "larger aperture pushes bright-star saturation earlier" : "aperture near reference",
             actualCoreAreaPx > referenceCoreAreaPx ? "seeing spreads stars over more pixels" : "tight seeing concentrates star cores",
             cameraState.hcgActive ? "selected gain is in HCG territory" : "selected gain stays in lower-conversion behavior"
           ]
@@ -3499,7 +3517,7 @@
           { label: "Sky-pedestal headroom", raw: thresholds.skyPedestalCautionSec, side: "upper_bound" },
           { label: "Workflow hard max", raw: thresholds.workflowMaxSec, side: "upper_bound" },
           { label: "Sky-pedestal hard cap", raw: thresholds.skyPedestalHardSec, side: "upper_bound", secondary: true },
-          { label: "Saturation hard ceiling", raw: thresholds.saturationHardSec, side: "upper_bound", secondary: true }
+          { label: "Bright-star hard ceiling", raw: thresholds.saturationHardSec, side: "upper_bound", secondary: true }
         ].sort((a, b) => a.raw - b.raw);
   
         const lowerTop = lowerDrivers.slice(0, 2).map((entry, index) => ({
@@ -3583,10 +3601,10 @@
             ? "Short subs still pay a visible overhead penalty, so the practical range starts a bit later than the pure read-noise floor."
             : "Frame overhead is present, but it is not the main thing pushing the recommendation upward.";
         const upperSentence = upperLeader === "Workflow hard max"
-          ? "The upper edge is being capped more by workflow risk than by immediate saturation, so treat it as a practical limit rather than a physical cliff."
+          ? "The upper edge is being capped more by workflow risk than by immediate clipping, so treat it as a practical limit rather than a physical cliff."
           : upperLeader === "Sky-pedestal headroom"
             ? "The upper edge is being capped more by sky-pedestal headroom than by immediate bright-star clipping, so longer subs are becoming less forgiving for faint-background contrast."
-          : "The upper edge depends mostly on preset-based bright-star headroom, so it should be treated as a cautious planning limit rather than a target-specific clipping prediction.";
+          : "The upper edge depends mostly on preset-based bright-star saturation, so it should be treated as a cautious planning limit rather than a target-specific clipping prediction.";
         const lowerBoundSentence = lowerBoundBackground.source === "measured"
           ? thresholds.skyPedestalSource === "measured_test_frame"
             ? `The lower-bound path is calibrated from a measured background rate of ${fmtNumber(lowerBoundBackground.rateEPerPxPerSec, 4)} e-/px/s using a ${contributionTargetLabel(thresholds.readNoiseContributionTargetPct)}. In Empirical Calibration Mode that same measured frame is also used for the sky-pedestal headroom estimate, so Bortle and SQM do not separately tug the upper side for this calibrated filter.`
@@ -3694,13 +3712,13 @@
         if (family === "osc_filtered") {
           return {
             headline: "Filtered OSC workflow",
-            advisory: "Dual-band or tri-band filters reduce sky background and may support longer subs, but star saturation and rejected-frame cost still matter."
+            advisory: "Dual-band or tri-band filters reduce sky background and may support longer subs, but star headroom and rejected-frame cost still matter."
           };
         }
         if (family === "osc_with_filter_changes") {
           return {
             headline: "Simple filter workflow",
-            advisory: "Fewer filter changes than mono, but separate OSC filters may still need different exposure ranges and saturation checks."
+            advisory: "Fewer filter changes than mono, but separate OSC filters may still need different exposure ranges and bright-star saturation checks."
           };
         }
         const multiFilter = Array.isArray(results) && results.length > 1;
@@ -3722,7 +3740,7 @@
         }
         return {
           headline: "Filter sequencing matters",
-          advisory: "Per-filter starts and saturation limits may differ. Blocks reduce switching overhead; cycling gives more even filter coverage if conditions change."
+          advisory: "Per-filter starts and headroom limits may differ. Blocks reduce switching overhead; cycling gives more even filter coverage if conditions change."
         };
       }
   
@@ -3744,7 +3762,7 @@
         const overallScore = (scoreMap[cameraLevel] + scoreMap[skyLevel] + scoreMap[saturationLevel]) / 3;
         const overall = overallScore >= 2.45 ? "high" : overallScore >= 1.7 ? "medium" : "low";
         const explanation = overall === "high"
-          ? "The camera model is relatively strong, but the sky and saturation layers are still approximate. Use this as a practical starting point."
+          ? "The camera model is relatively strong, but the sky and bright-star saturation layers are still approximate. Use this as a practical starting point."
           : overall === "medium"
             ? "The result should be directionally useful, but the heuristic sky model and preset-based saturation model mean it should not be treated as exact."
             : "This is best treated as a rough planning guide. The uncertainty is too high for confident fine-grained recommendations.";
@@ -4188,9 +4206,9 @@
           darkCurrentOverride: "Optional manual override. Leave blank to use the looked-up dark current from the saved calibration capture settings for this filter.",
           moonGeometry: "Computes moon phase, moon altitude, and moon-target geometry from the selected site and time.",
           computedMoonUse: "Computed values are used to estimate lunar impact in Planning Mode.",
-          fieldPreset: "Sets the representative bright-star pressure used for the saturation-side estimate.",
+          fieldPreset: "Sets the representative bright-star pressure used for the bright-star saturation side estimate.",
           throughput: "Estimated fraction of light transmitted through the optical train and filter before it reaches the camera sensor. This is not sensor QE and is not just the telescope objective. It may include losses from correctors, reducers, flatteners, filters, windows, coatings, and other optical elements. Small losses multiply across the full system, so values in the 80–90% range can be realistic.",
-          operatingBand: "Operating band = the recommended interval after the lower floor is cleared but before saturation/workflow penalties dominate.",
+          operatingBand: "Operating band = the recommended interval after the lower floor is cleared but before headroom/workflow penalties dominate.",
           hardCeiling: "Hard ceiling = the terminal cap from saturation-hard and workflow-hard limits. Exposures beyond this point are outside the recommended range under the current assumptions.",
           workflowCap: "Upper workflow limit derived from filter class and bad-frame-risk tolerance.",
           captureSequencing: "Filter blocks reduce switching overhead. Filter cycling spreads coverage across filters but may increase switching and focus overhead.",
@@ -4702,6 +4720,7 @@
                     <li>Single-filter hero plots now use the same clear operating-band outline treatment as filter-set rows, with the outline contained inside the displayed green band</li>
                     <li>Hero plots restore the two-stage lower-side story: read-noise criterion first, then operational overhead/comfort floor before the green band</li>
                     <li>FAQ and Technical Appendix now explain why shot noise is part of the model but not a separate plotted recommendation zone</li>
+                    <li>Bright-star saturation language now clarifies that saturation caution is not the first clipped star in a real target field</li>
                     <li>Camera changes now switch to that camera’s recommended gain preset, so HCG defaults like ASI2400MC Pro gain 140 are not silently compared at the previous camera’s gain</li>
                     <li>Gain preset buttons now use camera-specific labels such as Low gain and HCG/default instead of implying that Gain 0 and Gain 100 are universal choices</li>
                     <li>Broadband recommendations are now less over-conservative at low gain, especially for ASI2600MC-style OSC broadband workflows</li>
@@ -4743,7 +4762,7 @@
             longLabel: "Sky-pedestal headroom threshold",
             value: result.thresholds.skyPedestalCautionSec
           }] : []),
-          { key: "caution", label: "Saturation caution", longLabel: "Saturation caution threshold", value: result.thresholds.saturationCautionSec },
+          { key: "caution", label: "Bright-star saturation", longLabel: "Bright-star saturation threshold", value: result.thresholds.saturationCautionSec },
           { key: "hard", label: "Hard ceiling", longLabel: "Hard-ceiling threshold", value: tDisplay.hardMaxSec }
         ];
         const overheadComfortGapSec = Math.abs(tDisplay.sweetSpotMinSec - result.thresholds.overheadFloorSec);
@@ -4911,7 +4930,7 @@
         }
         if (family === "osc_filtered") {
           const componentNote = first.componentFilterIds?.length > 1 ? " Internal passbands are checked together for one physical filter." : "";
-          return `Suggested filtered OSC start: ${fmtSeconds(first.headlineRecommendation.anchorSec)}. Reduced sky background may support longer subs, but saturation and rejected-frame cost still set practical limits.${componentNote}`;
+          return `Suggested filtered OSC start: ${fmtSeconds(first.headlineRecommendation.anchorSec)}. Reduced sky background may support longer subs, but headroom and rejected-frame cost still set practical limits.${componentNote}`;
         }
         if (family === "mono_single_filter") {
           return `Suggested start: ${fmtSeconds(first.headlineRecommendation.anchorSec)}. No filter sequencing is needed; main workflow costs are dithering, settling, focus events, and rejected-frame risk.`;
@@ -5421,7 +5440,7 @@
             items: [
               {
                 q: "Why does the tool show a range instead of one optimal sub-exposure?",
-                a: "Because several constraints matter at once. The lower side is driven by read noise, overhead, and practical workflow limits. The upper side is driven by saturation and frame-loss cost. A range is more honest than one supposedly exact exposure."
+                a: "Because several constraints matter at once. The lower side is driven by read noise, overhead, and practical workflow limits. The upper side is driven by headroom and frame-loss cost. A range is more honest than one supposedly exact exposure."
               },
               {
                 q: "How should I use the anchor recommendation?",
@@ -5462,7 +5481,7 @@
             items: [
               {
                 q: "What is the difference between Planning Mode and Empirical Calibration Mode?",
-                a: "Planning Mode estimates the lower bound from modeled sky/background assumptions. Empirical Calibration Mode uses a measured test-frame background to calibrate the lower-bound side more directly. In both modes the operating band and upper regimes still depend on saturation, field, and workflow assumptions."
+                a: "Planning Mode estimates the lower bound from modeled sky/background assumptions. Empirical Calibration Mode uses a measured test-frame background to calibrate the lower-bound side more directly. In both modes the operating band and upper regimes still depend on headroom, field, and workflow assumptions."
               },
               {
                 q: "When should I trust Planning Mode, and when should I bother with Empirical Calibration?",
@@ -5499,7 +5518,7 @@
             items: [
               {
                 q: "Is this tool physics-based or tuned?",
-                a: "Both. Image scale, seeing footprint, sky-rate scaling, read noise, gain state, and simplified saturation math are physics-informed. The operating-band recommendation also uses practical heuristics so the output stays believable in field use instead of pretending there is one exact sacred exposure."
+                a: "Both. Image scale, seeing footprint, sky-rate scaling, read noise, gain state, and simplified bright-star saturation math are physics-informed. The operating-band recommendation also uses practical heuristics so the output stays believable in field use instead of pretending there is one exact sacred exposure."
               },
               {
                 q: "What does the read-noise contribution target mean?",
@@ -5535,11 +5554,15 @@
               },
               {
                 q: "How is the Practical Operating Band defined?",
-                a: `The lower edge is max(comfort ${fmtSeconds(t.comfortFloorSec)}, overhead ${fmtSeconds(t.overheadFloorSec)}${t.practicalFloorSec ? `, practical ${fmtSeconds(t.practicalFloorSec)}` : ""}) = ${fmtSeconds(t.sweetSpotMinSec)}. The upper edge is min(sweet-cap fraction × saturation caution, sky-pedestal caution, workflow max) = ${fmtSeconds(t.sweetSpotMaxSec)}.`
+                a: `The lower edge is max(comfort ${fmtSeconds(t.comfortFloorSec)}, overhead ${fmtSeconds(t.overheadFloorSec)}${t.practicalFloorSec ? `, practical ${fmtSeconds(t.practicalFloorSec)}` : ""}) = ${fmtSeconds(t.sweetSpotMinSec)}. The upper edge is min(sweet-cap fraction × bright-star saturation caution, sky-pedestal caution, workflow max) = ${fmtSeconds(t.sweetSpotMaxSec)}.`
               },
               {
                 q: "What is the sky-pedestal headroom threshold?",
                 a: `It is the point where accumulated sky/background charge has used up too much of the headroom reserve that remains after the representative bright-star caution point. In the current setup that caution threshold is ${fmtSeconds(t.skyPedestalCautionSec)} from background ${fmtNumber(t.skyPedestalRateEPerPxPerSec, 4)} e-/px/s using ${fmtNumber(t.skyPedestalBudgetFraction * 100, 0)}% of a ${fmtNumber(t.skyHeadroomReserveE, 0)} e- reserve. It matters most in brighter skies and usually much later under narrowband or dark-sky conditions.`
+              },
+              {
+                q: "Does bright-star saturation mean no stars are clipping before that point?",
+                a: `No. Some very bright stars may clip at almost any useful exposure. The bright-star saturation threshold is a planning caution point, not a first-clipped-pixel detector. The model estimates when a representative bright-star core reaches a meaningful fraction of usable full well; in the current setup that caution point is ${fmtSeconds(t.saturationCautionSec)}. Past that area, longer subs can still work, but more stars and brighter structures are likely to lose color, core detail, or processing flexibility.`
               },
               {
                 q: "How is Saturation / Workflow Risk defined?",
@@ -5605,7 +5628,7 @@
               },
               {
                 q: "Why does the tool sometimes recommend shorter broadband subs than I expected?",
-                a: "Broadband often hits bright-star headroom and sky-pedestal headroom sooner than people expect, especially with faster optics, bright fields, or bright urban sky. In this tool the background can influence both the lower-bound side and the upper practical side, because a rising sky pedestal can consume usable headroom before bright-star clipping becomes the first limit."
+                a: "Broadband often hits bright-star saturation and sky-pedestal headroom sooner than people expect, especially with faster optics, bright fields, or bright urban sky. In this tool the background can influence both the lower-bound side and the upper practical side, because a rising sky pedestal can consume usable headroom before bright-star clipping becomes the first limit."
               },
               {
                 q: "Why does changing Bortle or SQM sometimes move the lower bound more than the rest of the recommendation?",
@@ -5621,7 +5644,7 @@
               },
               {
                 q: "How should I interpret a very narrow operating band?",
-                a: "It means the model sees only a small interval where lower-bound clearance and upper-side headroom are both favorable. That often indicates a filter or field that is tightly constrained by saturation, workflow, or both."
+                a: "It means the model sees only a small interval where lower-bound clearance and upper-side headroom are both favorable. That often indicates a filter or field that is tightly constrained by bright-star saturation, workflow, or both."
               },
               {
                 q: "Does this tool assume sky-background-limited imaging is always the goal?",
@@ -5663,8 +5686,8 @@
         return `
           <div class="cards-4">
             <div class="mini-card"><h4>${zoneNames("too_short").full} ${helpBadge("Read-noise floor = the lower-bound threshold driven by the active read-noise contribution target and any overhead/practical floor. Based on the Robin Glover / SharpCap style lower-bound framework.")}</h4><div class="big-number">${fmtSeconds(t.lowerBoundSec)}</div><div class="muted">${t.practicalFloorSec ? "max(read-noise, overhead, practical floor)" : "max(read-noise, overhead floor)"}</div></div>
-            <div class="mini-card"><h4>Operating band start ${helpBadge("Operating band = the recommended interval after the lower floor is cleared but before saturation, sky-pedestal, or workflow penalties dominate.")}</h4><div class="big-number">${fmtSeconds(t.sweetSpotMinSec)}</div><div class="muted">operating-band lower boundary</div></div>
-            <div class="mini-card"><h4>Operating band end ${helpBadge("The operating band ends at the earliest practical upper-side caution: bright-star saturation, sky-pedestal headroom, or workflow cap.")}</h4><div class="big-number">${fmtSeconds(t.sweetSpotMaxSec)}</div><div class="muted">min(saturation caution, sky-pedestal caution, workflow cap)</div></div>
+            <div class="mini-card"><h4>Operating band start ${helpBadge("Operating band = the recommended interval after the lower floor is cleared but before bright-star saturation, sky-pedestal, or workflow penalties dominate.")}</h4><div class="big-number">${fmtSeconds(t.sweetSpotMinSec)}</div><div class="muted">operating-band lower boundary</div></div>
+            <div class="mini-card"><h4>Operating band end ${helpBadge("The operating band ends at the earliest practical upper-side caution: bright-star saturation, sky-pedestal headroom, or workflow cap.")}</h4><div class="big-number">${fmtSeconds(t.sweetSpotMaxSec)}</div><div class="muted">min(bright-star saturation caution, sky-pedestal caution, workflow cap)</div></div>
             <div class="mini-card"><h4>${zoneNames("too_long").full} ${helpBadge("Hard ceiling = the terminal cap from saturation-hard, sky-pedestal-hard, and workflow-hard limits. Exposures beyond this point are outside the recommended range under the current assumptions.")}</h4><div class="big-number">${fmtSeconds(t.hardMaxSec)}</div><div class="muted">terminal cap under current saturation/sky/workflow assumptions</div></div>
           </div>
         `;
@@ -5698,7 +5721,7 @@
                 ? `Workflow is setting the upper practical cap. The current workflow settings make long subs expensive enough that the tool starts treating them as less attractive around ${fmtSeconds(t.workflowMaxSec)} and fully capped near ${fmtSeconds(t.workflowHardSec)}.`
                 : driver.label === "Sky-pedestal hard cap"
                   ? `The sky pedestal reaches the model’s hard background cap near ${fmtSeconds(t.skyPedestalHardSec)}. Past that point the background itself is consuming too much of the remaining headroom, so the hard ceiling lands at ${fmtSeconds(t.hardMaxSec)} after all caps are combined.`
-                  : `Bright structures reach the model’s hard saturation threshold near ${fmtSeconds(t.saturationHardSec)}. After combining that with sky-headroom and workflow caps, the hard ceiling for this setup lands at ${fmtSeconds(t.hardMaxSec)}.`}</div>
+                  : `Bright structures reach the model’s hard headroom threshold near ${fmtSeconds(t.saturationHardSec)}. After combining that with sky-saturation and workflow caps, the hard ceiling for this setup lands at ${fmtSeconds(t.hardMaxSec)}.`}</div>
           </div>
         `).join("");
         return `
@@ -5710,7 +5733,7 @@
             </div>
             <div class="mini-card">
               <h3>Upper-side mechanics</h3>
-              <div class="warning" style="margin-bottom:10px">These are the specific terms that make longer subs less attractive. It depends on representative bright-structure pressure (${fmtNumber(starRate, 1)} e-/s), the active sky source (${fmtNumber(t.skyPedestalRateEPerPxPerSec, 4)} e-/px/s), and the chosen saturation and workflow tolerances. Treat it as a planning bound, not a target-specific clipping prediction.</div>
+              <div class="warning" style="margin-bottom:10px">These are the specific terms that make longer subs less attractive. It depends on representative bright-structure pressure (${fmtNumber(starRate, 1)} e-/s), the active sky source (${fmtNumber(t.skyPedestalRateEPerPxPerSec, 4)} e-/px/s), and the chosen bright-star saturation and workflow tolerances. Treat it as a planning bound, not a target-specific clipping prediction.</div>
               <div class="driver-list">${upper}</div>
             </div>
           </div>
@@ -6870,7 +6893,7 @@
               failures.push("Gain transition did not improve the read-noise floor across the HCG boundary.");
             }
             if (comparison.thresholds.saturationCautionSec >= result.thresholds.saturationCautionSec) {
-              failures.push("Gain transition failed to tighten saturation caution as headroom dropped.");
+              failures.push("Gain transition failed to tighten bright-star saturation caution as headroom dropped.");
             }
           }
           if (testCase.id === "workflow-blocks-refocus-every-change") {
@@ -7270,13 +7293,13 @@
               <g font-size="12.2" fill="#dfeffc" font-weight="700">
                 <text x="98" y="204">very short subs</text>
                 <text x="332" y="204">preferred working interval</text>
-                <text x="636" y="204">increasing saturation /</text>
+                <text x="636" y="204">increasing headroom /</text>
                 <text x="692" y="222">workflow risk</text>
                 <text x="706" y="244">exposure time</text>
               </g>
             </svg>
           `,
-          "The lower bound answers when the sub is long enough to clear the noise floor. A good working sub also depends on headroom and workflow, so the preferred interval is usually broader than one threshold."
+          "The lower bound answers when the sub is long enough to clear the noise floor. A good working sub also depends on saturation and workflow, so the preferred interval is usually broader than one threshold."
         );
         const tocItems = [
           ["appendix-1", "Purpose and scope"],
@@ -7369,6 +7392,7 @@
                 <p>Dark current is the thermally generated signal produced even with no incoming light. It matters more when the sensor is warm, the background is very dark, or the exposures are long. In many cooled modern systems it is present but often not the dominant driver under common conditions.</p>
                 <div class="ap-subhead">Saturation and headroom</div>
                 <p>Longer subs become unattractive when representative bright structures approach saturation or when sky background itself starts consuming too much usable headroom. Protecting bright stars, preserving faint-nebulosity contrast, and keeping processing flexibility are all legitimate reasons to prefer shorter subs than a pure lower-bound argument might suggest.</p>
+                <p>The tool does not try to predict the first clipped star. In many real frames, the brightest stars may clip even at sensible exposure lengths. The upper-side bright-star threshold is a saturation caution: it estimates when representative bright-star cores have consumed enough of the modeled full-well capacity that longer subs become less forgiving, more stars begin to clip, and star color or core structure may become harder to recover.</p>
                 <div class="ap-subhead">Workflow and operational tradeoffs</div>
                 <p>Real imaging is not pure physics. Overhead, dithering, filter changes, autofocus behavior, file-count tolerance, and bad-frame risk all help determine what is operationally sensible. In this tool those factors shape the practical recommendation, not the raw read-noise floor. Sky brightness also matters on the upper side through the sky-pedestal headroom threshold, which asks when accumulated background charge is starting to consume too much usable headroom.</p>
                 ${noiseConceptFigure}
@@ -7402,7 +7426,7 @@
                 <div class="ap-subhead">When thermal noise matters</div>
                 <p>Thermal terms matter more with warm sensors, long narrowband subs, or very dark backgrounds. In many cooled systems they remain a secondary contributor compared with sky/background and read-noise effects, but the tool still includes them because some setups really do operate near that edge.</p>
                 <div class="ap-subhead">Why none of these alone define the final recommendation</div>
-                <p>No single noise term defines the final answer. Noise terms explain the lower-bound side of the problem; headroom and workflow still decide whether a sub is merely long enough or actually convenient and forgiving to use. In brighter skies, background pedestal can become part of that upper-side headroom story too.</p>
+                <p>No single noise term defines the final answer. Noise terms explain the lower-bound side of the problem; saturation and workflow still decide whether a sub is merely long enough or actually convenient and forgiving to use. In brighter skies, background pedestal can become part of that upper-side headroom story too.</p>
                 ${takeaway("Noise terms explain why the lower bound exists, but they do not by themselves choose the final working sub length.")}
               `, "Teaching section")}
   
@@ -7413,7 +7437,7 @@
                   <li><strong>Operating band:</strong> What is a practical working interval?</li>
                   <li><strong>Upper bound:</strong> When do penalties outweigh the benefit of longer exposure?</li>
                 </ul>
-                <p>A practical working sub may be shorter than habit if bright-star headroom or sky-pedestal headroom matters, or longer than a bare lower bound if operational overhead is the bigger pain point.</p>
+                <p>A practical working sub may be shorter than habit if bright-star saturation or sky-pedestal headroom matters, or longer than a bare lower bound if operational overhead is the bigger pain point.</p>
                 ${tradeoffFigure}
                 ${takeaway("The tool’s green band is a preferred working interval, not the same thing as the minimum physically useful sub.")}
               `, "Teaching section")}
@@ -7550,6 +7574,7 @@
                     <ul class="ap-bullets">
                       <li><strong>Dominant issue:</strong> longer subs are increasingly penalized by clipping risk or operational cost</li>
                       <li><strong>Practical meaning:</strong> usable but conditional region where bright-star saturation, sky-pedestal headroom, or workflow burden is starting to matter</li>
+                      <li><strong>Important nuance:</strong> this does not mean no stars clipped earlier; it marks when clipping risk becomes a material planning tradeoff</li>
                       <li><strong>Not saying:</strong> exposures here are forbidden</li>
                     </ul>
                   </div>
@@ -7663,7 +7688,7 @@
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Step 5. Compute upper constraints</div>
-                    <p>The upper side is determined from saturation-side, sky-pedestal, and workflow-side constraints. These include the saturation caution boundary, the sky-pedestal headroom threshold, the hard ceiling, and any workflow cap that closes the band earlier.</p>
+                    <p>The upper side is determined from bright-star saturation, sky-pedestal, and workflow constraints. These include the bright-star saturation caution boundary, the sky-pedestal headroom threshold, the hard ceiling, and any workflow cap that closes the band earlier.</p>
                     ${equationBlock(
                       6,
                       "Operating-band end equation",
@@ -7671,7 +7696,7 @@
                       `<span><i>t</i><sub>end</sub> = min(<i>t</i><sub>sat</sub>, <i>t</i><sub>sky</sub>, <i>t</i><sub>workflow</sub>)</span>`,
                       [
                         ["<i>t</i><sub>end</sub>", "operating-band end"],
-                        ["<i>t</i><sub>sat</sub>", "saturation caution threshold"],
+                        ["<i>t</i><sub>sat</sub>", "bright-star saturation caution threshold"],
                         ["<i>t</i><sub>sky</sub>", "sky-pedestal headroom threshold"],
                         ["<i>t</i><sub>workflow</sub>", "workflow cap, if one is active"]
                       ],
@@ -7770,12 +7795,12 @@
                     <div class="ap-method-group-title">Operating-band calculation</div>
                     ${methodRow("Start logic", exampleInput.filter.bandType === "narrowband" ? `max(comfort ${fmtNumber(exampleThresholds.comfortFloorSec, 1)} s, overhead ${fmtNumber(exampleThresholds.overheadFloorSec, 1)} s, practical ${fmtNumber(exampleThresholds.practicalFloorSec, 1)} s)` : `max(comfort ${fmtNumber(exampleThresholds.comfortFloorSec, 1)} s, overhead ${fmtNumber(exampleThresholds.overheadFloorSec, 1)} s)`)}
                     ${methodRow("Operating-band start", `<strong>${fmtNumber(exampleThresholds.sweetSpotMinSec, 1)} s</strong>${Math.abs(exampleThresholds.sweetSpotMinSec - exampleThresholds.lowerBoundSec) < 10 ? `, which is effectively the same as the lower bound.` : ``}`)}
-                    ${methodRow("Operating-band end logic", `min(${fmtNumber(exampleSweetCapFraction, 2)} × saturation caution, sky-pedestal caution, workflow cap)`)}
+                    ${methodRow("Operating-band end logic", `min(${fmtNumber(exampleSweetCapFraction, 2)} × bright-star saturation caution, sky-pedestal caution, workflow cap)`)}
                     ${methodRow("Operating-band end", `<strong>${fmtNumber(exampleThresholds.sweetSpotMaxSec, 1)} s</strong>${exampleThresholds.workflowMaxSec <= Math.min(exampleSweetCapFraction * exampleThresholds.saturationCautionSec, exampleThresholds.skyPedestalCautionSec) ? `, with workflow closing the band earlier.` : exampleThresholds.skyPedestalCautionSec <= exampleSweetCapFraction * exampleThresholds.saturationCautionSec ? `, with sky-pedestal headroom closing the band earlier.` : ``}`)}
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Upper-bound calculation</div>
-                    ${methodRow("Saturation caution", `<strong>${fmtNumber(exampleThresholds.saturationCautionSec, 1)} s</strong> from ${fmtNumber(DATA.constants.saturationFractions.caution, 2)} × ${fmtNumber(exampleThresholds.effectiveFullWellE, 0)} e- / ${fmtNumber(exampleSourceScenario.representativeStarCoreRateEPerSec, 2)} e-/s`)}
+                    ${methodRow("Bright-star saturation", `<strong>${fmtNumber(exampleThresholds.saturationCautionSec, 1)} s</strong> from ${fmtNumber(DATA.constants.saturationFractions.caution, 2)} × ${fmtNumber(exampleThresholds.effectiveFullWellE, 0)} e- / ${fmtNumber(exampleSourceScenario.representativeStarCoreRateEPerSec, 2)} e-/s`)}
                     ${methodRow("Sky-pedestal caution", `<strong>${fmtNumber(exampleThresholds.skyPedestalCautionSec, 1)} s</strong> from ${fmtNumber(exampleThresholds.skyPedestalBudgetFraction, 2)} × remaining headroom reserve ${fmtNumber(exampleThresholds.skyHeadroomReserveE, 0)} e- / ${fmtNumber(exampleThresholds.skyPedestalRateEPerPxPerSec, 4)} e-/px/s`)}
                     ${methodRow("Workflow cap", `<strong>${fmtNumber(exampleThresholds.workflowMaxSec, 1)} s</strong>`)}
                     ${methodRow("Hard ceiling", `min(saturation hard ${fmtNumber(exampleThresholds.saturationHardSec, 1)} s, sky-pedestal hard ${fmtNumber(exampleThresholds.skyPedestalHardSec, 1)} s, workflow hard ${fmtNumber(exampleThresholds.workflowHardSec, 1)} s) = <strong>${fmtNumber(exampleThresholds.hardMaxSec, 1)} s</strong>`)}
@@ -7977,7 +8002,7 @@
         const multiFilterMode = results.length > 1;
         const activeDisplayThresholds = displayThresholdsForResult(active);
         const strictPlanLabel = multiFilterMode
-          ? results.map((result) => `${planFamilyCode(result)} ${fmtSeconds(result.headlineRecommendation.anchorSec)}`).join(" • ")
+          ? results.map(formatSuggestedStartToken).join(" • ")
           : "";
         const setSpanLabel = multiFilterMode
           ? fmtRange(Math.min(...results.map((result) => result.thresholds.sweetSpotMinSec)), Math.max(...results.map((result) => result.thresholds.sweetSpotMaxSec)))

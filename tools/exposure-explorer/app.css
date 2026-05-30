@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.35.html (v1.0.35). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.39.html (v1.0.39). Do not edit by hand. */
 :root{
       --bg0:#050912;
       --bg1:#0b1421;
@@ -953,6 +953,18 @@
       letter-spacing:0;
       line-height:1.25;
     }
+    .plan-channel-code{
+      font-weight:950;
+      display:inline-block;
+    }
+    .plan-channel-code.l{color:#c8d2dd}
+    .plan-channel-code.r{color:#ff8c7d}
+    .plan-channel-code.g{color:#69e39b}
+    .plan-channel-code.b{color:#76a9ff}
+    .plan-channel-code.ha{color:#ff7f73}
+    .plan-channel-code.oiii{color:#65dfe8}
+    .plan-channel-code.sii{color:#f0a35d}
+    .plan-channel-value{color:#f4fbff}
     .result-banner-meta{
       display:grid;
       gap:6px;
