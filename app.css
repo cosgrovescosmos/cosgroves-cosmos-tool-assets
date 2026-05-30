@@ -1,4 +1,4 @@
-/* Generated from master.html v2.4.52. Do not edit by hand. */
+/* Generated from master.html v2.4.55. Do not edit by hand. */
 /* ── Design tokens ── */
     :root{
       --bg0:#050912; --bg1:#0b1421; --bg2:#101a2b;
@@ -622,6 +622,9 @@
     #ac-tool .method-group{border:1px solid rgba(255,255,255,.09);border-radius:13px;padding:11px;background:rgba(255,255,255,.025)}
     #ac-tool .method-group.quiet{background:rgba(255,255,255,.018);border-color:rgba(255,255,255,.07)}
     #ac-tool .method-group-title{font-size:.67rem;letter-spacing:.13em;text-transform:uppercase;color:var(--soft);font-weight:900;margin-bottom:6px}
+    #ac-tool .audit-table-wrap{overflow-x:auto;max-width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.018)}
+    #ac-tool .audit-curve-grid{display:grid;grid-template-columns:1fr;gap:6px;align-items:start}
+    #ac-tool .validation-emphasis{font-size:.76rem;color:#d8e6f5;line-height:1.4}
     #ac-tool .method-row{display:grid;grid-template-columns:minmax(80px,110px) 1fr;gap:7px;align-items:start;padding:4px 0;border-top:1px solid rgba(255,255,255,.055)}
     #ac-tool .method-row:first-of-type{border-top:none}
     #ac-tool .method-name{font-size:.76rem;font-weight:900;word-break:break-word}
