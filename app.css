@@ -1,4 +1,4 @@
-/* Generated from master.html v2.4.57. Do not edit by hand. */
+/* Generated from master.html v2.4.59. Do not edit by hand. */
 /* ── Design tokens ── */
     :root{
       --bg0:#050912; --bg1:#0b1421; --bg2:#101a2b;
@@ -82,11 +82,32 @@
     #ac-tool .page-banner::before{content:"";position:absolute;inset:auto -60px -70px auto;width:240px;height:240px;border-radius:999px;background:radial-gradient(circle,rgba(124,224,195,.18),transparent 68%);pointer-events:none}
     #ac-tool .banner-logo{position:absolute;top:10px;right:12px;width:min(210px,24vw);max-width:210px;min-width:110px;display:flex;align-items:center;justify-content:center;padding:0;background:none;border:none;box-shadow:none}
     #ac-tool .banner-logo img{display:block;width:100%;height:auto;border-radius:0;box-shadow:0 10px 24px rgba(0,0,0,.22)}
+    #ac-tool .banner-topline{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:12px;margin-bottom:8px;padding-right:min(230px,26vw);min-height:44px}
     #ac-tool .banner-eyebrow{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--a);font-weight:900;margin-bottom:8px;padding:5px 11px;border-radius:999px;border:1px solid rgba(132,240,207,.28);background:rgba(7,13,20,.42);display:inline-flex;align-items:center;gap:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 0 1px rgba(132,240,207,.06),0 0 18px rgba(132,240,207,.06)}
     #ac-tool .dev-indicator{display:none;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:#f5dd9a;border:1px solid rgba(224,188,74,.28);background:rgba(224,188,74,.10);padding:3px 8px;border-radius:999px}
     #ac-tool.dev-mode .dev-indicator{display:inline-flex}
     #ac-tool .banner-title{margin:0 0 5px;font-size:clamp(1.42rem,2.1vw,2.25rem);line-height:1.05;font-weight:900}
     #ac-tool .banner-sub{color:var(--muted);font-size:.82rem;line-height:1.42;max-width:760px}
+    #ac-tool .banner-release{position:absolute;left:clamp(270px,24vw,360px);right:min(230px,26vw);top:0;display:flex;justify-content:center;pointer-events:none}
+    #ac-tool .banner-release>*{pointer-events:auto}
+    #ac-tool details.release-disclosure.banner-release-card{width:100%;border-color:rgba(240,201,95,.36);background:linear-gradient(180deg,rgba(240,201,95,.16),rgba(255,255,255,.04));box-shadow:0 10px 24px rgba(0,0,0,.20),0 0 0 1px rgba(240,201,95,.08),inset 0 1px 0 rgba(255,255,255,.08);overflow:visible}
+    #ac-tool details.release-disclosure.banner-release-card{max-width:min(760px,calc(100% - 20px));min-width:min(360px,100%)}
+    #ac-tool details.release-disclosure.banner-release-card::before{width:4px;background:linear-gradient(180deg,rgba(240,201,95,.0),rgba(240,201,95,.85),rgba(240,201,95,.0));opacity:.95}
+    #ac-tool details.release-disclosure.banner-release-card>summary{min-height:42px;padding:9px 14px;color:#fff4cf;font-size:.86rem;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-radius:14px;display:flex;align-items:center;justify-content:space-between}
+    #ac-tool details.release-disclosure.banner-release-card>summary::before{content:'✦';display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:999px;font-size:.72rem;color:#1e2330;border:1px solid rgba(255,241,196,.45);background:linear-gradient(180deg,rgba(240,201,95,.95),rgba(255,225,133,.76));box-shadow:0 0 16px rgba(240,201,95,.18)}
+    #ac-tool details.release-disclosure.banner-release-card>summary::after{content:'Open';color:#fff0bf}
+    #ac-tool details.release-disclosure.banner-release-card[open]>summary::after{content:'Hide'}
+    #ac-tool details.release-disclosure.banner-release-card[open]{z-index:1200}
+    #ac-tool details.release-disclosure.banner-release-card[open]>summary{position:relative;z-index:1202}
+    #ac-tool details.release-disclosure.banner-release-card>.disclosure-body{display:none}
+    #ac-tool details.release-disclosure.banner-release-card[open]>.disclosure-body{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;padding:72px 20px 28px;background:rgba(5,10,18,.60);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1201}
+    #ac-tool .release-modal-card{width:min(960px,calc(100vw - 40px));max-height:calc(100vh - 100px);overflow:auto;padding:16px 18px 18px;border-radius:18px;border:1px solid rgba(240,201,95,.32);background:linear-gradient(180deg,rgba(34,41,48,.97),rgba(19,24,31,.97));box-shadow:0 24px 60px rgba(0,0,0,.48),0 0 0 1px rgba(240,201,95,.08),inset 0 1px 0 rgba(255,255,255,.05)}
+    #ac-tool .release-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    #ac-tool .release-update-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,241,196,.34);background:rgba(255,241,196,.12);font-size:.64rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#fff0bf}
+    #ac-tool .release-update-badge strong{color:#fff9e2;font-weight:900}
+    #ac-tool .release-kicker{font-size:.74rem;color:#f8efcf;line-height:1.45;margin-top:6px}
+    #ac-tool .release-modal-close{appearance:none;border:1px solid rgba(255,241,196,.22);background:rgba(255,255,255,.04);color:#fff2c7;border-radius:999px;padding:6px 11px;font-size:.68rem;font-weight:900;letter-spacing:.10em;text-transform:uppercase;cursor:pointer;box-shadow:none}
+    #ac-tool .release-modal-close:hover{transform:none;background:rgba(255,241,196,.10);border-color:rgba(255,241,196,.34);box-shadow:none}
 
     /* ── Step stepper ── */
     #ac-tool .stepper{display:flex;align-items:center;gap:0;margin-bottom:8px}
@@ -234,6 +255,12 @@
       #ac-tool #tab-appendix,
       #ac-tool #tab-faq{display:none !important}
       #ac-tool .report-only{display:block !important}
+    }
+
+    @media (max-width: 1180px){
+      #ac-tool .banner-topline{padding-right:0;min-height:auto;display:grid;grid-template-columns:1fr;justify-items:start;gap:10px}
+      #ac-tool .banner-release{position:relative;left:auto;right:auto;top:auto;width:min(100%,720px);min-width:0;justify-content:flex-start;pointer-events:auto}
+      #ac-tool .banner-logo{position:relative;top:auto;right:auto;margin-left:auto;margin-bottom:10px}
     }
 
     /* ── Tab navigation ── */
