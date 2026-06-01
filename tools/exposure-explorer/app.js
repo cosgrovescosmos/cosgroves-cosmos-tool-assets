@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.39.html (v1.0.39). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.45.html (v1.0.45). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.39</span>
+            <span class="hero-version">v1.0.45</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -94,6 +94,7 @@
           configLoadedFileName: "",
           configDirtySinceLoad: false,
           skyInputMode: "bortle",
+          skySpectralProfileId: "legacy-flat",
           skyBrightnessMagPerArcsec2: 20.8,
           sqmMeasurementMagPerArcsec2: 20.8,
           locationQuery: "",
@@ -353,6 +354,69 @@
           1: 21.9, 2: 21.7, 3: 21.5, 4: 21.1, 5: 20.4,
           6: 19.5, 7: 18.8, 8: 18.1, 9: 17.5
         },
+        skyComponents: {
+          "natural-continuum": {
+            id: "natural-continuum",
+            label: "Natural continuum",
+            kind: "continuum",
+            curve: {400:0.80,430:0.88,460:0.94,500:1.00,530:0.96,560:0.90,590:0.86,620:0.88,650:0.96,680:1.00,710:0.92,750:0.84,800:0.74}
+          },
+          "mercury-lines": {
+            id: "mercury-lines",
+            label: "Mercury lines",
+            kind: "lines",
+            curve: {400:0.00,403.8:0.00,404.0:0.00,404.4:0.05,404.7:0.12,405.0:0.05,405.4:0.00,406.0:0.00,430:0.00,435.0:0.00,435.2:0.06,435.6:0.22,435.8:0.40,436.0:0.26,436.3:0.08,436.8:0.00,437.4:0.00,500:0.00,544.0:0.00,544.8:0.12,545.4:0.48,546.0:0.82,546.3:0.54,546.8:0.16,547.4:0.00,548.0:0.00,570:0.00,576.2:0.00,576.6:0.10,577.0:0.42,577.5:0.74,577.9:0.50,578.3:0.16,578.7:0.00,578.9:0.00,579.0:0.18,579.1:0.34,579.3:0.20,579.6:0.00,580.0:0.00,585.0:0.00,800:0.00}
+          },
+          "sodium-lines": {
+            id: "sodium-lines",
+            label: "Sodium lines",
+            kind: "lines",
+            curve: {400:0.00,500:0.00,585.4:0.00,586.0:0.00,586.6:0.10,587.4:0.40,588.1:0.90,588.7:1.34,589.0:1.58,589.3:1.40,589.6:1.20,589.9:0.82,590.3:0.40,591.0:0.12,591.6:0.00,592.0:0.00,614.8:0.00,615.1:0.08,615.4:0.16,615.7:0.09,616.0:0.05,616.1:0.12,616.4:0.07,616.8:0.00,800:0.00}
+          },
+          "led-heavy-continuum": {
+            id: "led-heavy-continuum",
+            label: "LED-heavy continuum",
+            kind: "continuum",
+            curve: {400:0.92,430:1.12,460:1.20,490:1.16,520:1.05,550:0.95,580:0.90,610:0.88,650:0.84,680:0.74,710:0.62,750:0.50,800:0.38}
+          }
+        },
+        skyProfiles: {
+          "legacy-flat": {
+            id: "legacy-flat",
+            label: "Legacy flat sky",
+            kind: "compatibility",
+            note: "Preserves the earlier scalar-only broadband path unless an LP spectral profile is selected.",
+            curve: {400:1,450:1,500:1,550:1,600:1,650:1,700:1,750:1,800:1}
+          },
+          "dark-natural": {
+            id: "dark-natural",
+            label: "Dark natural sky",
+            kind: "natural",
+            note: "Representative dark-sky continuum with mild red/airglow weighting and very little artificial line structure.",
+            components: {"natural-continuum":1.00}
+          },
+          "legacy-sodium-mercury": {
+            id: "legacy-sodium-mercury",
+            label: "Legacy sodium / mercury LP",
+            kind: "urban-lines",
+            note: "Older line-rich light pollution built from natural continuum plus explicit mercury and sodium lamp-line components.",
+            components: {"natural-continuum":0.12,"mercury-lines":0.95,"sodium-lines":1.20}
+          },
+          "mixed-suburban": {
+            id: "mixed-suburban",
+            label: "Mixed suburban LP",
+            kind: "mixed",
+            note: "Representative suburban mix combining natural continuum, modest LED continuum, and weaker sodium/mercury lamp-line structure.",
+            components: {"natural-continuum":0.78,"led-heavy-continuum":0.24,"mercury-lines":0.22,"sodium-lines":0.34}
+          },
+          "led-heavy-urban": {
+            id: "led-heavy-urban",
+            label: "LED-heavy urban LP",
+            kind: "led",
+            note: "Representative LED-dominated urban sky with broad modern-lighting continuum and modest residual lamp-line structure.",
+            components: {"natural-continuum":0.34,"led-heavy-continuum":1.00,"mercury-lines":0.05,"sodium-lines":0.10}
+          }
+        },
         moonMultipliers: {
           moonless: { L:1.0, RGB:1.0, OSC_RGB:1.0, Ha:1.0, OIII:1.0, SII:1.0 },
           minor:    { L:1.4, RGB:1.2, OSC_RGB:1.2, Ha:1.02, OIII:1.10, SII:1.02 },
@@ -453,7 +517,15 @@
           "osc-oiii-triad": { id:"osc-oiii-triad", mode:"narrowband", label:"Radian Triad Ultra OIII 4nm", line:"OIII", compatible:["osc"], curve:{498.7:0,499.2:20,499.7:70,500.2:93,500.7:97,501.2:93,501.7:70,502.2:20,502.7:0} },
           "osc-sii-triad": { id:"osc-sii-triad", mode:"narrowband", label:"Radian Triad Ultra SII 4nm", line:"SII", compatible:["osc"], curve:{669.6:0,670.1:20,670.6:70,671.1:88,671.6:90,672.1:88,672.6:70,673.1:20,673.6:0} },
           "osc-ha-enhance": { id:"osc-ha-enhance", mode:"narrowband", label:"Optolong L-eNhance Ha ~10nm", line:"Ha", compatible:["osc"], curve:{648:0,650:15,652:70,653.0:90,654.0:90,656.3:88,658.0:70,660:15,662:0} },
-          "osc-oiii-enhance": { id:"osc-oiii-enhance", mode:"narrowband", label:"Optolong L-eNhance Hb/OIII ~24nm", line:"OIII", compatible:["osc"], curve:{480:0,484:25,486.1:70,490:88,496:90,500.7:90,505:88,510:70,516:20,520:0} }
+          "osc-oiii-enhance": { id:"osc-oiii-enhance", mode:"narrowband", label:"Optolong L-eNhance Hb/OIII ~24nm", line:"OIII", compatible:["osc"], curve:{480:0,484:25,486.1:70,490:88,496:90,500.7:90,505:88,510:70,516:20,520:0} },
+          "osc-lpro": { id:"osc-lpro", mode:"broadband", label:"Optolong L-Pro", line:"OSC", compatible:["osc"], lpStyle:true, category:"broadband-lp", curve:{400:0,408:70,420:90,430:95,434:66,435.2:40,435.8:22,436.4:34,438:58,442:88,450:96,470:96,485:94,500:92,512:90,520:92,530:94,540:88,544.8:56,545.5:34,546.1:24,546.7:34,548:58,552:84,560:96,570:96,575:94,576.7:68,577.5:46,578.3:40,579.1:44,580.0:58,582:82,586:78,587.5:46,588.3:28,589.0:16,589.6:16,590.2:22,591.0:34,592.0:48,594:70,598:88,606:94,620:95,640:95,654:95,656:95,660:92,667:84,669.0:64,670.0:40,671.0:32,672.0:40,674.0:58,678:78,684:90,690:86,705:84,720:80,760:70,800:60} },
+          "osc-antlia-triband-rgb-ultra": { id:"osc-antlia-triband-rgb-ultra", mode:"broadband", label:"Antlia Triband RGB Ultra II", line:"OSC", compatible:["osc"], lpStyle:true, provisional:true, category:"broadband-lp", curve:{400:0,410:82,420:90,430:94,434:76,435.2:58,435.8:42,436.4:50,438:68,442:88,450:95,470:95,485:94,500:93,512:92,520:94,530:94,540:90,544.8:64,545.5:46,546.1:34,546.7:46,548:66,552:86,560:94,570:95,575:94,576.7:80,577.5:66,578.3:60,579.1:64,580.0:74,582:86,586:80,587.5:54,588.3:38,589.0:28,589.6:28,590.2:34,591.0:44,592.0:56,594:74,598:88,606:94,620:95,640:94,656:94,666:92,669.0:74,670.0:55,671.0:46,672.0:54,674.0:66,678:80,684:88,690:80,700:72,715:80,735:74,760:66,800:54} },
+          "osc-sii-alpt35hb": { id:"osc-sii-alpt35hb", mode:"narrowband", label:"Antlia ALP-T SII 3.5nm (paired Hβ band not separately modeled)", line:"SII", compatible:["osc"], curve:{670.6:0,671.0:20,671.3:70,671.7:88,672.4:90,673.1:88,673.5:70,673.8:20,674.2:0} },
+          "osc-sii-alpt5hb": { id:"osc-sii-alpt5hb", mode:"narrowband", label:"Antlia ALP-T SII 5nm (paired Hβ band not separately modeled)", line:"SII", compatible:["osc"], curve:{669.9:0,670.4:20,670.9:70,671.5:88,672.4:90,673.3:88,673.9:70,674.4:20,674.9:0} },
+          "osc-ha-askar-d1": { id:"osc-ha-askar-d1", mode:"narrowband", label:"Askar Super D1 Ha 8.5nm", line:"Ha", compatible:["osc"], curve:{651.1:0,652.1:18,653.2:62,654.2:82,655.0:85,656.6:86,658.2:85,659.0:82,660.0:62,661.1:18,662.1:0} },
+          "osc-oiii-askar-d1": { id:"osc-oiii-askar-d1", mode:"narrowband", label:"Askar Super D1 OIII 6.5nm", line:"OIII", compatible:["osc"], curve:{497.0:0,497.9:18,498.8:62,499.5:82,500.1:85,500.7:86,501.3:85,501.9:82,502.6:62,503.5:18,504.4:0} },
+          "osc-sii-askar-d2": { id:"osc-sii-askar-d2", mode:"narrowband", label:"Askar Super D2 SII 8.5nm", line:"SII", compatible:["osc"], curve:{666.5:0,667.5:18,668.6:62,669.6:82,670.4:85,672.0:86,673.6:85,674.4:82,675.4:62,676.5:18,677.5:0} },
+          "osc-oiii-askar-d2": { id:"osc-oiii-askar-d2", mode:"narrowband", label:"Askar Super D2 OIII 6.5nm", line:"OIII", compatible:["osc"], curve:{497.0:0,497.9:18,498.8:62,499.5:82,500.1:85,500.7:86,501.3:85,501.9:82,502.6:62,503.5:18,504.4:0} }
         },
         filterSets: {
           "narrowband-sho-baader-3nm": { id:"narrowband-sho-baader-3nm", label:"Mono SHO — Baader 3.5/4nm", mode:"narrowband", compatible:["mono"], filters:["baader-ha-3nm","baader-oiii-3nm","baader-sii-3nm"] },
@@ -475,10 +547,17 @@
           "broadband-rgb-astronomik": { id:"broadband-rgb-astronomik", label:"Mono LRGB — Astronomik RGB + L-2", mode:"broadband", compatible:["mono"], filters:["astronomik-l2","astronomik-r","astronomik-g","astronomik-b"] },
           "broadband-rgb-astronomik-l3": { id:"broadband-rgb-astronomik-l3", label:"Mono LRGB — Astronomik RGB + L-3", mode:"broadband", compatible:["mono"], filters:["astronomik-l3","astronomik-r","astronomik-g","astronomik-b"] },
           "broadband-osc": { id:"broadband-osc", label:"OSC Broadband", mode:"broadband", compatible:["osc"], filters:["osc-broad"] },
+          "broadband-osc-lpro": { id:"broadband-osc-lpro", label:"OSC Broadband — Optolong L-Pro", mode:"broadband", compatible:["osc"], filters:["osc-lpro"] },
+          "broadband-osc-antlia-triband-rgb-ultra": { id:"broadband-osc-antlia-triband-rgb-ultra", label:"OSC Broadband — Antlia Triband RGB Ultra II (LP / hybrid)", mode:"broadband", compatible:["osc"], filters:["osc-antlia-triband-rgb-ultra"], provisional:true },
           "narrowband-osc-duoband": { id:"narrowband-osc-duoband", label:"Optolong L-eXtreme (Ha/OIII 7nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-duo","osc-oiii-duo"] },
           "narrowband-osc-ultimate": { id:"narrowband-osc-ultimate", label:"Optolong L-Ultimate (Ha/OIII 3nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-ultimate","osc-oiii-ultimate"] },
           "narrowband-osc-alpt5": { id:"narrowband-osc-alpt5", label:"Antlia ALP-T 5nm (Ha/OIII)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-alpt5","osc-oiii-alpt5"] },
           "narrowband-osc-alpt3": { id:"narrowband-osc-alpt3", label:"Antlia ALP-T 3nm (Ha/OIII)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-alpt3","osc-oiii-alpt3"] },
+          "narrowband-osc-alpt35-combo": { id:"narrowband-osc-alpt35-combo", mode:"narrowband", label:"Antlia ALP-T 3nm + 3.5nm combo (Ha/OIII/SII; Hβ passband present)", compatible:["osc"], filters:["osc-ha-alpt3","osc-oiii-alpt3","osc-sii-alpt35hb"] },
+          "narrowband-osc-alpt5-combo": { id:"narrowband-osc-alpt5-combo", mode:"narrowband", label:"Antlia ALP-T 5nm combo (Ha/OIII/SII; Hβ passband present)", compatible:["osc"], filters:["osc-ha-alpt5","osc-oiii-alpt5","osc-sii-alpt5hb"] },
+          "narrowband-osc-askar-d1": { id:"narrowband-osc-askar-d1", mode:"narrowband", label:"Askar Super D1 (OIII 6.5nm / Ha 8.5nm)", compatible:["osc"], filters:["osc-ha-askar-d1","osc-oiii-askar-d1"] },
+          "narrowband-osc-askar-d2": { id:"narrowband-osc-askar-d2", mode:"narrowband", label:"Askar Super D2 (OIII 6.5nm / SII 8.5nm)", compatible:["osc"], filters:["osc-oiii-askar-d2","osc-sii-askar-d2"] },
+          "narrowband-osc-askar-d1d2-combo": { id:"narrowband-osc-askar-d1d2-combo", mode:"narrowband", label:"Askar Super D1 + D2 combo (Ha/OIII/SII)", compatible:["osc"], filters:["osc-ha-askar-d1","osc-oiii-askar-d1","osc-sii-askar-d2"] },
           "narrowband-osc-nbzii": { id:"narrowband-osc-nbzii", label:"IDAS NBZ-II (Ha 9.5nm / OIII 8nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-nbzii","osc-oiii-nbzii"] },
           "narrowband-osc-triad": { id:"narrowband-osc-triad", label:"Radian Triad Ultra (Ha/OIII/SII 4nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-triad","osc-oiii-triad","osc-sii-triad"] },
           "narrowband-osc-enhance": { id:"narrowband-osc-enhance", label:"Optolong L-eNhance (Ha + Hb/OIII)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-enhance","osc-oiii-enhance"] }
@@ -1359,7 +1438,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.39";
+            return "v1.0.45";
         }
   
       function buildConfigFileName() {
@@ -2612,7 +2691,9 @@
         if (camera.colorType === "mono") {
           return selected.length > 1 ? "mono_filter_set" : "mono_single_filter";
         }
-        if (filterSet?.mode === "narrowband") return "osc_filtered";
+        const selectedProfiles = selected.map((filterId) => getFilterProfile(filterId)).filter(Boolean);
+        const hasLpStyleFilter = selectedProfiles.some((profile) => profile.lpStyle || profile.provisional);
+        if (filterSet?.mode === "narrowband" || hasLpStyleFilter) return "osc_filtered";
         if (selected.length > 1 && filterSet?.mode !== "narrowband") return "osc_with_filter_changes";
         return "osc_broadband";
       }
@@ -3134,6 +3215,511 @@
           .sort((a, b) => a[0] - b[0]);
       }
   
+      const DEFAULT_SKY_PROFILE_ID = "legacy-flat";
+      const skyCurveCache = new Map();
+      const skyNormalizationCache = new Map();
+      const skyDisplayReferencePeakCache = new Map();
+  
+      function sampleObjectCurve(curve, wavelengthNm) {
+        const points = Object.entries(curve || {})
+          .map(([nm, value]) => [Number(nm), Number(value)])
+          .filter(([nm, value]) => Number.isFinite(nm) && Number.isFinite(value))
+          .sort((a, b) => a[0] - b[0]);
+        if (!points.length) return 0;
+        return Math.max(0, interpolateCurve(points, wavelengthNm) || 0);
+      }
+  
+      function normalizeSkyProfileId(profileId) {
+        return DATA.skyProfiles[profileId] ? profileId : DEFAULT_SKY_PROFILE_ID;
+      }
+  
+      function skyProfileCurve(profileId) {
+        const normalizedId = normalizeSkyProfileId(profileId);
+        if (skyCurveCache.has(normalizedId)) return skyCurveCache.get(normalizedId);
+        const profile = DATA.skyProfiles[normalizedId] || DATA.skyProfiles[DEFAULT_SKY_PROFILE_ID];
+        if (profile.curve) {
+          skyCurveCache.set(normalizedId, profile.curve);
+          return profile.curve;
+        }
+        const components = profile.components || {};
+        const wavelengths = new Set([400, 430, 460, 490, 500, 520, 550, 580, 590, 610, 620, 650, 680, 710, 750, 800]);
+        Object.keys(components).forEach((componentId) => {
+          Object.keys(DATA.skyComponents[componentId]?.curve || {}).forEach((nm) => wavelengths.add(Number(nm)));
+        });
+        const curve = {};
+        [...wavelengths]
+          .filter((nm) => Number.isFinite(nm))
+          .sort((a, b) => a - b)
+          .forEach((nm) => {
+            let value = 0;
+            Object.entries(components).forEach(([componentId, weight]) => {
+              value += Number(weight || 0) * sampleObjectCurve(DATA.skyComponents[componentId]?.curve, nm);
+            });
+            curve[nm] = Math.max(0, value);
+          });
+        skyCurveCache.set(normalizedId, curve);
+        return curve;
+      }
+  
+      function skyProfileNormalization(profileId) {
+        const normalizedId = normalizeSkyProfileId(profileId);
+        if (skyNormalizationCache.has(normalizedId)) return skyNormalizationCache.get(normalizedId);
+        const curve = skyProfileCurve(normalizedId);
+        const points = [];
+        for (let nm = 400; nm <= 800; nm += 2) {
+          points.push([nm, sampleObjectCurve(curve, nm)]);
+        }
+        const normalization = Math.max(0.001, trapezoidIntegral(points) / 400);
+        skyNormalizationCache.set(normalizedId, normalization);
+        return normalization;
+      }
+  
+      function normalizedSkyProfileShape(profileId, wavelengthNm) {
+        const normalizedId = normalizeSkyProfileId(profileId);
+        return sampleObjectCurve(skyProfileCurve(normalizedId), wavelengthNm) / skyProfileNormalization(normalizedId);
+      }
+  
+      function skyProfileArtificialFraction(profileId, bortleClass) {
+        const profile = DATA.skyProfiles[normalizeSkyProfileId(profileId)];
+        const kind = profile?.kind || "compatibility";
+        if (kind === "compatibility") return 0;
+        if (kind === "natural") return 1;
+        const b = clamp(Number(bortleClass || 5), 1, 9);
+        const t = clamp((b - 1) / 8, 0, 1);
+        if (kind === "urban-lines") return clamp(0.04 + 0.96 * Math.pow(t, 1.15), 0, 1);
+        if (kind === "mixed") return clamp(0.08 + 0.92 * Math.pow(t, 1.00), 0, 1);
+        if (kind === "led") return clamp(0.10 + 0.90 * Math.pow(t, 0.95), 0, 1);
+        return t;
+      }
+  
+      function effectiveSkyProfileShape(profileId, bortleClass, wavelengthNm) {
+        const normalizedId = normalizeSkyProfileId(profileId);
+        if (normalizedId === DEFAULT_SKY_PROFILE_ID || normalizedId === "dark-natural") {
+          return normalizedSkyProfileShape(normalizedId, wavelengthNm);
+        }
+        const artificial = skyProfileArtificialFraction(normalizedId, bortleClass);
+        const naturalShape = normalizedSkyProfileShape("dark-natural", wavelengthNm);
+        const selectedShape = normalizedSkyProfileShape(normalizedId, wavelengthNm);
+        return Math.max(0.02, lerp(naturalShape, selectedShape, artificial));
+      }
+  
+      function skyDisplayReferencePeak(profileIdOrIds) {
+        const ids = Array.isArray(profileIdOrIds)
+          ? profileIdOrIds.map(normalizeSkyProfileId)
+          : [normalizeSkyProfileId(profileIdOrIds || DEFAULT_SKY_PROFILE_ID)];
+        const cacheKey = ids.slice().sort().join("|");
+        if (skyDisplayReferencePeakCache.has(cacheKey)) return skyDisplayReferencePeakCache.get(cacheKey);
+        let peak = 1e-9;
+        ids.forEach((profileId) => {
+          for (let nm = 400; nm <= 800; nm += 0.5) {
+            peak = Math.max(peak, Math.max(0, effectiveSkyProfileShape(profileId, 9, nm)));
+          }
+        });
+        skyDisplayReferencePeakCache.set(cacheKey, peak);
+        return peak;
+      }
+  
+      function skyDisplayAmplitudeFactor(bortleClass) {
+        const b = clamp(Number(bortleClass || 5), 1, 9);
+        const t = (b - 1) / 8;
+        return 0.18 + 0.82 * Math.pow(t, 0.85);
+      }
+  
+      function skyDisplaySampleValue(profileId, bortleClass, wavelengthNm, referenceProfiles = null) {
+        const profile = normalizeSkyProfileId(profileId);
+        const scaleProfiles = Array.isArray(referenceProfiles) && referenceProfiles.length
+          ? referenceProfiles.map(normalizeSkyProfileId)
+          : [profile];
+        const referencePeak = Math.max(1e-9, skyDisplayReferencePeak(scaleProfiles));
+        const amplitude = Math.max(0, skyDisplayAmplitudeFactor(bortleClass));
+        return (Math.max(0, effectiveSkyProfileShape(profile, bortleClass, wavelengthNm)) * amplitude) / referencePeak;
+      }
+  
+      function skyDisplaySamples(profileId, bortleClass, referenceProfiles = null, stepNm = 1) {
+        const normalizedId = normalizeSkyProfileId(profileId);
+        const sampleWavelengths = new Set();
+        for (let nm = 400; nm <= 800; nm += stepNm) {
+          sampleWavelengths.add(Number(nm.toFixed(3)));
+        }
+        Object.keys(skyProfileCurve(normalizedId)).forEach((nm) => {
+          const value = Number(nm);
+          if (Number.isFinite(value) && value >= 400 && value <= 800) sampleWavelengths.add(value);
+        });
+        return [...sampleWavelengths]
+          .sort((a, b) => a - b)
+          .map((nm) => ({
+            nm,
+            value: skyDisplaySampleValue(normalizedId, bortleClass, nm, referenceProfiles)
+          }));
+      }
+  
+      function filteredSkyDisplaySamples(profileId, bortleClass, filterProfile, referenceProfiles = null, stepNm = 1) {
+        return skyDisplaySamples(profileId, bortleClass, referenceProfiles, stepNm)
+          .map((sample) => ({
+            ...sample,
+            value: sample.value * filterTransmissionAt(filterProfile, sample.nm)
+          }));
+      }
+  
+      function isSpectralSkyProfileActive(profileId) {
+        return normalizeSkyProfileId(profileId) !== DEFAULT_SKY_PROFILE_ID;
+      }
+  
+      function filterTransmissionAt(filterProfile, wavelengthNm) {
+        return clamp(sampleObjectCurve(filterProfile?.curve, wavelengthNm) / 100, 0, 1.2);
+      }
+  
+      function renderSkySpectralProfilePlot(profileId, bortleClass) {
+        const normalizedId = normalizeSkyProfileId(profileId);
+        const profile = DATA.skyProfiles[normalizedId] || DATA.skyProfiles[DEFAULT_SKY_PROFILE_ID];
+        const width = 420;
+        const height = 92;
+        const pad = { left: 28, right: 10, top: 10, bottom: 20 };
+        const samples = skyDisplaySamples(normalizedId, bortleClass);
+        const xFor = (nm) => pad.left + ((nm - 400) / 400) * (width - pad.left - pad.right);
+        const yFor = (value) => pad.top + (1 - clamp(value, 0, 1)) * (height - pad.top - pad.bottom);
+        const path = samples.map((sample, index) => `${index ? "L" : "M"} ${xFor(sample.nm).toFixed(1)} ${yFor(sample.value).toFixed(1)}`).join(" ");
+        const fillPath = `${path} L ${xFor(800).toFixed(1)} ${height - pad.bottom} L ${xFor(400).toFixed(1)} ${height - pad.bottom} Z`;
+        const tickLabels = [400, 500, 600, 700, 800].map((nm) => `
+          <line x1="${xFor(nm)}" y1="${pad.top}" x2="${xFor(nm)}" y2="${height - pad.bottom}" stroke="rgba(255,255,255,.07)" />
+          <text x="${xFor(nm)}" y="${height - 5}" text-anchor="middle" fill="rgba(210,226,242,.75)" font-size="9">${nm}</text>
+        `).join("");
+        return `
+          <div class="sky-profile-plot">
+            <div class="sky-profile-plot-head">
+              <span>${profile.label}</span>
+              <span>Effective sky background · Bortle ${fmtNumber(bortleClass, 0)}</span>
+            </div>
+            <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Representative sky spectral profile">
+              <rect x="0" y="0" width="${width}" height="${height}" rx="8" fill="rgba(4,8,14,.42)" />
+              ${tickLabels}
+              <line x1="${pad.left}" y1="${height - pad.bottom}" x2="${width - pad.right}" y2="${height - pad.bottom}" stroke="rgba(255,255,255,.22)" />
+              <path d="${fillPath}" fill="rgba(110,193,255,.14)" />
+              <path d="${path}" fill="none" stroke="rgba(132,240,207,.88)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              <text x="${pad.left}" y="10" fill="rgba(210,226,242,.68)" font-size="9">compressed preview height</text>
+              <text x="${width - pad.right}" y="${height - 5}" text-anchor="end" fill="rgba(210,226,242,.55)" font-size="9">nm</text>
+            </svg>
+            <div class="sky-profile-plot-note">Shape comes from the selected sky profile; height also follows Bortle on a compressed preview scale for readability. ${profile.note || "Representative profile used only where spectral LP modeling is relevant."}</div>
+          </div>
+        `;
+      }
+  
+      function spectralStorySeriesYMax(series, fallback = 100) {
+        let peak = 0;
+        (series || []).forEach((item) => {
+          (item.points || []).forEach((point) => {
+            if (Number.isFinite(point[1])) peak = Math.max(peak, point[1]);
+          });
+        });
+        if (!(peak > 0)) return fallback;
+        return Math.max(fallback * 0.65, Math.min(100, peak * 1.08));
+      }
+  
+      function spectralLineCenter(line) {
+        const key = String(line || "").toUpperCase();
+        if (key === "HA") return 656.3;
+        if (key === "OIII") return 500.7;
+        if (key === "SII") return 672.4;
+        if (key === "HB") return 486.1;
+        return 550;
+      }
+  
+      function spectralStoryColor(label) {
+        const key = String(label || "").toLowerCase();
+        if (key === "l" || key.includes("mono")) return "#d8dee9";
+        if (key === "r" || key.includes("red")) return "#ff8a8a";
+        if (key === "g" || key.includes("green")) return "#7ce0a0";
+        if (key === "b" || key.includes("blue")) return "#78b8ff";
+        if (key.includes("ha")) return "#ff7373";
+        if (key.includes("oiii")) return "#66d9ef";
+        if (key.includes("sii")) return "#f0a35e";
+        if (key.includes("sky")) return "#f0c95f";
+        if (key.includes("filter")) return "#78c8ff";
+        return "#f0c95f";
+      }
+  
+      function cfaDisplayWeight(channel, wavelengthNm) {
+        const key = String(channel || "").toLowerCase();
+        const curves = {
+          red: [[400,0],[500,0.02],[540,0.12],[580,0.55],[620,1.00],[670,0.92],[710,0.35],[760,0.05],[800,0]],
+          green: [[400,0],[450,0.12],[480,0.50],[510,0.92],[540,1.00],[575,0.72],[610,0.18],[660,0.02],[800,0]],
+          blue: [[400,0.50],[430,0.95],[460,1.00],[490,0.65],[520,0.22],[560,0.05],[620,0],[800,0]]
+        };
+        return clamp(interpolateCurve(curves[key] || curves.green, wavelengthNm) || 0, 0, 1);
+      }
+  
+      function sensorStoryResponse(cameraModel, channel, wavelengthNm) {
+        const qe = clamp(interpolateQe(cameraModel?.qeModel, wavelengthNm), 0, 1.25);
+        if (cameraModel?.colorType !== "osc") return qe * 100;
+        return qe * cfaDisplayWeight(channel, wavelengthNm) * 100;
+      }
+  
+      function filterStoryProfilesForResult(result) {
+        const camera = getCamera(appState.cameraId);
+        const selected = normalizeSelectedFilters(camera, appState.selectedFilters);
+        const ids = selected.length ? selected : [result.input.filter.profileId || result.input.filter.filterId];
+        return ids.map(getFilterProfile).filter(Boolean);
+      }
+  
+      function filterStoryTransmissionEnvelope(profiles, wavelengthNm) {
+        if (!profiles.length) return 1;
+        return clamp(Math.max(...profiles.map((profile) => filterTransmissionAt(profile, wavelengthNm))), 0, 1.2);
+      }
+  
+      function spectralStoryRange(profiles) {
+        const resolved = (profiles || []).filter(Boolean);
+        if (!resolved.length) return { xMin: 400, xMax: 800, xTickStep: 50, stepNm: 1 };
+        const narrowOnly = resolved.every((profile) => profile.mode === "narrowband");
+        if (!narrowOnly) return { xMin: 400, xMax: 800, xTickStep: 50, stepNm: 1 };
+        const centers = resolved.map((profile) => deriveFilterMetrics(profile).peakNm).filter(Number.isFinite);
+        if (!centers.length) return { xMin: 480, xMax: 690, xTickStep: 25, stepNm: 0.5 };
+        const min = Math.min(...centers);
+        const max = Math.max(...centers);
+        if (max - min < 45) {
+          return {
+            xMin: Math.max(380, Math.floor((min - 18) / 5) * 5),
+            xMax: Math.min(820, Math.ceil((max + 18) / 5) * 5),
+            xTickStep: 5,
+            stepNm: 0.25
+          };
+        }
+        return {
+          xMin: Math.max(380, Math.floor((min - 22) / 10) * 10),
+          xMax: Math.min(820, Math.ceil((max + 22) / 10) * 10),
+          xTickStep: 25,
+          stepNm: 0.5
+        };
+      }
+  
+      function spectralStoryPoints(xMin, xMax, stepNm, sampleFn) {
+        const points = [];
+        for (let nm = xMin; nm <= xMax + 1e-9; nm += stepNm) {
+          points.push([Number(nm.toFixed(3)), sampleFn(nm)]);
+        }
+        return points;
+      }
+  
+      function spectralStoryMarkers(profiles) {
+        const lines = new Set((profiles || [])
+          .filter((profile) => profile.mode === "narrowband")
+          .map((profile) => profile.line)
+          .filter((line) => ["Ha", "OIII", "SII"].includes(line)));
+        return [...lines].map((line) => ({
+          x: spectralLineCenter(line),
+          label: line,
+          color: spectralStoryColor(line)
+        }));
+      }
+  
+      function makeSpectralStoryPlotSvg(series, opts = {}) {
+        const width = opts.width || 900;
+        const height = opts.height || 260;
+        const pad = { left: 46, right: 16, top: 18, bottom: 54 };
+        const xMin = opts.xMin ?? 400;
+        const xMax = opts.xMax ?? 800;
+        const yMax = opts.yMax ?? spectralStorySeriesYMax(series, 100);
+        const xFor = (value) => pad.left + ((value - xMin) / Math.max(1, xMax - xMin)) * (width - pad.left - pad.right);
+        const yFor = (value) => pad.top + (1 - (clamp(value, 0, yMax) / Math.max(1, yMax))) * (height - pad.top - pad.bottom);
+        const ticks = yMax > 20 ? [0,25,50,75,100].filter((value) => value <= yMax + 1e-9) : [0, yMax * 0.5, yMax];
+        const grid = ticks.map((value) => `<line x1="${pad.left}" y1="${yFor(value).toFixed(1)}" x2="${width - pad.right}" y2="${yFor(value).toFixed(1)}" stroke="rgba(255,255,255,.07)" stroke-width="0.8"/>`).join("");
+        const xStep = opts.xTickStep || 50;
+        const xStart = Math.ceil(xMin / xStep) * xStep;
+        const xTicks = [];
+        for (let tick = xStart; tick <= xMax + 1e-9; tick += xStep) {
+          xTicks.push(`<line x1="${xFor(tick).toFixed(1)}" y1="${yFor(0).toFixed(1)}" x2="${xFor(tick).toFixed(1)}" y2="${(yFor(0) + 6).toFixed(1)}" stroke="rgba(255,255,255,.18)" stroke-width="0.8"/><text x="${xFor(tick).toFixed(1)}" y="${(yFor(0) + 19).toFixed(1)}" text-anchor="middle" font-size="11" fill="#aeb8c8" font-family="-apple-system,sans-serif">${tick} nm</text>`);
+        }
+        const yTicks = ticks.map((value) => `<text x="${pad.left - 6}" y="${(yFor(value) + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="#aeb8c8" font-family="-apple-system,sans-serif">${value.toFixed(0)}</text>`).join("");
+        const markers = (opts.markers || []).map((marker) => {
+          if (marker.x < xMin || marker.x > xMax) return "";
+          const x = xFor(marker.x);
+          return `<line x1="${x.toFixed(1)}" y1="${pad.top}" x2="${x.toFixed(1)}" y2="${yFor(0).toFixed(1)}" stroke="${marker.color || "rgba(255,209,102,.82)"}" stroke-width="1.1" stroke-dasharray="4 4"/><text x="${x.toFixed(1)}" y="${pad.top + 11}" text-anchor="middle" font-size="10" fill="${marker.color || "rgba(255,209,102,.92)"}" font-family="-apple-system,sans-serif">${escapeHtml(marker.label || "")}</text>`;
+        }).join("");
+        const curves = (series || []).map((item) => {
+          const points = (item.points || []).map(([x, y]) => `${xFor(x).toFixed(1)},${yFor(y).toFixed(1)}`).join(" ");
+          if (!points) return "";
+          const firstX = item.points[0][0];
+          const lastX = item.points[item.points.length - 1][0];
+          const area = item.fill ? `<polygon fill="${item.color}" opacity="${item.fillOpacity ?? 0.12}" points="${xFor(firstX).toFixed(1)},${yFor(0).toFixed(1)} ${points} ${xFor(lastX).toFixed(1)},${yFor(0).toFixed(1)}"/>` : "";
+          return `${area}<polyline fill="none" stroke="${item.color}" stroke-width="${item.width || 2.2}" opacity="${item.opacity ?? 0.95}" stroke-linecap="round" stroke-linejoin="round" ${item.dash ? `stroke-dasharray="${item.dash}"` : ""} points="${points}"/>`;
+        }).join("");
+        const legend = (series || []).map((item) => `
+          <span class="spectral-story-legend-item">
+            <span class="spectral-story-legend-line" style="border-top-color:${item.color};border-top-style:${item.dash ? "dashed" : "solid"};opacity:${item.opacity ?? 0.95}"></span>${escapeHtml(item.label)}
+          </span>
+        `).join("");
+        return `
+          <div>
+            <svg class="spectral-story-svg" viewBox="0 0 ${width} ${height}" aria-label="${escapeHtml(opts.ariaLabel || "Spectral plot")}">
+              ${grid}
+              ${markers}
+              <line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${yFor(0).toFixed(1)}" stroke="rgba(255,255,255,.24)" stroke-width="1"/>
+              <line x1="${pad.left}" y1="${yFor(0).toFixed(1)}" x2="${width - pad.right}" y2="${yFor(0).toFixed(1)}" stroke="rgba(255,255,255,.24)" stroke-width="1"/>
+              ${curves}
+              ${xTicks.join("")}
+              ${yTicks}
+            </svg>
+            ${legend ? `<div class="spectral-story-legend">${legend}</div>` : ""}
+          </div>
+        `;
+      }
+  
+      function renderSpectralStoryCard(kicker, title, copy, plot, note = "", prominent = false) {
+        return `
+          <div class="spectral-story-card ${prominent ? "prominent" : ""}">
+            <div class="spectral-story-head">
+              <div class="spectral-story-kicker">${escapeHtml(kicker)}</div>
+              <div class="spectral-story-title">${escapeHtml(title)}</div>
+              <div class="spectral-story-copy">${copy}</div>
+            </div>
+            ${plot}
+            ${note ? `<div class="spectral-story-note">${note}</div>` : ""}
+          </div>
+        `;
+      }
+  
+      function renderSpectralStoryPanel(result) {
+        const camera = getCamera(appState.cameraId);
+        const profiles = filterStoryProfilesForResult(result);
+        const range = spectralStoryRange(profiles);
+        const markers = spectralStoryMarkers(profiles);
+        const isOsc = camera.colorType === "osc";
+        const isNarrowband = profiles.some((profile) => profile.mode === "narrowband");
+        const lpRelevant = profiles.some((profile) => broadbandLpFilterProfile(profile)) || (profiles.some((profile) => profile.mode === "broadband" && profile.line === "OSC") && isSpectralSkyProfileActive(appState.skySpectralProfileId));
+  
+        const sensorSeries = isOsc
+          ? [
+              { label: "Red QE", color: spectralStoryColor("red"), points: spectralStoryPoints(400, 800, 2, (nm) => sensorStoryResponse(camera, "red", nm)) },
+              { label: "Green QE", color: spectralStoryColor("green"), points: spectralStoryPoints(400, 800, 2, (nm) => sensorStoryResponse(camera, "green", nm)) },
+              { label: "Blue QE", color: spectralStoryColor("blue"), points: spectralStoryPoints(400, 800, 2, (nm) => sensorStoryResponse(camera, "blue", nm)) }
+            ]
+          : [{ label: "Mono QE", color: "#d8dee9", points: spectralStoryPoints(400, 800, 2, (nm) => sensorStoryResponse(camera, "mono", nm)) }];
+  
+        const filterSeries = profiles.map((profile) => ({
+          label: `${profile.line || "Filter"} transmission`,
+          color: spectralStoryColor(profile.line || profile.label),
+          points: spectralStoryPoints(range.xMin, range.xMax, range.stepNm, (nm) => filterTransmissionAt(profile, nm) * 100),
+          opacity: 0.95
+        }));
+  
+        const combinedSeries = isOsc
+          ? [
+              { label: "Effective Red", color: spectralStoryColor("red"), points: spectralStoryPoints(range.xMin, range.xMax, range.stepNm, (nm) => sensorStoryResponse(camera, "red", nm) * filterStoryTransmissionEnvelope(profiles, nm)) },
+              { label: "Effective Green", color: spectralStoryColor("green"), points: spectralStoryPoints(range.xMin, range.xMax, range.stepNm, (nm) => sensorStoryResponse(camera, "green", nm) * filterStoryTransmissionEnvelope(profiles, nm)) },
+              { label: "Effective Blue", color: spectralStoryColor("blue"), points: spectralStoryPoints(range.xMin, range.xMax, range.stepNm, (nm) => sensorStoryResponse(camera, "blue", nm) * filterStoryTransmissionEnvelope(profiles, nm)) }
+            ]
+          : profiles.map((profile) => ({
+              label: `Effective ${profile.line || "filter"}`,
+              color: spectralStoryColor(profile.line || profile.label),
+              points: spectralStoryPoints(range.xMin, range.xMax, range.stepNm, (nm) => sensorStoryResponse(camera, "mono", nm) * filterTransmissionAt(profile, nm)),
+              opacity: 0.95
+            }));
+  
+        const sensorPlot = makeSpectralStoryPlotSvg(sensorSeries, { ariaLabel: "Sensor response", xMin: 400, xMax: 800, xTickStep: 50, yMax: spectralStorySeriesYMax(sensorSeries, 100) });
+        const filterPlot = makeSpectralStoryPlotSvg(filterSeries, { ariaLabel: "Filter transmission", xMin: range.xMin, xMax: range.xMax, xTickStep: range.xTickStep, yMax: 100, markers });
+        const combinedPlot = makeSpectralStoryPlotSvg(combinedSeries, { ariaLabel: "Combined response", xMin: range.xMin, xMax: range.xMax, xTickStep: range.xTickStep, yMax: spectralStorySeriesYMax(combinedSeries, 100), markers });
+  
+        const filterCopy = isOsc
+          ? (isNarrowband ? "Only the selected OSC dual-band, tri-band, or multi-band transmission path is shown here. Sensor response is deliberately left out." : "Only the selected external broadband or LP-filter transmission is shown here. Sensor response is deliberately left out.")
+          : (isNarrowband ? "Only the selected mono narrowband filter transmissions are shown here, with emission-line markers where they help." : "Only the selected mono broadband filter transmissions are shown here. Detector QE is deliberately left out.");
+        const combinedTitle = isOsc ? "Combined effective RGB response" : (isNarrowband ? "Combined line response" : "Combined channel response");
+        const combinedCopy = isOsc
+          ? "This is the practical answer plot for OSC: representative RGB sensor response multiplied by the selected filter path."
+          : "This is the practical answer plot for mono: detector QE multiplied by the selected filter transmission curves.";
+        const combinedNote = "Read the sensor and filter cards as the ingredients. Read this combined response card as the acquisition-chain answer.";
+  
+        const cards = [
+          renderSpectralStoryCard(
+            "Sensor view",
+            "What does the sensor itself contribute?",
+            isOsc
+              ? "Only detector response is shown here. For OSC cameras the curves are representative red, green, and blue channel-response displays used for interpretation, not a separate exposure-model input."
+              : "Only the detector QE curve is shown here. No filter transmission or sky-background story is mixed into this card.",
+            sensorPlot
+          ),
+          renderSpectralStoryCard(
+            "Filter view",
+            "What does the chosen capture path pass?",
+            filterCopy,
+            filterPlot
+          ),
+          renderSpectralStoryCard(
+            "Combined response",
+            combinedTitle,
+            combinedCopy,
+            combinedPlot,
+            combinedNote,
+            true
+          )
+        ];
+  
+        if (lpRelevant) {
+          const skyProfileId = normalizeSkyProfileId(appState.skySpectralProfileId);
+          const skyProfile = DATA.skyProfiles[skyProfileId] || DATA.skyProfiles[DEFAULT_SKY_PROFILE_ID];
+          const rawSky = skyDisplaySamples(skyProfileId, appState.bortleClass, [skyProfileId], 1).map((sample) => [sample.nm, sample.value * 100]);
+          const filteredSky = skyDisplaySamples(skyProfileId, appState.bortleClass, [skyProfileId], 1).map((sample) => [sample.nm, sample.value * 100 * filterStoryTransmissionEnvelope(profiles, sample.nm)]);
+          const skyPlot = makeSpectralStoryPlotSvg([
+            { label: "Effective sky", color: spectralStoryColor("sky"), points: rawSky, fill: true, fillOpacity: 0.12, width: 1.7 }
+          ], { ariaLabel: "Effective sky background", xMin: 400, xMax: 800, xTickStep: 50, yMax: 100 });
+          const filteredSkyPlot = makeSpectralStoryPlotSvg([
+            { label: "Raw sky", color: spectralStoryColor("sky"), points: rawSky, fill: true, fillOpacity: 0.10, width: 1.5, opacity: 0.78 },
+            { label: "Filtered sky", color: "#78c8ff", points: filteredSky, width: 1.6, opacity: 0.95 }
+          ], { ariaLabel: "Filtered sky background", xMin: 400, xMax: 800, xTickStep: 50, yMax: 100 });
+          const targetRatio = result.sourceScenario?.broadbandTargetSignalRatio;
+          const skyRatio = result.sky?.breakdown?.lpSkyTransmissionRatio;
+          const ratioNote = broadbandLpFilterProfile(profiles[0])
+            ? ` Target continuum kept: <strong>${fmtNumber((targetRatio ?? 1) * 100, 0)}%</strong>. Modeled sky background admitted: <strong>${skyRatio == null ? "not active" : `${fmtNumber(skyRatio * 100, 0)}%`}</strong>.`
+            : "";
+          cards.push(renderSpectralStoryCard(
+            "Sky view",
+            "What kind of sky/background is being assumed?",
+            `This separates the sky-background assumption from the sensor and filter stories. Shape comes from <strong>${escapeHtml(skyProfile.label)}</strong>; height follows Bortle on a compressed preview scale.`,
+            skyPlot,
+            "Representative profile only. It is not a site-specific spectrometer reading."
+          ));
+          cards.push(renderSpectralStoryCard(
+            "Filtered sky",
+            "What unwanted background survives after the active filter?",
+            "Raw sky is shown in gold; the surviving background after the selected filter path is shown in blue.",
+            filteredSkyPlot,
+            `LP-style filters help this exposure model only when they reject more structured sky background than target continuum.${ratioNote}`
+          ));
+        }
+  
+        if (isOsc && isNarrowband) {
+          const rows = ["Ha", "OIII", "SII"].map((line) => {
+            const nm = spectralLineCenter(line);
+            const trans = filterStoryTransmissionEnvelope(profiles, nm);
+            const r = sensorStoryResponse(camera, "red", nm) * trans;
+            const g = sensorStoryResponse(camera, "green", nm) * trans;
+            const b = sensorStoryResponse(camera, "blue", nm) * trans;
+            const total = r + g + b;
+            if (!(total > 0.6)) {
+              return `<tr><td><span class="spectral-story-line-chip">${line}</span></td><td colspan="3">Not materially passed in this capture path.</td></tr>`;
+            }
+            const dominant = [["Red", r], ["Green", g], ["Blue", b]].sort((a, bEntry) => bEntry[1] - a[1])[0][0];
+            return `<tr><td><span class="spectral-story-line-chip">${line}</span></td><td>${dominant}</td><td>${Math.round((r / total) * 100)} / ${Math.round((g / total) * 100)} / ${Math.round((b / total) * 100)}</td><td>${fmtNumber(total, 1)}</td></tr>`;
+          }).join("");
+          cards.push(`
+            <div class="spectral-story-card">
+              <div class="spectral-story-head">
+                <div class="spectral-story-kicker">OSC narrowband summary</div>
+                <div class="spectral-story-title">How do emission lines map into RGB capture?</div>
+                <div class="spectral-story-copy">This line-centered table is intentionally simpler than another overlay. It shows where each line mostly lands after the selected OSC filter path.</div>
+              </div>
+              <div class="spectral-story-subpanel">
+                <div class="spectral-story-subtitle">${escapeHtml(result.input.filter.name)}</div>
+                <table class="spectral-story-line-table">
+                  <thead><tr><th>Line</th><th>Mostly lands in</th><th>R / G / B share</th><th>Net response</th></tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+              </div>
+            </div>
+          `);
+        }
+  
+        return `<div class="spectral-story-stack">${cards.join("")}</div>`;
+      }
+  
       function trapezoidIntegral(points) {
         let total = 0;
         for (let index = 0; index < points.length - 1; index += 1) {
@@ -3194,6 +3780,80 @@
         return refRate * (metrics.effectiveBandwidthNm / refBandwidth) * (metrics.peakFrac / refPeakFrac);
       }
   
+      function broadbandLpFilterProfile(filterProfile) {
+        return !!(filterProfile && filterProfile.mode === "broadband" && filterProfile.line === "OSC" && filterProfile.lpStyle);
+      }
+  
+      function spectralSkyRelevantForFilter(filterProfile, conditions) {
+        return !!(
+          filterProfile
+          && filterProfile.mode === "broadband"
+          && filterProfile.line === "OSC"
+          && (broadbandLpFilterProfile(filterProfile) || isSpectralSkyProfileActive(conditions?.skySpectralProfileId))
+        );
+      }
+  
+      function lpComparableTransmission(filterProfile, wavelengthNm, referenceProfile = null) {
+        const transmission = filterTransmissionAt(filterProfile, wavelengthNm);
+        if (!broadbandLpFilterProfile(filterProfile) || !referenceProfile) return transmission;
+        return Math.min(transmission, filterTransmissionAt(referenceProfile, wavelengthNm));
+      }
+  
+      function integrateBroadbandSkyResponse(cameraModel, filterProfile, skyProfileId, bortleClass, referenceProfile = null) {
+        if (!cameraModel || !filterProfile) return 0;
+        let total = 0;
+        const stepNm = 0.5;
+        for (let nm = 400; nm <= 800; nm += stepNm) {
+          const qe = clamp(interpolateQe(cameraModel.qeModel, nm), 0, 1.25);
+          const transmission = lpComparableTransmission(filterProfile, nm, referenceProfile);
+          const skyShape = effectiveSkyProfileShape(skyProfileId, bortleClass, nm);
+          total += qe * transmission * skyShape * stepNm;
+        }
+        return total;
+      }
+  
+      function integrateBroadbandTargetResponse(cameraModel, filterProfile, referenceProfile = null) {
+        if (!cameraModel || !filterProfile) return 0;
+        let total = 0;
+        const stepNm = 0.5;
+        for (let nm = 400; nm <= 800; nm += stepNm) {
+          const qe = clamp(interpolateQe(cameraModel.qeModel, nm), 0, 1.25);
+          const transmission = lpComparableTransmission(filterProfile, nm, referenceProfile);
+          total += qe * transmission * stepNm;
+        }
+        return total;
+      }
+  
+      function broadbandTargetSignalRatioForFilter(filter, cameraState) {
+        const filterProfile = getFilterProfile(filter?.profileId);
+        if (!broadbandLpFilterProfile(filterProfile)) return 1;
+        const cameraModel = getCamera(cameraState?.cameraId);
+        const referenceProfile = DATA.filterProfiles["osc-broad"];
+        const activeIntegral = integrateBroadbandTargetResponse(cameraModel, filterProfile, referenceProfile);
+        const referenceIntegral = integrateBroadbandTargetResponse(cameraModel, referenceProfile);
+        if (!(activeIntegral > 0) || !(referenceIntegral > 0)) return 1;
+        return clamp(activeIntegral / referenceIntegral, 0.35, 1.15);
+      }
+  
+      function spectralSkyBaselineForFilter(filter, conditions, cameraState) {
+        const filterProfile = getFilterProfile(filter?.profileId);
+        if (!spectralSkyRelevantForFilter(filterProfile, conditions)) return null;
+        const cameraModel = getCamera(cameraState?.cameraId);
+        const referenceProfile = DATA.filterProfiles["osc-broad"];
+        const skyProfileId = normalizeSkyProfileId(conditions?.skySpectralProfileId);
+        const activeIntegral = integrateBroadbandSkyResponse(cameraModel, filterProfile, skyProfileId, conditions?.bortleClass, referenceProfile);
+        const referenceIntegral = integrateBroadbandSkyResponse(cameraModel, referenceProfile, skyProfileId, conditions?.bortleClass);
+        if (!(activeIntegral > 0) || !(referenceIntegral > 0)) return null;
+        const ratio = clamp(activeIntegral / referenceIntegral, 0.05, 1.35);
+        const profile = DATA.skyProfiles[skyProfileId] || DATA.skyProfiles[DEFAULT_SKY_PROFILE_ID];
+        return {
+          baseline: (DATA.skyBaselines.OSC_RGB || 0.24) * ratio,
+          ratio,
+          profileId: skyProfileId,
+          profileLabel: profile.label
+        };
+      }
+  
       function resolveFilter(filterId) {
         const profile = getFilterProfile(filterId);
         if (!profile) return null;
@@ -3212,6 +3872,9 @@
           familyKey,
           referenceNm: metrics.peakNm,
           compatible: [...(profile.compatible || [])],
+          lpStyle: !!profile.lpStyle,
+          provisional: !!profile.provisional,
+          category: profile.category || "",
           skyBaselineEPerPxPerSec: normalizedSkyBaseline(profile, metrics),
           sourceLabel: profile.label
         };
@@ -3263,7 +3926,8 @@
       function estimateSkyRate(input) {
         const { optics, filter, conditions, cameraState } = input;
         const ref = DATA.constants.skyReference;
-        const baseline = filter.skyBaselineEPerPxPerSec || DATA.skyBaselines[filter.skyKey] || 0.03;
+        const spectralSkyBaseline = spectralSkyBaselineForFilter(filter, conditions, cameraState);
+        const baseline = spectralSkyBaseline?.baseline || filter.skyBaselineEPerPxPerSec || DATA.skyBaselines[filter.skyKey] || 0.03;
         const fScale = Math.pow(ref.fRatio / Math.max(1.4, optics.fRatio), 2);
         const skyScale = Math.pow(10, -0.4 * (conditions.skyBrightnessMagPerArcsec2 - ref.skyBrightnessMagPerArcsec2));
         const airmass = computeAirmass(conditions.targetAltitudeDeg);
@@ -3291,7 +3955,10 @@
             qeNorm,
             throughputScale,
             airmass,
-            moonSeverity
+            moonSeverity,
+            skySpectralProfileId: spectralSkyBaseline?.profileId || normalizeSkyProfileId(conditions.skySpectralProfileId),
+            skySpectralProfileLabel: spectralSkyBaseline?.profileLabel || DATA.skyProfiles[normalizeSkyProfileId(conditions.skySpectralProfileId)]?.label || "Legacy flat sky",
+            lpSkyTransmissionRatio: spectralSkyBaseline?.ratio ?? null
           }
         };
       }
@@ -3319,6 +3986,7 @@
         const actualCoreAreaPx = Math.max(1.2, derived.starCoreAreaPx);
         const coreCompression = referenceCoreAreaPx / actualCoreAreaPx;
         const narrowPenalty = filter.bandType === "narrowband" && cameraState.colorType === "osc" ? 0.78 : 1;
+        const broadbandTargetSignalRatio = broadbandTargetSignalRatioForFilter(filter, cameraState);
         const representativeStarCoreRateEPerSec =
           (baseByFamily[filter.familyKey] || baseByFamily[filter.family] || 80)
           * areaScale
@@ -3328,6 +3996,7 @@
           * qeNorm
           * coreCompression
           * filter.transmissionPeakFrac / 0.9
+          * broadbandTargetSignalRatio
           * scenarioPreset.starCoreRateFactor
           * narrowPenalty;
   
@@ -3337,8 +4006,10 @@
             `${scenarioPreset.label.toLowerCase()} preset`,
             areaScale > 1.1 ? "larger aperture pushes bright-star saturation earlier" : "aperture near reference",
             actualCoreAreaPx > referenceCoreAreaPx ? "seeing spreads stars over more pixels" : "tight seeing concentrates star cores",
+            broadbandTargetSignalRatio !== 1 ? `LP target-side ratio ${fmtNumber(broadbandTargetSignalRatio, 2)}x` : "",
             cameraState.hcgActive ? "selected gain is in HCG territory" : "selected gain stays in lower-conversion behavior"
-          ]
+          ].filter(Boolean),
+          broadbandTargetSignalRatio
         };
       }
   
@@ -3828,6 +4499,7 @@
           filter,
           conditions: {
             skyInputMode: appState.skyInputMode,
+            skySpectralProfileId: appState.skySpectralProfileId,
             skyBrightnessMagPerArcsec2,
             seeingArcsecFwhm: appState.seeingArcsecFwhm,
             targetAltitudeDeg,
@@ -4199,6 +4871,7 @@
           rnTarget: "Sets the tolerated contribution from read noise relative to the minimum achievable stack noise. Lower percentages require longer exposures. Based on the read-noise contribution approach described by Robin Glover / SharpCap.",
           filterSet: "Selects a real named filter set built from the filter-curve library imported from the system comparison tool. The exposure model then uses the resolved member filters rather than a generic band placeholder.",
           sqm: "Use a measured sky-brightness reading when available. This is stronger than a generic planning estimate.",
+          skySpectralProfile: "Bortle or SQM sets how bright the sky is. This setting describes what kind of light pollution spectrum is in that brightness, which matters most for LP-style broadband filters.",
           measuredBackground: "Mean sky/background level from a real test exposure. This anchors the lower-bound calculation more directly than a modeled sky-rate estimate.",
           biasPedestal: "Required only if the measured background is entered in ADU space and has not already been bias-corrected.",
           trueGain: "Looked-up camera conversion gain in e-/ADU from the saved calibration capture settings. This is not the driver gain setting.",
@@ -4379,7 +5052,13 @@
                 <div class="field ${appState.skyInputMode === "bortle" ? "" : "inactive"}"><label>Bortle class</label>
                   <select id="bortleClass">${Object.keys(DATA.bortleToSky).map((key) => `<option value="${key}" ${Number(key) === appState.bortleClass ? "selected" : ""}>Bortle ${key}</option>`).join("")}</select>
                 </div>
+                <div class="field field-span-2">
+                  <label>Sky spectral profile ${helpBadge(helpText.skySpectralProfile)}</label>
+                  <select id="skySpectralProfileId">${Object.values(DATA.skyProfiles).map((profile) => `<option value="${profile.id}" ${profile.id === appState.skySpectralProfileId ? "selected" : ""}>${profile.label}</option>`).join("")}</select>
+                  <div class="field-note">Use Legacy flat sky for the original scalar behavior. The preview shows effective modeled sky background on a compressed display scale, not a calibrated spectrum.</div>
+                </div>
               </div>
+              ${renderSkySpectralProfilePlot(appState.skySpectralProfileId, appState.bortleClass)}
             </div>
   
             <div class="setup-subgroup location">
@@ -4689,8 +5368,8 @@
               </div>
               <div class="summary-meta">Show release notes</div>
             </summary>
-            <div class="release-notes-body">
-              <div class="release-notes-intro">Recent releases added new camera support, throughput clarification, and cleaner sorting so the tool is easier to scan and closer to how real systems are configured.</div>
+              <div class="release-notes-body">
+              <div class="release-notes-intro">Recent releases added new camera support, throughput clarification, cleaner sorting, and a first LP-aware sky-spectrum path so the tool is easier to scan and closer to how real systems are configured.</div>
               <div class="release-notes-grid">
                 <div class="release-note-block">
                   <h4>New cameras</h4>
@@ -4708,6 +5387,10 @@
                     <li>Mono LRGB — Antlia LRGB-V Pro</li>
                     <li>Mono SHO — Antlia 3nm Pro</li>
                     <li>Mono SHO — Antlia 4.5nm EDGE</li>
+                    <li>OSC LP broadband — Optolong L-Pro</li>
+                    <li>OSC LP / hybrid broadband — Antlia Triband RGB Ultra II, marked provisional</li>
+                    <li>OSC narrowband — Antlia ALP-T 3nm/3.5nm and 5nm combos</li>
+                    <li>OSC narrowband — Askar Super D1, D2, and D1 + D2 combo</li>
                     <li>Chroma 3nm SHO curves updated from denser System Comparison control points</li>
                   </ul>
                 </div>
@@ -4720,6 +5403,12 @@
                     <li>Single-filter hero plots now use the same clear operating-band outline treatment as filter-set rows, with the outline contained inside the displayed green band</li>
                     <li>Hero plots restore the two-stage lower-side story: read-noise criterion first, then operational overhead/comfort floor before the green band</li>
                     <li>FAQ and Technical Appendix now explain why shot noise is part of the model but not a separate plotted recommendation zone</li>
+                    <li>Sky + Field now separates sky brightness from representative sky spectrum for LP-style broadband filters</li>
+                    <li>Sky + Field now includes a compact spectral profile plot so LP profile choices are visible rather than hidden in a dropdown</li>
+                    <li>The compact spectral profile plot now samples narrow sodium and mercury line features densely enough to show multiple peaks.</li>
+                    <li>LP sky previews now show effective modeled sky background with compressed Bortle-aware display scaling instead of normalized spectral shape alone.</li>
+                    <li>Selected Filter Detail now includes a Spectral detail panel with separate sensor, filter, combined-response, and LP sky views.</li>
+                    <li>FAQ and Technical Appendix now clarify why LP filters can improve final image quality more than they change the suggested sub length.</li>
                     <li>Bright-star saturation language now clarifies that saturation caution is not the first clipped star in a real target field</li>
                     <li>Camera changes now switch to that camera’s recommended gain preset, so HCG defaults like ASI2400MC Pro gain 140 are not silently compared at the previous camera’s gain</li>
                     <li>Gain preset buttons now use camera-specific labels such as Low gain and HCG/default instead of implying that Gain 0 and Gain 100 are universal choices</li>
@@ -5339,6 +6028,12 @@
                   ${renderDriverCards(result)}
                 </div>
               </details>
+              <details class="collapsible-secondary" style="margin-top:12px">
+                <summary><span>Spectral detail</span><span class="summary-meta">Show sensor, filter, combined response, and LP sky views</span></summary>
+                <div class="collapsible-secondary-body">
+                  ${renderSpectralStoryPanel(result)}
+                </div>
+              </details>
               ${renderRegimeDefinitions(result)}
               <details class="collapsible-secondary">
                 <summary><span>Assumptions + sky-rate breakdown</span><span class="summary-meta">Show supporting planning inputs</span></summary>
@@ -5650,6 +6345,22 @@
                 q: "Does this tool assume sky-background-limited imaging is always the goal?",
                 a: "No. It uses read-noise contribution as the lower-bound calibration framework, then adds practical operating logic for headroom, overhead, workflow, and convenience. Sky brightness is important, but clearing the lower bound is not the same as solving the whole planning problem."
               },
+              {
+                q: "Why did you add a sky spectral profile for LP filters?",
+                a: "Bortle or SQM tells the tool how bright the sky is, but not what wavelengths make up that brightness. LP-style broadband filters such as Optolong L-Pro can reject some sodium or mercury line structure while passing much of the target and star continuum. The spectral profile lets the model estimate the sky background admitted by those filters without pretending the site spectrum is known exactly. The small preview shows effective modeled sky background, so its shape comes from the selected profile and its height also follows Bortle. The height is compressed for readability; it is not a calibrated photometric plot."
+              },
+              {
+                q: "What is the Spectral detail panel showing?",
+                a: "It separates the spectral story into smaller questions. Sensor view shows detector response only. Filter view shows the selected filter transmission only. Combined response multiplies those ingredients so you can see what the acquisition chain actually responds to. When LP spectral-sky modeling is relevant, separate sky and filtered-sky views show the assumed background and what survives the selected filter path."
+              },
+              {
+                q: "Will an LP filter always allow much longer exposures in bright sky?",
+                a: "Not necessarily. LP filters can improve the final capture by rejecting light that is not part of the target, which can help cleanliness, gradients, and color separation. This tool is narrower: it asks how the filter changes the exposure-length boundaries, especially read-noise clearance, operational floor, sky pedestal, saturation caution, and hard ceiling. If bright-star saturation, sky-pedestal headroom, or workflow remains the limiting factor, the recommended sub length may move only modestly even though the filter is still useful for image quality."
+              },
+              {
+                q: "Why can an LP filter help the image but not change the exposure recommendation much?",
+                a: "Because exposure length is only one part of capture quality. A filter may remove unwanted sodium, mercury, LED, or broadband sky glow and make the stack easier to process, but the sub length is still bounded by the criteria this tool models. Once the lower side is acceptable, longer subs may be limited by saturated stars, sky pedestal, rejected-frame cost, or workflow. The tool is therefore LP-aware, but it is not trying to score every aesthetic or processing benefit of the filter."
+              },
               ...(oscSupported ? [{
                 q: "Can I use this tool with OSC cameras the same way as mono plus filters?",
                 a: "Mostly yes, but interpret the result as one combined color path rather than separate mono channels. The lower-bound and upper-side logic still apply, but you will not get independent per-filter recommendations the way you do with a mono filter set."
@@ -5769,6 +6480,7 @@
               <div class="assumption"><div class="k">Sky rate</div><div class="v">${fmtNumber(result.derived.skyRateEPerPxPerSec, 3)} e-/px/s</div></div>
               <div class="assumption"><div class="k">Sky-pedestal caution</div><div class="v">${fmtSeconds(result.thresholds.skyPedestalCautionSec)}</div></div>
               <div class="assumption"><div class="k">Sky source</div><div class="v">${input.conditions.skySourceLabel}</div></div>
+              <div class="assumption"><div class="k">Sky spectral profile</div><div class="v">${sky.skySpectralProfileLabel}${sky.lpSkyTransmissionRatio != null ? ` · LP sky ratio ${fmtNumber(sky.lpSkyTransmissionRatio, 2)}×` : ""}</div></div>
               <div class="assumption"><div class="k">Moon severity</div><div class="v">${input.conditions.moonSeverity}</div></div>
               <div class="assumption"><div class="k">Moon geometry source</div><div class="v">${input.conditions.moonGeometrySource === "computed" ? `computed (${input.conditions.darknessState})` : "manual"}</div></div>
               <div class="assumption"><div class="k">Air mass</div><div class="v">${fmtNumber(sky.airmass, 2)}</div></div>
@@ -6746,6 +7458,50 @@
           expected: {
             note: "Very bright broadband sky should make the sky-pedestal threshold more relevant."
           }
+        },
+        {
+          id: "lp-lpro-line-rich-sky",
+          name: "L-Pro should reduce modeled sky background under line-rich LP",
+          input: {
+            cameraId: "zwo-asi2600mc-pro",
+            modeId: "auto",
+            gain: 100,
+            tempC: -10,
+            apertureMm: 130,
+            focalLengthMm: 910,
+            fRatio: 7,
+            throughputFrac: 0.82,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc-lpro",
+            selectedFilters: ["osc-lpro"],
+            activeFilterId: "osc-lpro",
+            skyInputMode: "bortle",
+            skySpectralProfileId: "legacy-sodium-mercury",
+            bortleClass: 8,
+            skyBrightnessMagPerArcsec2: 18.1,
+            sqmMeasurementMagPerArcsec2: 18.1,
+            seeingArcsecFwhm: 2.5,
+            targetAltitudeDeg: 70,
+            moonMode: "preset",
+            moonPreset: "moonless",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: -20,
+            moonSeparationDeg: 120,
+            transparencyFactor: 1,
+            fieldPresetId: "average_field",
+            captureSequencing: "filter_blocks",
+            filterBlockLengthSubs: 10,
+            focusHandling: "periodic_focus",
+            ditherFrequency: "every_3",
+            ditherSettleSec: 8,
+            badFrameRiskTolerance: "medium",
+            fileCountPreference: "balanced",
+            customFilterSwitchPenaltySec: null,
+            saturationTolerance: "medium"
+          },
+          expected: {
+            note: "LP-style broadband should admit less modeled sky background than plain OSC broadband under a line-rich LP profile."
+          }
         }
       ];
   
@@ -6956,6 +7712,29 @@
             if (result.thresholds.sweetSpotMaxSec >= darkerComparison.thresholds.sweetSpotMaxSec) {
               failures.push("Bright broadband sky did not tighten the operating-band end relative to the darker comparison.");
             }
+          }
+          if (testCase.id === "lp-lpro-line-rich-sky") {
+            const plainBroadband = evaluateScenario({
+              ...testCase.input,
+              filterSetId: "broadband-osc",
+              selectedFilters: ["osc-broad"],
+              activeFilterId: "osc-broad"
+            });
+            if (!(result.sky.skyRateEPerPxPerSec < plainBroadband.sky.skyRateEPerPxPerSec)) {
+              failures.push("L-Pro did not reduce modeled sky background relative to plain OSC broadband under the line-rich LP profile.");
+            }
+            if (!(result.sky.breakdown.lpSkyTransmissionRatio > 0 && result.sky.breakdown.lpSkyTransmissionRatio < 1)) {
+              failures.push("L-Pro spectral transmission ratio was not recorded as a plausible sub-unity LP sky ratio.");
+            }
+            ["dark-natural", "legacy-sodium-mercury", "mixed-suburban", "led-heavy-urban"].forEach((profileId) => {
+              const peakAt = (bortle) => Math.max(...skyDisplaySamples(profileId, bortle).map((sample) => sample.value));
+              const b1 = peakAt(1);
+              const b5 = peakAt(5);
+              const b9 = peakAt(9);
+              if (!(b5 > b1 && b9 > b5)) {
+                failures.push(`${profileId} preview display does not rise progressively from Bortle 1 to 5 to 9.`);
+              }
+            });
           }
   
           return {
@@ -7517,7 +8296,8 @@
                     <ul class="ap-bullets">
                       <li><strong>Mono LRGB sets:</strong> ZWO, Antlia LRGB-V Pro, Chroma, Baader, Astronomik L-1 / L-2 / L-3</li>
                       <li><strong>Mono SHO sets:</strong> Astronomik 4 nm / 6 nm / 12 nm, Chroma 3 nm / 5 nm / 8 nm, Baader 3.5/4 nm and 6.5 nm, ZWO 7 nm, Antlia 3 nm Pro and 4.5 nm EDGE</li>
-                      <li><strong>OSC / dual- and tri-band sets:</strong> OSC broadband, Optolong L-eXtreme, L-Ultimate, L-eNhance, Antlia ALP-T 5 nm / 3 nm, IDAS NBZ-II, and Radian Triad Ultra</li>
+                      <li><strong>OSC / dual- and tri-band sets:</strong> OSC broadband, Optolong L-eXtreme, L-Ultimate, L-eNhance, Antlia ALP-T 5 nm / 3 nm, Antlia ALP-T 3 nm + 3.5 nm and 5 nm combos, Askar Super D1 / D2 / D1 + D2, IDAS NBZ-II, and Radian Triad Ultra</li>
+                      <li><strong>OSC LP / hybrid broadband sets:</strong> Optolong L-Pro and Antlia Triband RGB Ultra II. Triband is treated as provisional LP / hybrid broadband support, not as a trusted OSC narrowband line-isolation model.</li>
                       <li><strong>Support meaning:</strong> the active filter is resolved from a named profile with line family, compatibility, sampled transmission curve, and derived effective bandwidth</li>
                     </ul>
                     ${methodRow("Current selected filter", `<strong>${input.filter.name}</strong> · ${input.filter.bandType} · effective bandwidth <strong>${fmtNumber(input.filter.bandwidthNm, 2)} nm</strong> · reference wavelength <strong>${fmtNumber(input.filter.referenceNm, 1)} nm</strong>`)}
@@ -7530,6 +8310,29 @@
                       <li>Effective bandwidth is derived from the sampled curve using trapezoidal integration normalized by peak transmission</li>
                       <li>The representative wavelength used by the model is the sampled peak or line-centered wavelength implied by the curve</li>
                       <li>QE normalization is computed from the camera QE table at the filter’s reference wavelength</li>
+                    </ul>
+                  </div>
+                  <div class="ap-method-group">
+                    <div class="ap-method-group-title">Spectral detail panel</div>
+                    <p>The in-app Spectral detail panel follows a one-plot, one-question structure adapted from the System Comparison deep dive. It replaces the old habit of stacking every spectral ingredient into one overloaded overlay.</p>
+                    <ul class="ap-bullets">
+                      <li><strong>Sensor view:</strong> detector response only. Mono shows one QE curve; OSC shows representative red, green, and blue channel-response displays for interpretation.</li>
+                      <li><strong>Filter view:</strong> selected filter transmission only. Detector QE and sky background are deliberately excluded.</li>
+                      <li><strong>Combined response:</strong> detector response multiplied by the selected filter path. This is the main interpretive acquisition-chain plot.</li>
+                      <li><strong>LP support views:</strong> when spectral-sky modeling is relevant, sky and filtered-sky cards show the assumed background separately from sensor and filter response.</li>
+                    </ul>
+                  </div>
+                  <div class="ap-method-group">
+                    <div class="ap-method-group-title">LP spectral-sky path</div>
+                    <p>Bortle class or SQM still controls the overall sky brightness amplitude. The new sky spectral profile controls the wavelength mix of that brightness. For LP-style broadband filters, the tool integrates camera QE, filter transmission, and the selected representative sky spectrum to estimate how much sky background reaches the sensor relative to plain OSC broadband. The same broadband integration path is also used on the target side so LP filters can reduce sky background and target/star continuum separately rather than receiving a hand-written bonus.</p>
+                    <p>That does not mean the exposure recommendation captures every reason imagers use LP filters. Many LP-filter benefits are image-quality benefits: less unwanted sky signal, cleaner gradients, better color separation, and an easier final stack. The exposure recommendation changes only when those spectral changes move the modeled sub-length boundaries: read-noise clearance, operational overhead floor, sky-pedestal headroom, saturation caution, or hard ceiling. In many real setups, saturation or workflow still controls the upper side, so a useful LP filter may improve the image more than it changes the suggested sub length.</p>
+                    <ul class="ap-bullets">
+                      <li><strong>Representative components:</strong> natural continuum, mercury lines, sodium lines, and LED-heavy continuum</li>
+                      <li><strong>Representative profiles:</strong> dark natural, legacy sodium / mercury, mixed suburban, and LED-heavy urban, plus Legacy flat sky for compatibility</li>
+                      <li><strong>Scope:</strong> this changes the modeled sky-background rate for LP-style broadband filters; it does not claim to know the exact spectrum of the user’s site</li>
+                      <li><strong>Recommendation scope:</strong> the tool is LP-aware for exposure length, but it does not attempt to score all final-image benefits of rejecting unwanted light</li>
+                      <li><strong>Preview display:</strong> the Sky + Field plot shows effective modeled sky background using the same effective profile logic as the LP calculation path. Bortle affects the displayed height, but that height is compressed for readability and should not be read as a calibrated photometric axis.</li>
+                      <li><strong>Caveat:</strong> a small exposure-length shift is not the same thing as a useless filter; it may simply mean the current limiting condition is not the sky-background term the filter improves most</li>
                     </ul>
                   </div>
                   <div class="ap-method-group">
@@ -8208,6 +9011,7 @@
               : document.getElementById("skyInputMode").value;
         appState.skyBrightnessMagPerArcsec2 = parseNumber("skyBrightnessMagPerArcsec2", appState.skyBrightnessMagPerArcsec2);
         appState.sqmMeasurementMagPerArcsec2 = parseNumber("sqmMeasurementMagPerArcsec2", appState.sqmMeasurementMagPerArcsec2);
+        appState.skySpectralProfileId = normalizeSkyProfileId(document.getElementById("skySpectralProfileId")?.value || appState.skySpectralProfileId);
         appState.locationQuery = document.getElementById("locationQuery")?.value || appState.locationQuery;
         appState.siteLatitudeDeg = parseNumber("siteLatitudeDeg", appState.siteLatitudeDeg);
         appState.siteLongitudeDeg = parseNumber("siteLongitudeDeg", appState.siteLongitudeDeg);
