@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.39.html (v1.0.39). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.46.html (v1.0.46). Do not edit by hand. */
 :root{
       --bg0:#050912;
       --bg1:#0b1421;
@@ -588,6 +588,164 @@
       font-size:.69rem;
       line-height:1.35;
       margin-top:1px;
+    }
+    .sky-profile-plot{
+      margin-top:8px;
+      padding:10px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:8px;
+      background:rgba(5,10,18,.30);
+    }
+    .sky-profile-plot-head{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:6px;
+      color:var(--soft);
+      font-size:.68rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .sky-profile-plot svg{
+      display:block;
+      width:100%;
+      height:auto;
+      min-height:74px;
+    }
+    .sky-profile-plot-note{
+      margin-top:6px;
+      color:var(--soft);
+      font-size:.68rem;
+      line-height:1.35;
+    }
+    .spectral-story-stack{
+      display:grid;
+      gap:12px;
+    }
+    .spectral-story-card{
+      padding:14px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.028);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+    }
+    .spectral-story-card.prominent{
+      border-color:rgba(132,240,207,.28);
+      background:linear-gradient(180deg,rgba(132,240,207,.085),rgba(255,255,255,.022));
+    }
+    .spectral-story-head{
+      display:grid;
+      gap:4px;
+      margin-bottom:10px;
+    }
+    .spectral-story-kicker{
+      color:var(--soft);
+      font-size:.62rem;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .spectral-story-title{
+      color:#eef6ff;
+      font-size:.88rem;
+      font-weight:900;
+      line-height:1.22;
+    }
+    .spectral-story-copy{
+      color:#c8d7e8;
+      font-size:.72rem;
+      line-height:1.45;
+    }
+    .spectral-story-note{
+      color:var(--soft);
+      font-size:.68rem;
+      line-height:1.45;
+      margin-top:8px;
+    }
+    .spectral-story-svg{
+      width:100%;
+      display:block;
+      border-radius:8px;
+      background:rgba(8,13,22,.36);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .spectral-story-legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+    .spectral-story-legend-item{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color:#c7d7e8;
+      font-size:.65rem;
+    }
+    .spectral-story-legend-line{
+      display:inline-block;
+      width:14px;
+      height:0;
+      border-top-width:2px;
+      border-top-style:solid;
+    }
+    .spectral-story-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+    .spectral-story-subpanel{
+      display:grid;
+      gap:8px;
+      padding:12px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.02);
+    }
+    .spectral-story-subtitle{
+      color:#eef6ff;
+      font-size:.78rem;
+      font-weight:900;
+    }
+    .spectral-story-mini{
+      color:#a7b9cc;
+      font-size:.66rem;
+      line-height:1.42;
+    }
+    .spectral-story-line-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:.7rem;
+    }
+    .spectral-story-line-table th,
+    .spectral-story-line-table td{
+      padding:6px 7px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+      text-align:left;
+    }
+    .spectral-story-line-table th{
+      color:#b8c8d9;
+      font-size:.60rem;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+    .spectral-story-line-table td{
+      color:#d9e6f2;
+    }
+    .spectral-story-line-table tr:last-child td{
+      border-bottom:none;
+    }
+    .spectral-story-line-chip{
+      display:inline-block;
+      padding:2px 7px;
+      border-radius:999px;
+      background:rgba(255,255,255,.07);
+      color:#dce8f5;
+      font-size:.58rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
     }
     .pill-row,.tab-row{display:flex;flex-wrap:wrap;gap:6px}
     .pill{
@@ -3043,7 +3201,7 @@
     }
     @media (max-width: 760px){
       body.exposure-explorer-standalone{padding:10px}
-      .field-grid,.field-grid-3,.cards-2,.cards-3,.cards-4,.summary-band,.definition-grid,.source-summary,.hero-strip,.hero-substats,.result-banner,.interpret-strip,.hero-summary-row,.plan-summary{grid-template-columns:1fr}
+      .field-grid,.field-grid-3,.cards-2,.cards-3,.cards-4,.summary-band,.definition-grid,.source-summary,.hero-strip,.hero-substats,.result-banner,.interpret-strip,.hero-summary-row,.plan-summary,.spectral-story-grid{grid-template-columns:1fr}
       .release-notes-grid{grid-template-columns:1fr}
       .ap-example-summary{grid-template-columns:1fr}
       .hero-inner{align-items:flex-start}

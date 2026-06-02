@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.45.html (v1.0.45). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.46.html (v1.0.46). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.45</span>
+            <span class="hero-version">v1.0.46</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -598,6 +598,43 @@
               level: "partial",
               curveSource: "System Compare ASI2400MC Pro import using ZWO IMX410 specs and compact OSC QE control points",
               lastVerified: "2026-05-21"
+            }
+          },
+          {
+            cameraId: "zwo-asi071mc-pro",
+            name: "ASI071MC Pro",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX071",
+            colorType: "osc",
+            pixelSizeUm: 4.78,
+            resolution: { widthPx: 4944, heightPx: 3284 },
+            adcBits: 14,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,430,460,500,530,550,600,650,680,700,750,800],
+              relativeQe: [0.09,0.19,0.30,0.35,0.31,0.31,0.27,0.21,0.18,0.13,0.06,0.02]
+            },
+            modes: [
+              {
+                modeId: "unity_curve",
+                modeName: "Unity gain planning curve",
+                gainRange: { min: 0, max: 240 },
+                modeSwitchBehavior: { hcgActive: false },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,4.8],[30,4.2],[60,3.7],[90,3.2],[120,2.8],[180,2.5],[240,2.3]] },
+                  fullWellE: { interpolation: "linear", points: [[0,46300],[30,35000],[60,25500],[90,18500],[120,13000],[180,8200],[240,5600]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,2.2],[60,1.4],[90,1.0],[120,0.72],[180,0.44],[240,0.31]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,13.9],[30,13.5],[60,13.1],[90,12.7],[120,12.2],[180,11.5],[240,10.9]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-15,0.0025],[-10,0.0032],[-5,0.0044],[0,0.0063],[5,0.0092],[10,0.0135],[15,0.020],[20,0.030],[25,0.045]] }
+                },
+                recommendedPresets: [0,90]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 8 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "System Comparison ASI071MC Pro import using compact Sony IMX071 OSC family curves",
+              lastVerified: "2026-06-02"
             }
           },
           {
@@ -1228,6 +1265,43 @@
               curveSource: "IMX571-derived generic OSC model",
               lastVerified: "2026-04-06"
             }
+          },
+          {
+            cameraId: "qhy071c",
+            name: "QHY071C (IMX071)",
+            manufacturer: "QHY",
+            sensor: "Sony IMX071",
+            colorType: "osc",
+            pixelSizeUm: 4.78,
+            resolution: { widthPx: 4944, heightPx: 3284 },
+            adcBits: 14,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,430,460,500,530,550,600,650,680,700,750,800],
+              relativeQe: [0.09,0.19,0.30,0.35,0.31,0.31,0.27,0.21,0.18,0.13,0.06,0.02]
+            },
+            modes: [
+              {
+                modeId: "unity_curve",
+                modeName: "Unity gain planning curve",
+                gainRange: { min: 0, max: 240 },
+                modeSwitchBehavior: { hcgActive: false },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,4.8],[30,4.2],[60,3.7],[90,3.2],[120,2.8],[180,2.5],[240,2.3]] },
+                  fullWellE: { interpolation: "linear", points: [[0,46300],[30,35000],[60,25500],[90,18500],[120,13000],[180,8200],[240,5600]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,2.2],[60,1.4],[90,1.0],[120,0.72],[180,0.44],[240,0.31]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,13.9],[30,13.5],[60,13.1],[90,12.7],[120,12.2],[180,11.5],[240,10.9]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-15,0.0025],[-10,0.0032],[-5,0.0044],[0,0.0063],[5,0.0092],[10,0.0135],[15,0.020],[20,0.030],[25,0.045]] }
+                },
+                recommendedPresets: [0,90]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 8 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "System Comparison QHY071C import using compact Sony IMX071 OSC family proxy curves",
+              lastVerified: "2026-06-02"
+            }
           }
         ]
       };
@@ -1438,7 +1512,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.45";
+            return "v1.0.46";
         }
   
       function buildConfigFileName() {
@@ -5374,7 +5448,9 @@
                 <div class="release-note-block">
                   <h4>New cameras</h4>
                   <ul>
+                    <li>ZWO ASI071MC Pro</li>
                     <li>ZWO ASI2400MC Pro</li>
+                    <li>QHY071C</li>
                     <li>ZWO ASI183MM Pro</li>
                     <li>ZWO ASI183MC Pro</li>
                     <li>ZWO ASI585MM Pro</li>
@@ -6757,6 +6833,82 @@
           expected: {
             anchorRange: [20, 180],
             note: "Should behave materially differently from mono narrowband."
+          }
+        },
+        {
+          id: "asi071mc-osc-broadband",
+          name: "ASI071MC Pro broadband import sanity",
+          input: {
+            cameraId: "zwo-asi071mc-pro",
+            modeId: "unity_curve",
+            gain: 90,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc",
+            selectedFilters: ["osc-broad"],
+            activeFilterId: "osc-broad",
+            skyInputMode: "bortle",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [20, 260],
+            note: "Imported IMX071 OSC model should evaluate in a plausible broadband range."
+          }
+        },
+        {
+          id: "qhy071c-osc-broadband",
+          name: "QHY071C broadband import sanity",
+          input: {
+            cameraId: "qhy071c",
+            modeId: "unity_curve",
+            gain: 90,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc",
+            selectedFilters: ["osc-broad"],
+            activeFilterId: "osc-broad",
+            skyInputMode: "bortle",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [20, 260],
+            note: "QHY071C should share the IMX071 family proxy behavior while remaining a distinct catalog entry."
           }
         },
         {
@@ -8278,7 +8430,7 @@
                     <div class="ap-method-group-title">Camera library currently included</div>
                     <ul class="ap-bullets">
                       <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI183MM Pro, ASI294MM Pro, ASI585MM Pro, QHY268M, QHY600M</li>
-                      <li><strong>OSC CMOS:</strong> ZWO ASI2400MC Pro, ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI183MC Pro, ASI294MC Pro, ASI585MC Pro, QHY268C</li>
+                      <li><strong>OSC CMOS:</strong> ZWO ASI071MC Pro, ASI2400MC Pro, ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI183MC Pro, ASI294MC Pro, ASI585MC Pro, QHY071C, QHY268C</li>
                       <li><strong>Support meaning:</strong> each included camera has a gain-dependent state model for read noise, full well, system gain, dark current, and mode behavior at the selected gain and temperature</li>
                     </ul>
                   </div>
@@ -8304,7 +8456,7 @@
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">How the spectral data is represented</div>
-                    <p>Filter curves and QE curves are stored as discrete wavelength samples, then interpolated for the wavelengths needed by the model. The Antlia LRGB-V Pro and 3 nm Pro entries are compact control-point approximations imported from the current System Comparison catalog; the Chroma 3 nm SHO family now uses that catalog’s denser control points. This is planning-grade spectral support, not laboratory spectrophotometry.</p>
+                    <p>Filter curves and QE curves are stored as discrete wavelength samples, then interpolated for the wavelengths needed by the model. The ASI071MC Pro and QHY071C entries are compact Sony IMX071-family OSC planning models imported from the current System Comparison catalog; QHY071C intentionally uses the same family proxy because QHY-specific lab QE tables are not stored separately here. The Antlia LRGB-V Pro and 3 nm Pro entries are compact control-point approximations imported from the same catalog; the Chroma 3 nm SHO family now uses that catalog’s denser control points. This is planning-grade spectral support, not laboratory spectrophotometry.</p>
                     <ul class="ap-bullets">
                       <li>Filter transmission is sampled as wavelength/transmission pairs in nm and percent</li>
                       <li>Effective bandwidth is derived from the sampled curve using trapezoidal integration normalized by peak transmission</li>
