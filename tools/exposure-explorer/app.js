@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.46.html (v1.0.46). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.48.html (v1.0.48). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.46</span>
+            <span class="hero-version">v1.0.48</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -76,7 +76,7 @@
           cameraId: "zwo-asi2600mm-pro",
           modeId: "auto",
           gain: 100,
-          tempC: -10,
+          tempC: -15,
           apertureMm: 132,
           focalLengthMm: 924,
           fRatio: 7.0,
@@ -490,7 +490,8 @@
           "astronomik-r": { id:"astronomik-r", mode:"broadband", label:"Astronomik Deep-Sky R", line:"R", compatible:["mono"], curve:{585:0,600:5,605:95,630:96,660:95,675:90,690:5,700:0} },
           "astronomik-g": { id:"astronomik-g", mode:"broadband", label:"Astronomik Deep-Sky G", line:"G", compatible:["mono"], curve:{490:0,500:5,505:95,530:96,555:97,565:96,575:5,585:0} },
           "astronomik-b": { id:"astronomik-b", mode:"broadband", label:"Astronomik Deep-Sky B", line:"B", compatible:["mono"], curve:{410:0,420:5,425:95,450:96,480:96,495:95,505:5,515:0} },
-          "osc-broad": { id:"osc-broad", mode:"broadband", label:"OSC Broadband", line:"OSC", compatible:["osc"], curve:{400:0,420:90,500:95,600:95,650:94,670:88,680:70,690:30,700:5,710:0} },
+          "osc-broad-uvir": { id:"osc-broad-uvir", mode:"broadband", label:"OSC Broadband with UV/IR Cut", shortLabel:"OSC UV/IR-Cut Broadband", line:"OSC", compatible:["osc"], filterFamily:"osc_broadband", filterRole:"uv_ir_cut_broadband", exposureBehavior:"broadband", workflowFamily:"osc_broadband", defaultThroughput:0.94, isNarrowbandLike:false, showIrLeakWarning:false, showUvIrPresentNote:true, curve:{380:0,395:2,405:45,415:88,430:94,500:95,560:95,620:94,650:94,670:90,680:62,690:22,700:5,710:0,800:0} },
+          "osc-broad": { id:"osc-broad", mode:"broadband", label:"OSC Broadband / Clear / No UV-IR Cut", shortLabel:"OSC Clear Broadband", line:"OSC", compatible:["osc"], filterFamily:"osc_broadband", filterRole:"clear_no_uv_ir_cut_broadband", exposureBehavior:"broadband", workflowFamily:"osc_broadband", defaultThroughput:0.97, isNarrowbandLike:false, showIrLeakWarning:true, showUvIrPresentNote:false, curve:{380:45,400:88,420:94,500:96,600:96,650:95,700:94,750:88,800:72} },
           "zwo-ha-7nm": { id:"zwo-ha-7nm", mode:"narrowband", label:"ZWO Ha 7nm", line:"Ha", compatible:["mono"], curve:{647:3.2,648:5.3,649:12.2,650:20.6,651:32.6,652:60.0,653:75.3,654:88.7,655:90.5,656:90.5,657:90.3,658:83.4,659:73.9,660:51.0,661:35.6,662:22.2,663:10.6,664:5.1,665:2.8} },
           "zwo-oiii-7nm": { id:"zwo-oiii-7nm", mode:"narrowband", label:"ZWO OIII 7nm", line:"OIII", compatible:["mono"], curve:{491:3.0,492:5.8,493:12.2,494:23.1,495:36.3,496:67.0,497:81.1,498:89.1,499:90.1,500:89.8,501:88.9,502:81.8,503:71.6,504:49.9,505:31.6,506:15.0,507:9.5,508:5.8,509:2.1} },
           "zwo-sii-7nm": { id:"zwo-sii-7nm", mode:"narrowband", label:"ZWO SII 7nm", line:"SII", compatible:["mono"], curve:{663:3.0,664:6.0,665:10.2,666:22.4,667:35.3,668:60.3,669:74.1,670:84.3,671:90.1,672:89.8,673:89.4,674:79.9,675:68.6,676:54.7,677:31.6,678:20.3,679:10.2,680:6.2,681:3.0,682:2.1} },
@@ -546,7 +547,8 @@
           "broadband-rgb-astronomik-l1": { id:"broadband-rgb-astronomik-l1", label:"Mono LRGB — Astronomik RGB + L-1", mode:"broadband", compatible:["mono"], filters:["astronomik-l1","astronomik-r","astronomik-g","astronomik-b"] },
           "broadband-rgb-astronomik": { id:"broadband-rgb-astronomik", label:"Mono LRGB — Astronomik RGB + L-2", mode:"broadband", compatible:["mono"], filters:["astronomik-l2","astronomik-r","astronomik-g","astronomik-b"] },
           "broadband-rgb-astronomik-l3": { id:"broadband-rgb-astronomik-l3", label:"Mono LRGB — Astronomik RGB + L-3", mode:"broadband", compatible:["mono"], filters:["astronomik-l3","astronomik-r","astronomik-g","astronomik-b"] },
-          "broadband-osc": { id:"broadband-osc", label:"OSC Broadband", mode:"broadband", compatible:["osc"], filters:["osc-broad"] },
+          "broadband-osc-uvir": { id:"broadband-osc-uvir", label:"OSC Broadband with UV/IR Cut", mode:"broadband", compatible:["osc"], filters:["osc-broad-uvir"] },
+          "broadband-osc": { id:"broadband-osc", label:"OSC Broadband / Clear / No UV-IR Cut", mode:"broadband", compatible:["osc"], filters:["osc-broad"] },
           "broadband-osc-lpro": { id:"broadband-osc-lpro", label:"OSC Broadband — Optolong L-Pro", mode:"broadband", compatible:["osc"], filters:["osc-lpro"] },
           "broadband-osc-antlia-triband-rgb-ultra": { id:"broadband-osc-antlia-triband-rgb-ultra", label:"OSC Broadband — Antlia Triband RGB Ultra II (LP / hybrid)", mode:"broadband", compatible:["osc"], filters:["osc-antlia-triband-rgb-ultra"], provisional:true },
           "narrowband-osc-duoband": { id:"narrowband-osc-duoband", label:"Optolong L-eXtreme (Ha/OIII 7nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-duo","osc-oiii-duo"] },
@@ -1512,7 +1514,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.46";
+            return "v1.0.48";
         }
   
       function buildConfigFileName() {
@@ -3027,6 +3029,24 @@
         return "";
       }
   
+      function oscBroadbandFilterNotice(filter) {
+        if (!filter || filter.family !== "OSC_RGB" || filter.bandType !== "broadband") return "";
+        if (filter.showUvIrPresentNote || filter.filterRole === "uv_ir_cut_broadband") {
+          return "Broadband OSC with UV/IR cut blocks out-of-band UV and near-IR while passing the visible spectrum. This is modeled as normal broadband OSC with UV/IR blocking, not as a narrowband or LP filter.";
+        }
+        if (filter.showIrLeakWarning || filter.filterRole === "clear_no_uv_ir_cut_broadband") {
+          return "Clear/no UV-IR-cut OSC imaging may allow out-of-band near-IR to reach the sensor. This can increase star bloat and affect color if the camera window or another filter does not already block UV/IR.";
+        }
+        return "";
+      }
+  
+      function renderOscBroadbandFilterNotice(filter) {
+        const notice = oscBroadbandFilterNotice(filter);
+        if (!notice) return "";
+        const warningClass = filter.showIrLeakWarning || filter.filterRole === "clear_no_uv_ir_cut_broadband" ? "warning" : "small-note";
+        return `<div class="${warningClass}" style="margin-top:8px">${notice}</div>`;
+      }
+  
       function classifyBand(filter) {
         if (filter.bandType === "narrowband") return "narrowband";
         if (filter.family === "L") return "broadband_luminance";
@@ -3242,6 +3262,15 @@
       }
   
       function compareFilterSetsForUi(a, b) {
+        const oscPriority = {
+          "broadband-osc-uvir": 0,
+          "broadband-osc": 1
+        };
+        const aOscPriority = a?.compatible?.includes("osc") ? oscPriority[a.id] : undefined;
+        const bOscPriority = b?.compatible?.includes("osc") ? oscPriority[b.id] : undefined;
+        if (aOscPriority !== undefined || bOscPriority !== undefined) {
+          return (aOscPriority ?? 99) - (bOscPriority ?? 99);
+        }
         const modeCompare = filterSetModeSortKey(a) - filterSetModeSortKey(b);
         if (modeCompare !== 0) return modeCompare;
         const vendorCompare = filterSetVendorKey(a).localeCompare(filterSetVendorKey(b), undefined, { sensitivity: "base" });
@@ -3272,7 +3301,7 @@
       }
   
       function defaultFilterSetId(camera, preferredMode = null) {
-        const preferred = camera.colorType === "osc" ? "broadband-osc" : "narrowband-sho-astronomik-6nm";
+        const preferred = camera.colorType === "osc" ? "broadband-osc-uvir" : "narrowband-sho-astronomik-6nm";
         const compatible = compatibleFilterSets(camera);
         return compatible.find((set) => set.id === preferred)?.id || compatible[0]?.id || null;
       }
@@ -3836,7 +3865,9 @@
       function normalizedSkyBaseline(filterProfile, metrics) {
         const family = skyFamilyKey(filterProfile);
         if (filterProfile.mode === "broadband") {
-          return DATA.skyBaselines[family] || DATA.skyBaselines.OSC_RGB;
+          const base = DATA.skyBaselines[family] || DATA.skyBaselines.OSC_RGB;
+          if (filterProfile.filterRole === "uv_ir_cut_broadband") return base * 0.94;
+          return base;
         }
         if (family === "OSC_RGB") {
           const refRate = DATA.skyBaselines.OSC_RGB || 0.24;
@@ -3949,6 +3980,14 @@
           lpStyle: !!profile.lpStyle,
           provisional: !!profile.provisional,
           category: profile.category || "",
+          filterFamily: profile.filterFamily || "",
+          filterRole: profile.filterRole || "",
+          exposureBehavior: profile.exposureBehavior || profile.mode,
+          workflowFamily: profile.workflowFamily || "",
+          defaultThroughput: Number.isFinite(profile.defaultThroughput) ? profile.defaultThroughput : null,
+          isNarrowbandLike: !!profile.isNarrowbandLike,
+          showIrLeakWarning: !!profile.showIrLeakWarning,
+          showUvIrPresentNote: !!profile.showUvIrPresentNote,
           skyBaselineEPerPxPerSec: normalizedSkyBaseline(profile, metrics),
           sourceLabel: profile.label
         };
@@ -5105,6 +5144,7 @@
             </div>
             <div class="pill-row">${filterPills}</div>
             <div class="small-note" style="margin-top:8px"><strong>${activeFilterSet?.label || "—"}</strong>${activeFilterMembers.length ? ` · ${activeFilterMembers.map((filter) => filter.name).join(", ")}` : ""}</div>
+            ${activeFilterMembers.length === 1 ? renderOscBroadbandFilterNotice(activeFilterMembers[0]) : ""}
           `)}
   
           ${setupGroup("setupOpenSky", "Sky + Field", "Planning assumptions, location, geometry, and field pressure", `
@@ -5463,6 +5503,7 @@
                     <li>Mono LRGB — Antlia LRGB-V Pro</li>
                     <li>Mono SHO — Antlia 3nm Pro</li>
                     <li>Mono SHO — Antlia 4.5nm EDGE</li>
+                    <li>Generic OSC Broadband with UV/IR Cut, plus explicit Clear / No UV-IR Cut broadband</li>
                     <li>OSC LP broadband — Optolong L-Pro</li>
                     <li>OSC LP / hybrid broadband — Antlia Triband RGB Ultra II, marked provisional</li>
                     <li>OSC narrowband — Antlia ALP-T 3nm/3.5nm and 5nm combos</li>
@@ -5483,6 +5524,7 @@
                     <li>Sky + Field now includes a compact spectral profile plot so LP profile choices are visible rather than hidden in a dropdown</li>
                     <li>The compact spectral profile plot now samples narrow sodium and mercury line features densely enough to show multiple peaks.</li>
                     <li>LP sky previews now show effective modeled sky background with compressed Bortle-aware display scaling instead of normalized spectral shape alone.</li>
+                    <li>Default camera temperature is now -15°C, and OSC Broadband stays first in the OSC filter-set dropdown.</li>
                     <li>Selected Filter Detail now includes a Spectral detail panel with separate sensor, filter, combined-response, and LP sky views.</li>
                     <li>FAQ and Technical Appendix now clarify why LP filters can improve final image quality more than they change the suggested sub length.</li>
                     <li>Bright-star saturation language now clarifies that saturation caution is not the first clipped star in a real target field</li>
@@ -6069,6 +6111,7 @@
                   <div class="section-label section-label-major">Selected Filter Detail</div>
                   <div class="detail-title ${titleToneClass}">${result.input.filter.name}</div>
                   <div class="detail-sub">Only one filter’s technical detail is shown at a time. Click a row in the set overview or a tab to switch filters.</div>
+                  ${renderOscBroadbandFilterNotice(result.input.filter)}
                 </div>
                 ${renderFilterTabs(allResults)}
               </div>
@@ -6298,6 +6341,10 @@
               {
                 q: "Why does the throughput value look lower than I expected?",
                 a: "The throughput value is an estimate for the full optical and filter path, not just the telescope objective. Even high-quality refractors, correctors, reducers, filters, camera windows, and other optical surfaces introduce small losses. These losses multiply through the system. For example, several 95–98% transmission elements can easily produce an overall optical/filter throughput in the 80–90% range.<br><br>This value is separate from camera quantum efficiency. Throughput estimates how much light reaches the sensor. Quantum efficiency estimates how efficiently the sensor converts that arriving light into electrons."
+              },
+              {
+                q: "Does a UV/IR-cut filter change the exposure recommendation?",
+                a: "A UV/IR-cut filter is treated as a broadband OSC filter. It blocks ultraviolet and near-infrared light while passing the visible spectrum. In most cases it only modestly changes the exposure recommendation, because it is not a narrowband or dual-band filter. Its larger practical benefit is star and color control: blocking out-of-band IR can reduce bloated stars and improve color behavior in broadband OSC imaging.<br><br>For this tool, generic UV/IR cut is modeled as broadband OSC with a modest throughput/passband adjustment."
               },
               {
                 q: "What does the Read Noise Regime mean?",
@@ -6833,6 +6880,44 @@
           expected: {
             anchorRange: [20, 180],
             note: "Should behave materially differently from mono narrowband."
+          }
+        },
+        {
+          id: "osc-broadband-uvir",
+          name: "Broadband OSC with UV/IR cut",
+          input: {
+            cameraId: "zwo-asi2600mc-pro",
+            modeId: "auto",
+            gain: 100,
+            tempC: -15,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc-uvir",
+            selectedFilters: ["osc-broad-uvir"],
+            activeFilterId: "osc-broad-uvir",
+            skyInputMode: "bortle",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [20, 180],
+            note: "Generic UV/IR cut should stay in the broadband OSC workflow, not filtered OSC."
           }
         },
         {
@@ -7715,6 +7800,26 @@
             if (Math.abs(result.headlineRecommendation.anchorSec - baseline.headlineRecommendation.anchorSec) < 40) {
               failures.push("Broadband OSC case is not differentiated enough from the mono narrowband reference.");
             }
+            if (result.input.workflow.workflowFamily !== "osc_broadband") {
+              failures.push("Clear/no UV-IR-cut OSC broadband should remain in the osc_broadband workflow family.");
+            }
+            if (!result.input.filter.showIrLeakWarning) {
+              failures.push("Clear/no UV-IR-cut OSC broadband should carry the informational IR-leak warning flag.");
+            }
+          }
+          if (testCase.id === "osc-broadband-uvir") {
+            if (result.input.workflow.workflowFamily !== "osc_broadband") {
+              failures.push("OSC Broadband with UV/IR Cut should remain in the osc_broadband workflow family.");
+            }
+            if (result.input.filter.showIrLeakWarning) {
+              failures.push("OSC Broadband with UV/IR Cut should not carry the IR-leak warning flag.");
+            }
+            if (!result.input.filter.showUvIrPresentNote) {
+              failures.push("OSC Broadband with UV/IR Cut should carry the UV/IR-present note flag.");
+            }
+            if (result.input.filter.bandType !== "broadband") {
+              failures.push("OSC Broadband with UV/IR Cut should be modeled as broadband.");
+            }
           }
           if (testCase.id === "mono-broadband-red-common-practice") {
             if (result.thresholds.sweetSpotMaxSec < 300) {
@@ -8448,11 +8553,18 @@
                     <ul class="ap-bullets">
                       <li><strong>Mono LRGB sets:</strong> ZWO, Antlia LRGB-V Pro, Chroma, Baader, Astronomik L-1 / L-2 / L-3</li>
                       <li><strong>Mono SHO sets:</strong> Astronomik 4 nm / 6 nm / 12 nm, Chroma 3 nm / 5 nm / 8 nm, Baader 3.5/4 nm and 6.5 nm, ZWO 7 nm, Antlia 3 nm Pro and 4.5 nm EDGE</li>
-                      <li><strong>OSC / dual- and tri-band sets:</strong> OSC broadband, Optolong L-eXtreme, L-Ultimate, L-eNhance, Antlia ALP-T 5 nm / 3 nm, Antlia ALP-T 3 nm + 3.5 nm and 5 nm combos, Askar Super D1 / D2 / D1 + D2, IDAS NBZ-II, and Radian Triad Ultra</li>
+                      <li><strong>OSC broadband sets:</strong> generic OSC Broadband with UV/IR Cut, plus OSC Broadband / Clear / No UV-IR Cut</li>
+                      <li><strong>OSC / dual- and tri-band sets:</strong> Optolong L-eXtreme, L-Ultimate, L-eNhance, Antlia ALP-T 5 nm / 3 nm, Antlia ALP-T 3 nm + 3.5 nm and 5 nm combos, Askar Super D1 / D2 / D1 + D2, IDAS NBZ-II, and Radian Triad Ultra</li>
                       <li><strong>OSC LP / hybrid broadband sets:</strong> Optolong L-Pro and Antlia Triband RGB Ultra II. Triband is treated as provisional LP / hybrid broadband support, not as a trusted OSC narrowband line-isolation model.</li>
                       <li><strong>Support meaning:</strong> the active filter is resolved from a named profile with line family, compatibility, sampled transmission curve, and derived effective bandwidth</li>
                     </ul>
                     ${methodRow("Current selected filter", `<strong>${input.filter.name}</strong> · ${input.filter.bandType} · effective bandwidth <strong>${fmtNumber(input.filter.bandwidthNm, 2)} nm</strong> · reference wavelength <strong>${fmtNumber(input.filter.referenceNm, 1)} nm</strong>`)}
+                  </div>
+                  <div class="ap-method-group">
+                    <div class="ap-method-group-title">OSC Broadband with UV/IR Cut</div>
+                    <p>The generic OSC Broadband with UV/IR Cut option represents a broadband color imaging workflow where ultraviolet and near-infrared light are blocked before reaching the sensor. This is distinct from dual-band, tri-band, or narrowband OSC filters.</p>
+                    <p>The model treats UV/IR cut as a broadband passband with modest transmission loss and out-of-band blocking. It does not model individual UV/IR-cut filter brands unless the user supplies a custom throughput or filter assumption.</p>
+                    <p>This option is intended to represent typical OSC broadband imaging where UV/IR blocking is present either as a separate filter, a built-in camera window, or another equivalent element in the imaging train.</p>
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">How the spectral data is represented</div>
