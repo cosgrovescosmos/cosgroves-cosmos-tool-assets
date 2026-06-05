@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.48.html (v1.0.48). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.51.html (v1.0.51). Do not edit by hand. */
 :root{
       --bg0:#050912;
       --bg1:#0b1421;
@@ -529,6 +529,10 @@
       font-weight:600;
       outline:none;
       appearance:none;
+    }
+    .camera-select-field select{
+      font-size:.78rem;
+      line-height:1.2;
     }
     .field input[readonly]{
       background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.028));
@@ -2693,6 +2697,60 @@
     .confidence-pill.medium{color:#dbefff;border-color:rgba(119,207,255,.34)}
     .confidence-pill.low{color:#ffe0d8;border-color:rgba(234,109,64,.32)}
     .confidence-pill.heuristic{color:#f3e5b1;border-color:rgba(240,201,95,.32)}
+    .provenance-card{
+      margin-top:10px;
+      padding:10px 12px;
+      border:1px solid rgba(124,224,195,.18);
+      border-radius:12px;
+      background:rgba(8,15,28,.24);
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.4;
+    }
+    .provenance-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:6px;
+      color:var(--text);
+      font-size:.72rem;
+      font-weight:900;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+    }
+    .provenance-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:7px;
+    }
+    .provenance-item{
+      min-width:0;
+      padding:7px 8px;
+      border:1px solid rgba(180,198,220,.12);
+      border-radius:9px;
+      background:rgba(255,255,255,.035);
+    }
+    .provenance-item .k{
+      margin-bottom:2px;
+      color:var(--muted-2);
+      font-size:.66rem;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .provenance-item .v{
+      color:var(--text);
+      font-weight:750;
+    }
+    .provenance-note{
+      margin-top:7px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    @media (max-width: 720px){
+      .provenance-grid{grid-template-columns:1fr}
+    }
 
     .explain{
       display:grid;

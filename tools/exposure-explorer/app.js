@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.48.html (v1.0.48). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.51.html (v1.0.51). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.48</span>
+            <span class="hero-version">v1.0.51</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -1158,6 +1158,223 @@
             }
           },
           {
+            cameraId: "playerone-poseidon-m-pro",
+            name: "Poseidon-M Pro",
+            manufacturer: "Player One",
+            sensor: "Sony IMX571",
+            colorType: "mono",
+            pixelSizeUm: 3.76,
+            resolution: { widthPx: 6252, heightPx: 4176 },
+            adcBits: 16,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,450,500,550,600,650,700,750,800],
+              relativeQe: [0.18,0.42,0.71,0.83,0.90,0.91,0.79,0.56,0.32]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG transition",
+              gainRange: { min: 0, max: 200 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 125 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,3.96],[26,2.80],[60,2.05],[125,1.36],[200,1.20]] },
+                fullWellE: { interpolation: "linear", points: [[0,71700],[26,52000],[60,34000],[125,16600],[200,9000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.09],[26,0.79],[60,0.52],[125,0.25],[200,0.14]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,14.26],[26,14.00],[60,13.82],[125,13.58],[200,12.1]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.00011],[-15,0.00021],[-10,0.00040],[-5,0.00071],[0,0.00118],[5,0.00205],[10,0.0036],[15,0.0062],[20,0.0105]] }
+              },
+              recommendedPresets: [0,125]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 20 },
+            dataQuality: { level: "partial", curveSource: "Official Player One operating data plus compact Sony IMX571-family QE curve", lastVerified: "2026-06-04" }
+          },
+          {
+            cameraId: "playerone-poseidon-c-pro",
+            name: "Poseidon-C Pro",
+            manufacturer: "Player One",
+            sensor: "Sony IMX571",
+            colorType: "osc",
+            pixelSizeUm: 3.76,
+            resolution: { widthPx: 6252, heightPx: 4176 },
+            adcBits: 16,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,450,500,550,600,650,700,750,800],
+              relativeQe: [0.14,0.35,0.43,0.43,0.40,0.32,0.22,0.09,0.03]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG transition",
+              gainRange: { min: 0, max: 200 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 125 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,3.90],[26,2.85],[60,2.10],[125,1.00],[200,0.92]] },
+                fullWellE: { interpolation: "linear", points: [[0,71700],[26,52000],[60,34000],[125,16600],[200,9000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.09],[26,0.79],[60,0.52],[125,0.25],[200,0.14]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,14.26],[26,14.00],[60,13.82],[125,13.58],[200,12.0]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.000105],[-15,0.00021],[-10,0.00043],[-5,0.00072],[0,0.001178],[5,0.0020],[10,0.0035],[15,0.0060],[20,0.0100]] }
+              },
+              recommendedPresets: [0,125]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 20 },
+            dataQuality: { level: "partial", curveSource: "Official Player One operating data plus compact Sony IMX571-family OSC QE curve", lastVerified: "2026-06-04" }
+          },
+          {
+            cameraId: "playerone-artemis-c-pro",
+            name: "Artemis-C Pro",
+            manufacturer: "Player One",
+            sensor: "Sony IMX294",
+            colorType: "osc",
+            pixelSizeUm: 4.63,
+            resolution: { widthPx: 4144, heightPx: 2822 },
+            adcBits: 14,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,450,500,550,600,650,700,750,800],
+              relativeQe: [0.13,0.34,0.42,0.42,0.39,0.32,0.22,0.09,0.03]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG transition",
+              gainRange: { min: 0, max: 200 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 120 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,7.8],[60,5.0],[120,1.2],[200,1.1]] },
+                fullWellE: { interpolation: "linear", points: [[0,65800],[60,38000],[120,14500],[200,9000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.50],[60,0.88],[120,0.36],[200,0.22]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,13.0],[60,12.9],[120,12.97],[200,11.9]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0015],[-15,0.0024],[-10,0.0038],[-5,0.0058],[0,0.0086],[5,0.0130],[10,0.0190],[15,0.0280],[20,0.0400]] }
+              },
+              recommendedPresets: [0,120]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 20 },
+            dataQuality: { level: "partial", curveSource: "Official Player One operating data plus compact Sony IMX294-family OSC QE curve", lastVerified: "2026-06-04" }
+          },
+          {
+            cameraId: "playerone-ares-m-pro",
+            name: "Ares-M Pro",
+            manufacturer: "Player One",
+            sensor: "Sony IMX533",
+            colorType: "mono",
+            pixelSizeUm: 3.76,
+            resolution: { widthPx: 3008, heightPx: 3008 },
+            adcBits: 14,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,450,500,550,600,650,700,750,800],
+              relativeQe: [0.18,0.42,0.71,0.83,0.90,0.91,0.79,0.56,0.32]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG transition",
+              gainRange: { min: 0, max: 200 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 125 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,4.46],[26,3.20],[60,2.20],[125,1.00],[200,0.92]] },
+                fullWellE: { interpolation: "linear", points: [[0,73000],[26,54000],[60,36000],[125,20000],[200,11000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.10],[26,0.82],[60,0.55],[125,0.30],[200,0.17]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,14.1],[26,13.9],[60,13.6],[125,13.2],[200,12.3]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.00004],[-15,0.00008],[-10,0.00015],[-5,0.00028],[0,0.00050],[5,0.00090],[10,0.0016],[15,0.0028],[20,0.0048]] }
+              },
+              recommendedPresets: [0,125]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 20 },
+            dataQuality: { level: "partial", curveSource: "Official Player One operating data plus compact Sony IMX533-family QE curve", lastVerified: "2026-06-04" }
+          },
+          {
+            cameraId: "playerone-ares-c-pro",
+            name: "Ares-C Pro",
+            manufacturer: "Player One",
+            sensor: "Sony IMX533",
+            colorType: "osc",
+            pixelSizeUm: 3.76,
+            resolution: { widthPx: 3008, heightPx: 3008 },
+            adcBits: 14,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,450,500,550,600,650,700,750,800],
+              relativeQe: [0.14,0.35,0.43,0.43,0.40,0.32,0.22,0.09,0.03]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG transition",
+              gainRange: { min: 0, max: 200 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 125 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,4.46],[26,3.20],[60,2.20],[125,1.00],[200,0.92]] },
+                fullWellE: { interpolation: "linear", points: [[0,73000],[26,54000],[60,36000],[125,20000],[200,11000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.10],[26,0.82],[60,0.55],[125,0.30],[200,0.17]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,14.1],[26,13.9],[60,13.6],[125,13.2],[200,12.3]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.00004],[-15,0.00008],[-10,0.00015],[-5,0.00028],[0,0.00050],[5,0.00090],[10,0.0016],[15,0.0028],[20,0.0048]] }
+              },
+              recommendedPresets: [0,125]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 20 },
+            dataQuality: { level: "partial", curveSource: "Official Player One operating data plus compact Sony IMX533-family OSC QE curve", lastVerified: "2026-06-04" }
+          },
+          {
+            cameraId: "playerone-uranus-m-pro",
+            name: "Uranus-M Pro",
+            manufacturer: "Player One",
+            sensor: "Sony IMX585",
+            colorType: "mono",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 3840, heightPx: 2160 },
+            adcBits: 12,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,450,500,530,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.58,0.78,0.88,0.91,0.90,0.88,0.82,0.79,0.72,0.60,0.45,0.31,0.18,0.09]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG transition",
+              gainRange: { min: 0, max: 400 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 210 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,6.50],[120,3.90],[210,0.70],[300,0.70],[400,0.70]] },
+                fullWellE: { interpolation: "linear", points: [[0,47000],[120,22000],[210,11000],[300,7000],[400,4500]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.40],[120,0.65],[210,0.28],[300,0.18],[400,0.11]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,13.4],[120,12.8],[210,12.4],[300,11.8],[400,11.0]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-15,0.0007],[-10,0.0012],[-5,0.0021],[0,0.0050],[5,0.0090],[10,0.016],[15,0.028],[20,0.046]] }
+              },
+              recommendedPresets: [0,210]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 20 },
+            dataQuality: { level: "partial", curveSource: "Official Player One operating data plus compact Sony IMX585-family QE curve", lastVerified: "2026-06-04" }
+          },
+          {
+            cameraId: "playerone-uranus-c-pro",
+            name: "Uranus-C Pro",
+            manufacturer: "Player One",
+            sensor: "Sony IMX585",
+            colorType: "osc",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 3840, heightPx: 2160 },
+            adcBits: 12,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [450,500,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.27,0.47,0.36,0.33,0.33,0.32,0.32,0.31,0.30,0.24,0.13,0.05]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG transition",
+              gainRange: { min: 0, max: 400 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 210 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,7.20],[120,4.10],[210,0.70],[300,0.70],[400,0.70]] },
+                fullWellE: { interpolation: "linear", points: [[0,47000],[120,22000],[210,11000],[300,7000],[400,4500]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.40],[120,0.65],[210,0.28],[300,0.18],[400,0.11]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,13.4],[120,12.8],[210,12.4],[300,11.8],[400,11.0]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-15,0.0007],[-10,0.0012],[-5,0.0021],[0,0.0050],[5,0.0090],[10,0.016],[15,0.028],[20,0.046]] }
+              },
+              recommendedPresets: [0,210]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 20 },
+            dataQuality: { level: "partial", curveSource: "Official Player One operating data plus compact Sony IMX585-family OSC QE curve", lastVerified: "2026-06-04" }
+          },
+          {
             cameraId: "qhy600m",
             name: "QHY600M",
             manufacturer: "QHY",
@@ -1514,7 +1731,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.48";
+            return "v1.0.51";
         }
   
       function buildConfigFileName() {
@@ -4473,6 +4690,67 @@
         return label;
       }
   
+      function cameraProvenanceDetails(camera) {
+        const id = camera?.cameraId || "";
+        const level = camera?.dataQuality?.level || "generic";
+        const sensorFamily = camera?.sensor || camera?.sensorFamily || "sensor family";
+        let operatingData = camera?.dataQuality?.curveSource || "Planning-grade camera model";
+        let qeSource = "Planning-grade QE curve";
+        let note = "Treat this as a practical planning model, not a laboratory calibration file.";
+  
+        if (id.startsWith("playerone-")) {
+          operatingData = "Official Player One gain, read-noise, full-well, dynamic-range, and dark-current data";
+          qeSource = `Generic ${sensorFamily} sensor-family QE curve because Player One does not publish a camera-specific QE curve`;
+          note = "This follows the catalog policy: use manufacturer-published QE when available; otherwise use the generic sensor-family curve and mark the model as partial.";
+        } else if (id === "qhy071c") {
+          operatingData = "Compact QHY071C planning import";
+          qeSource = "Generic Sony IMX071-family OSC QE proxy; QHY-specific lab QE tables are not stored here";
+          note = "This entry is intentionally labeled as a same-silicon planning proxy until stronger QHY071-specific public source material is available.";
+        } else if (id === "qhy268m" || id === "qhy268c") {
+          operatingData = "Official QHY operating data imported from the System Comparison catalog";
+          qeSource = "Compact shared Sony IMX571-family QE curve";
+          note = "The operating model is QHY-specific, while the spectral response remains a compact family curve.";
+        } else if (id.startsWith("zwo-")) {
+          if (id === "zwo-asi294mm-pro" || id === "zwo-asi294mc-pro" || id === "zwo-asi533mm-pro" || id === "zwo-asi533mc-pro") {
+            operatingData = "Official ZWO operating data";
+            qeSource = "QE-peak-anchored compact ZWO-family curve";
+            note = "ZWO source material supports the operating model, but the QE curve is peak-anchored rather than a full-resolution lab table.";
+          } else {
+            operatingData = "Official ZWO published specifications and gain/read-noise behavior";
+            qeSource = "ZWO-published camera QE curve or compact digitization from ZWO material";
+            note = "This is a stronger source path because the camera maker publishes its own spectral response material.";
+          }
+        } else if (id.startsWith("qhy")) {
+          operatingData = "QHY-family operating data";
+          qeSource = "Compact Sony-family QE approximation";
+          note = "The model remains planning-grade because not every QHY source provides a complete camera-specific QE curve.";
+        }
+  
+        const levelLabel = level === "full-modeled"
+          ? "Full-modeled"
+          : level === "partial"
+            ? "Partial"
+            : "Generic";
+        return { level, levelLabel, operatingData, qeSource, note, rawSource: camera?.dataQuality?.curveSource || "" };
+      }
+  
+      function renderCameraProvenanceCard(camera) {
+        const prov = cameraProvenanceDetails(camera);
+        return `
+          <div class="provenance-card">
+            <div class="provenance-title">
+              <span>Camera Data Provenance</span>
+              <span class="confidence-pill ${levelClass(prov.level === "full-modeled" ? "high" : prov.level === "partial" ? "medium" : "low")}">${prov.levelLabel}</span>
+            </div>
+            <div class="provenance-grid">
+              <div class="provenance-item"><div class="k">Operating data</div><div class="v">${prov.operatingData}</div></div>
+              <div class="provenance-item"><div class="k">QE / spectral response</div><div class="v">${prov.qeSource}</div></div>
+            </div>
+            <div class="provenance-note">${prov.note}</div>
+          </div>
+        `;
+      }
+  
       function summarizeWorkflowDisplay(workflow, results) {
         if (!workflow) {
           return {
@@ -4545,6 +4823,7 @@
         const scoreMap = { low: 1, medium: 2, high: 3 };
         const overallScore = (scoreMap[cameraLevel] + scoreMap[skyLevel] + scoreMap[saturationLevel]) / 3;
         const overall = overallScore >= 2.45 ? "high" : overallScore >= 1.7 ? "medium" : "low";
+        const cameraProvenance = cameraProvenanceDetails(getCamera(input.cameraState.cameraId));
         const explanation = overall === "high"
           ? "The camera model is relatively strong, but the sky and bright-star saturation layers are still approximate. Use this as a practical starting point."
           : overall === "medium"
@@ -4552,6 +4831,7 @@
             : "This is best treated as a rough planning guide. The uncertainty is too high for confident fine-grained recommendations.";
         return {
           cameraModel: input.cameraState.dataQuality,
+          cameraProvenance,
           cameraConfidence: cameraLevel,
           skyModel: input.calibration.exposureMode === "empirical"
             ? "measured background calibration"
@@ -5076,7 +5356,7 @@
               </div>
             </div>
             <div class="field-grid">
-              <div class="field"><label>Camera</label><select id="cameraId">${cameraOptions}</select></div>
+              <div class="field field-span-2 camera-select-field"><label>Camera</label><select id="cameraId">${cameraOptions}</select></div>
               ${modeField ? `<div class="field"><label>Camera mode</label>${modeField}</div>` : ""}
               <div class="field">
                 <label>Gain</label>
@@ -5134,6 +5414,7 @@
             <div class="actions">${recommendedGains}</div>
             <div class="micro-note" style="margin-top:6px">Gain presets are camera-specific shortcuts, not universal recommendations. ${gainBehaviorNote(camera)}</div>
             <div class="small-note" style="margin-top:8px">${camera.manufacturer} ${camera.name} ${camera.dataQuality.level === "full-modeled" ? "is <strong>fully modeled</strong>" : camera.dataQuality.level === "partial" ? "uses a <strong>partial camera model</strong>" : "uses a <strong>generic camera model</strong>"}. Pixel size: ${fmtNumber(camera.pixelSizeUm, 2)} µm.</div>
+            ${renderCameraProvenanceCard(camera)}
           `)}
           ${setupGroup("setupOpenFilters", "Filter Set", "Select a filter set and active filters", `
             <div class="field-grid-full" style="margin-bottom:8px">
@@ -5495,6 +5776,10 @@
                     <li>ZWO ASI183MC Pro</li>
                     <li>ZWO ASI585MM Pro</li>
                     <li>ZWO ASI585MC Pro</li>
+                    <li>Player One Poseidon-M Pro and Poseidon-C Pro</li>
+                    <li>Player One Artemis-C Pro</li>
+                    <li>Player One Ares-M Pro and Ares-C Pro</li>
+                    <li>Player One Uranus-M Pro and Uranus-C Pro</li>
                   </ul>
                 </div>
                 <div class="release-note-block">
@@ -5538,6 +5823,8 @@
                     <li>Filtered OSC sets now display one combined recommendation for the physical filter instead of separate Ha/OIII/SII passband rows.</li>
                     <li>Mono filter workflow now names the common filter-offsets plus refocus-when-needed approach, and default overhead wiring is less aggressive for normal LRGB sequencing.</li>
                     <li>Filter-set overview rows now align their shared bottom time axis to the same plot rectangle used by the colored recommendation bars.</li>
+                    <li>Camera provenance is now shown explicitly, separating official operating data from manufacturer-published or generic sensor-family QE curves.</li>
+                    <li>The camera dropdown now gives long camera names more room, including the newer Player One models.</li>
                     <li>FAQ and Technical Appendix updated to reflect the newer support model</li>
                   </ul>
                 </div>
@@ -6576,6 +6863,7 @@
   
       function renderConfidenceCard(result) {
         const confidence = result.confidence;
+        const prov = confidence.cameraProvenance;
         return `
           <div class="mini-card">
             <h3>Confidence</h3>
@@ -6586,6 +6874,7 @@
               <div><span class="confidence-pill ${levelClass(confidence.overall)}">${confidence.overall}</span> <span class="muted">Overall confidence</span></div>
             </div>
             <div class="small-note" style="margin-top:10px">${confidence.explanation}</div>
+            ${prov ? `<div class="small-note" style="margin-top:10px"><strong>Camera data provenance:</strong> ${prov.operatingData}. <strong>QE:</strong> ${prov.qeSource}.</div>` : ""}
           </div>
         `;
       }
@@ -8071,6 +8360,8 @@
         const exampleDerived = exampleResult.derived;
         const exampleSky = exampleResult.sky;
         const exampleSourceScenario = exampleResult.sourceScenario;
+        const selectedCameraModel = getCamera(input.cameraState.cameraId);
+        const selectedCameraProvenance = cameraProvenanceDetails(selectedCameraModel);
         const exampleLowerBoundBackground = exampleResult.lowerBoundBackground;
         const exampleCamera = exampleInput.cameraState;
         const examplePlanningSource = exampleInput.conditions.skySourceLabel;
@@ -8534,19 +8825,23 @@
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Camera library currently included</div>
                     <ul class="ap-bullets">
-                      <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI183MM Pro, ASI294MM Pro, ASI585MM Pro, QHY268M, QHY600M</li>
-                      <li><strong>OSC CMOS:</strong> ZWO ASI071MC Pro, ASI2400MC Pro, ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI183MC Pro, ASI294MC Pro, ASI585MC Pro, QHY071C, QHY268C</li>
+                      <li><strong>Mono CMOS:</strong> ZWO ASI2600MM Pro, ASI533MM Pro, ASI6200MM Pro, ASI1600MM Pro, ASI183MM Pro, ASI294MM Pro, ASI585MM Pro, QHY268M, QHY600M, Player One Poseidon-M Pro, Ares-M Pro, Uranus-M Pro</li>
+                      <li><strong>OSC CMOS:</strong> ZWO ASI071MC Pro, ASI2400MC Pro, ASI2600MC Pro, ASI533MC Pro, ASI6200MC Pro, ASI1600MC Pro, ASI183MC Pro, ASI294MC Pro, ASI585MC Pro, QHY071C, QHY268C, Player One Poseidon-C Pro, Artemis-C Pro, Ares-C Pro, Uranus-C Pro</li>
                       <li><strong>Support meaning:</strong> each included camera has a gain-dependent state model for read noise, full well, system gain, dark current, and mode behavior at the selected gain and temperature</li>
                     </ul>
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Camera support levels</div>
                     <ul class="ap-bullets">
-                      <li><strong>Full-modeled:</strong> published or strongly anchored gain/read-noise behavior with companion curves used directly by the tool</li>
-                      <li><strong>Partial:</strong> some companion curves are interpolated or estimated around published behavior</li>
+                      <li><strong>Full-modeled:</strong> the camera maker publishes enough camera-specific material for a comparatively strong planning model</li>
+                      <li><strong>Partial:</strong> official operating data is available, but at least one major input such as QE shape uses a compact family curve or interpolated companion curve</li>
                       <li><strong>Generic:</strong> a reference-family model is adapted to a similar sensor/camera class</li>
+                      <li><strong>QE policy:</strong> use manufacturer-published camera QE when available; when it is not published, use the generic sensor-family QE curve and mark that provenance clearly</li>
                     </ul>
-                    ${methodRow("Current selected camera", `<strong>${camera.cameraName}</strong> · support level <strong>${getCamera(input.cameraState.cameraId).dataQuality.level}</strong> · ${getCamera(input.cameraState.cameraId).dataQuality.curveSource}`)}
+                    ${methodRow("Current selected camera", `<strong>${camera.cameraName}</strong> · support level <strong>${selectedCameraProvenance.levelLabel}</strong>`)}
+                    ${methodRow("Operating data provenance", selectedCameraProvenance.operatingData)}
+                    ${methodRow("QE / spectral-response provenance", selectedCameraProvenance.qeSource)}
+                    ${methodRow("Interpretation note", selectedCameraProvenance.note)}
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">Filter and set support</div>
@@ -8568,7 +8863,7 @@
                   </div>
                   <div class="ap-method-group">
                     <div class="ap-method-group-title">How the spectral data is represented</div>
-                    <p>Filter curves and QE curves are stored as discrete wavelength samples, then interpolated for the wavelengths needed by the model. The ASI071MC Pro and QHY071C entries are compact Sony IMX071-family OSC planning models imported from the current System Comparison catalog; QHY071C intentionally uses the same family proxy because QHY-specific lab QE tables are not stored separately here. The Antlia LRGB-V Pro and 3 nm Pro entries are compact control-point approximations imported from the same catalog; the Chroma 3 nm SHO family now uses that catalog’s denser control points. This is planning-grade spectral support, not laboratory spectrophotometry.</p>
+                    <p>Filter curves and QE curves are stored as discrete wavelength samples, then interpolated for the wavelengths needed by the model. The ASI071MC Pro and QHY071C entries are compact Sony IMX071-family OSC planning models imported from the current System Comparison catalog; QHY071C intentionally uses the same family proxy because QHY-specific lab QE tables are not stored separately here. Player One Poseidon, Artemis, Ares, and Uranus entries use official Player One operating data for gain, read noise, full well, dynamic range, and dark current, paired with compact Sony-family QE curves where distinct Player One QE tables are not available. The Antlia LRGB-V Pro and 3 nm Pro entries are compact control-point approximations imported from the same catalog; the Chroma 3 nm SHO family now uses that catalog’s denser control points. This is planning-grade spectral support, not laboratory spectrophotometry.</p>
                     <ul class="ap-bullets">
                       <li>Filter transmission is sampled as wavelength/transmission pairs in nm and percent</li>
                       <li>Effective bandwidth is derived from the sampled curve using trapezoidal integration normalized by peak transmission</li>
