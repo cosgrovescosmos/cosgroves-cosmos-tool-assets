@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astro Spectral Explorer</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="cc-header">
+      <div class="brand-lockup">
+        <img src="./assets/cosgroves-cosmos-logo.webp" alt="Cosgrove's Cosmos logo" class="brand-logo">
+        <div>
+          <div class="site-name">Cosgrove's Cosmos</div>
+          <h1>Astro Spectral Explorer</h1>
+          <p>Explore how your camera, filters, target signal, sky brightness, and local light pollution combine to shape the final spectral response of an astrophotography system.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="openHelp" class="learn-button" type="button">Learn the Stack</button>
+        <button id="printBtn" type="button">Save PDF</button>
+        <button id="captureBtn" type="button">Capture PNG</button>
+        <button id="resetBtn" type="button">Reset</button>
+        <button id="exportBtn" type="button">Export</button>
+      </div>
+      <div class="mode-bar" id="modeBar" aria-label="Imaging mode"></div>
+    </header>
+
+    <section class="photon-ribbon" aria-label="Selected photon path">
+      <div class="photon-path">
+        <span class="photon-node node-target"><b></b><em>Target</em></span><i>→</i>
+        <span class="photon-node node-sky"><b></b><em>Sky + LP</em></span><i>→</i>
+        <span class="photon-node node-filter"><b></b><em>Filter</em></span><i>→</i>
+        <span class="photon-node node-camera"><b></b><em>Camera</em></span><i>→</i>
+        <span class="photon-node node-data"><b></b><em>Captured Data</em></span>
+      </div>
+      <div id="storyRibbon" class="ribbon-cards"></div>
+    </section>
+
+    <main id="workspace" class="workspace">
+      <aside class="setup-panel">
+        <div class="panel-heading"><span>Setup</span><small>Configure the run</small></div>
+        <div class="setup-group">
+          <div class="setup-group-heading"><span>SETUP</span><small>Choose the imaging scenario.</small></div>
+          <section class="control-card"><label for="modeSelect">1. Imaging Mode</label><select id="modeSelect"></select></section>
+        </div>
+        <div class="setup-group">
+          <div class="setup-group-heading"><span>CAPTURE SYSTEM</span><small>Filter → camera response</small></div>
+          <section class="control-card"><label id="cameraControlLabel" for="cameraSelect">2. Camera / OSC Sensor</label><select id="cameraSelect"></select><p id="cameraNote"></p></section>
+          <section class="control-card"><label id="filterControlLabel" for="filterSelect">3. Dual-Band / Narrowband Filter</label><select id="filterSelect"></select><p id="filterHelper" class="control-helper"></p><p id="filterNote"></p></section>
+          <section class="control-card cleanup-control"><label id="additionalFilterControlLabel" for="additionalFilterSelect">4. Additional Optical Filter</label><select id="additionalFilterSelect"></select><p id="additionalFilterHelper" class="control-helper">Optional cleanup filter applied in addition to the primary imaging filter.</p><p id="additionalFilterNote"></p></section>
+        </div>
+        <div class="setup-group">
+          <div class="setup-group-heading"><span>SOURCE + SKY</span><small>Target → sky glow → local lighting</small></div>
+          <section class="control-card"><label for="targetSelect">5. Target Type</label><select id="targetSelect"></select><p class="control-helper">Choose the spectral character of the object.</p></section>
+          <section class="control-card"><label for="bortleSelect">6. Sky Brightness</label><select id="bortleSelect"></select><p class="control-helper">Sets the modeled background level.</p></section>
+          <section class="control-card"><label for="lpSelect">7. Light Pollution</label><select id="lpSelect"></select><p class="control-helper">Sets the modeled local spectral fingerprint.</p></section>
+        </div>
+        <div class="setup-group advanced-group">
+          <div class="setup-group-heading"><span>ADVANCED</span><small>Optional refinements</small></div>
+          <details class="advanced-card">
+            <summary>8. Advanced Options</summary>
+            <div class="advanced-grid">
+              <label><span>Filter center shift <output id="centerShiftValue">0.0 nm</output></span><small>Moves every filter passband left or right in wavelength.</small><input id="centerShift" type="range" min="-8" max="8" value="0" step="0.5"></label>
+              <label><span>Transmission scaling <output id="transmissionScaleValue">100%</output></span><small>Scales the modeled peak transmission of the active filter.</small><input id="transmissionScale" type="range" min="60" max="115" value="100"></label>
+              <label><span>Moon phase <output id="moonPhaseValue">15%</output></span><small>Raises the broadband sky-background estimate.</small><input id="moonPhase" type="range" min="0" max="100" value="15"></label>
+              <label><span>Aerosol / haze <output id="hazeValue">20%</output></span><small>Raises modeled scattered sky and light-pollution background.</small><input id="haze" type="range" min="0" max="100" value="20"></label>
+              <label class="check"><input id="normalizeRows" type="checkbox" checked> Normalize each row independently</label>
+              <label class="check"><input id="showAllLabels" type="checkbox"> Show all spectral labels</label>
+              <label class="check"><input id="extendRange" type="checkbox"> Show extended sensor range</label>
+            </div>
+          </details>
+          <details class="advanced-card"><summary>9. Custom LP Mix</summary><div id="customMix" class="advanced-grid"></div></details>
+        </div>
+      </aside>
+
+      <section class="story-panel">
+        <div class="story-intro">
+          <div>
+            <span class="eyebrow">System Spectral Story</span>
+            <h2 id="storyTitle">System Spectral Story</h2>
+            <p>Follow one layer at a time, with supporting detail included where it clarifies how the layers combine.</p>
+            <div id="targetBadge" class="target-badge"></div>
+          </div>
+          <div class="data-badge">Relative educational model</div>
+        </div>
+        <div class="view-toolbar">
+          <div class="segmented" aria-label="Plot view">
+            <button id="storyViewBtn" type="button" class="active">Story</button>
+            <button id="overlayViewBtn" type="button" title="Compare where spectral layers overlap">Overlap View</button>
+          </div>
+          <button id="focusModeBtn" class="focus-button" type="button">Focus on Story</button>
+          <div id="overlayControls" class="overlay-controls" hidden></div>
+        </div>
+        <div id="storyStack" class="story-stack"></div>
+
+        <details class="results-summary">
+          <summary><span>Technical Results Summary</span><small>Open relative metrics and channel details</small></summary>
+          <div class="technical-results-body">
+            <div id="metricCards" class="metric-grid"></div>
+            <div id="channelCards" class="channel-summary"></div>
+          </div>
+        </details>
+
+        <div class="tabs">
+          <div class="tab-buttons" id="tabButtons"></div>
+          <div class="tab-body" id="tabBody"></div>
+        </div>
+      </section>
+
+      <aside id="takeawayPanel" class="interpretation-panel">
+        <div class="panel-heading"><span>Run Summary</span><button id="toggleTakeaway" type="button" aria-label="Hide run summary panel">Hide</button></div>
+        <small id="activeSummary">Default system</small>
+        <div id="interpretationCards" class="interpretation-stack"></div>
+      </aside>
+      <button id="showTakeaway" class="show-takeaway" type="button" hidden>Show Summary</button>
+    </main>
+
+    <footer class="cc-footer">
+      <div><strong>Cosgrove's Cosmos • Astro Spectral Explorer</strong><span>© 2026 Patrick A. Cosgrove. All rights reserved.</span></div>
+      <div><span>Relative educational models for astrophotography system understanding.</span><nav aria-label="Publication information"><button id="openFaqFooter" type="button">FAQ</button><button id="openAppendixFooter" type="button">Technical Appendix</button></nav></div>
+    </footer>
+  </div>
+
+  <div id="tooltip" class="tooltip" role="status"></div>
+  <div id="helpModal" class="cc-help-modal" aria-hidden="true">
+    <div class="cc-help-backdrop" data-help-close></div>
+    <section class="cc-help-panel" role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
+      <header class="cc-help-header">
+        <div><div class="cc-help-kicker">Cosgrove's Cosmos Guide</div><h2 id="help-modal-title">Learn the Spectral Stack</h2><p>Follow the light from the sky, through the filter and camera, into your final data.</p></div>
+        <button class="cc-help-close" data-help-close aria-label="Close help">×</button>
+      </header>
+      <div class="cc-help-body">
+        <nav id="helpSteps" class="cc-help-steps" aria-label="Help topics"></nav>
+        <main id="helpStage" class="cc-help-slide-stage"></main>
+      </div>
+      <footer class="cc-help-footer"><button id="helpPrev" type="button">Previous</button><div class="help-support-links"><button id="openFaqHelp" type="button">FAQ</button><div id="helpDots" class="cc-help-dots"></div><button id="openAppendixHelp" type="button">Technical Appendix</button></div><button id="helpNext" type="button">Next</button></footer>
+    </section>
+  </div>
+
+  <div id="faqModal" class="cc-info-modal" aria-hidden="true">
+    <div class="cc-info-backdrop" data-info-close="faqModal"></div>
+    <section class="cc-info-panel faq-panel" role="dialog" aria-modal="true" aria-labelledby="faq-title">
+      <header class="cc-info-header">
+        <div><div class="cc-info-kicker">Cosgrove's Cosmos Guide</div><h2 id="faq-title">Frequently Asked Questions</h2><p>Quick answers about what the tool does, how to read it, and what the results mean.</p></div>
+        <button class="cc-info-close" data-info-close="faqModal" aria-label="Close FAQ">×</button>
+      </header>
+      <main id="faqBody" class="cc-info-body faq-body"></main>
+    </section>
+  </div>
+
+  <div id="appendixModal" class="cc-info-modal" aria-hidden="true">
+    <div class="cc-info-backdrop" data-info-close="appendixModal"></div>
+    <section class="cc-info-panel appendix-panel" role="dialog" aria-modal="true" aria-labelledby="appendix-title">
+      <header class="cc-info-header">
+        <div><div class="cc-info-kicker">Cosgrove's Cosmos Reference</div><h2 id="appendix-title">Technical Appendix</h2><p>Model architecture, equations, assumptions, data quality, limitations, copyright, and intended use.</p></div>
+        <button class="cc-info-close" data-info-close="appendixModal" aria-label="Close Technical Appendix">×</button>
+      </header>
+      <div class="appendix-layout">
+        <nav id="appendixNav" class="appendix-nav" aria-label="Technical Appendix sections"></nav>
+        <main id="appendixBody" class="cc-info-body appendix-body"></main>
+      </div>
+    </section>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>
