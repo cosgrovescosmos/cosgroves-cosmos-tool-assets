@@ -1,4 +1,4 @@
-/* Generated from Exposure-Tradeoff-Explorer-v1.0.51.html (v1.0.51). Do not edit by hand. */
+/* Generated from Exposure-Tradeoff-Explorer-v1.0.52.html (v1.0.52). Do not edit by hand. */
 (function(){
   const embedParams = new URLSearchParams(window.location.search);
   if (embedParams.get("embed") === "1") {
@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.51</span>
+            <span class="hero-version">v1.0.52</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -1383,6 +1383,8 @@
             pixelSizeUm: 3.76,
             resolution: { widthPx: 9576, heightPx: 6388 },
             adcBits: 16,
+            gainDefault: 56,
+            hcgGain: 56,
             qeModel: {
               type: "reference",
               wavelengthNm: [400,450,500,530,550,600,656,700,750,800],
@@ -1401,7 +1403,11 @@
                   dynamicRangeStops: { interpolation: "linear", points: [[0,14.5],[56,13.3],[200,11.6]] },
                   darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0009],[0,0.0019],[10,0.0043]] }
                 },
-                recommendedPresets: [56]
+                recommendedPresets: [0,56],
+                presetLabels: {
+                  0: "Photographic mode / maximum full well",
+                  56: "High-gain mode"
+                }
               }
             ],
             offsetSupport: { supported: true, defaultOffset: 30 },
@@ -1420,6 +1426,8 @@
             pixelSizeUm: 3.76,
             resolution: { widthPx: 6280, heightPx: 4210 },
             adcBits: 16,
+            gainDefault: 56,
+            hcgGain: 56,
             qeModel: {
               type: "reference",
               wavelengthNm: [400,450,500,550,600,650,700,750,800],
@@ -1430,22 +1438,26 @@
                 modeId: "photographic",
                 modeName: "Photographic / HCG transition",
                 gainRange: { min: 0, max: 300 },
-                modeSwitchBehavior: { hcgActive: false, switchGain: 100 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 56 },
                 curves: {
-                  readNoiseE: { interpolation: "linear", points: [[0,3.0],[100,1.0],[300,0.9]] },
-                  fullWellE: { interpolation: "linear", points: [[0,51000],[100,19000],[300,18000]] },
-                  systemGainEPerAdu: { interpolation: "linear", points: [[0,0.82],[100,0.30],[300,0.11]] },
-                  dynamicRangeStops: { interpolation: "linear", points: [[0,14.4],[100,13.0],[300,11.3]] },
-                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0005],[-10,0.0009],[0,0.0020],[10,0.0045]] }
+                  readNoiseE: { interpolation: "linear", points: [[0,3.56],[26,2.50],[56,1.59],[60,1.52],[100,1.40],[200,1.20]] },
+                  fullWellE: { interpolation: "linear", points: [[0,50462],[26,36000],[56,20971],[100,15000],[200,8000]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,0.77],[26,0.56],[56,0.32],[100,0.22],[200,0.12]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,14.0],[26,13.6],[56,13.0],[100,12.3],[200,11.4]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0005],[-15,0.0008],[-10,0.0012],[-5,0.0019],[0,0.0030],[5,0.0048],[10,0.0075],[15,0.011],[20,0.016]] }
                 },
-                recommendedPresets: [0,100]
+                recommendedPresets: [0,56],
+                presetLabels: {
+                  0: "Photographic mode / maximum full well",
+                  56: "High-gain mode"
+                }
               }
             ],
             offsetSupport: { supported: true, defaultOffset: 30 },
             dataQuality: {
               level: "partial",
-              curveSource: "Reference IMX571 behavior adapted to QHY implementation",
-              lastVerified: "2026-04-06"
+              curveSource: "Official QHY operating data plus compact shared Sony IMX571-family QE curve",
+              lastVerified: "2026-06-12"
             }
           },
           {
@@ -1457,6 +1469,8 @@
             pixelSizeUm: 3.76,
             resolution: { widthPx: 6280, heightPx: 4210 },
             adcBits: 16,
+            gainDefault: 56,
+            hcgGain: 56,
             qeModel: {
               type: "reference",
               wavelengthNm: [400,450,500,550,600,650,700,750,800],
@@ -1467,22 +1481,26 @@
                 modeId: "photographic",
                 modeName: "Photographic / HCG transition",
                 gainRange: { min: 0, max: 300 },
-                modeSwitchBehavior: { hcgActive: false, switchGain: 100 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 56 },
                 curves: {
-                  readNoiseE: { interpolation: "linear", points: [[0,3.0],[100,1.0],[300,0.9]] },
-                  fullWellE: { interpolation: "linear", points: [[0,51000],[100,19000],[300,18000]] },
-                  systemGainEPerAdu: { interpolation: "linear", points: [[0,0.83],[100,0.31],[300,0.11]] },
-                  dynamicRangeStops: { interpolation: "linear", points: [[0,14.2],[100,12.8],[300,11.1]] },
-                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0005],[-10,0.0010],[0,0.0022],[10,0.0048]] }
+                  readNoiseE: { interpolation: "linear", points: [[0,4.17],[26,3.05],[56,1.91],[60,1.82],[100,1.60],[200,1.30]] },
+                  fullWellE: { interpolation: "linear", points: [[0,90438],[26,64000],[56,38010],[100,22000],[200,11000]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,1.38],[26,0.92],[56,0.58],[100,0.34],[200,0.18]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,14.4],[26,14.1],[56,13.8],[100,12.9],[200,11.8]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0015],[-15,0.0026],[-10,0.0047],[-5,0.0075],[0,0.011],[5,0.017],[10,0.025],[15,0.037],[20,0.054]] }
                 },
-                recommendedPresets: [0,100]
+                recommendedPresets: [0,56],
+                presetLabels: {
+                  0: "Photographic mode / maximum full well",
+                  56: "High-gain mode"
+                }
               }
             ],
             offsetSupport: { supported: true, defaultOffset: 30 },
             dataQuality: {
-              level: "generic",
-              curveSource: "IMX571-derived generic OSC model",
-              lastVerified: "2026-04-06"
+              level: "partial",
+              curveSource: "Official QHY operating data plus compact shared Sony IMX571-family QE curve",
+              lastVerified: "2026-06-12"
             }
           },
           {
@@ -1567,10 +1585,19 @@
         return DATA.cameras.find((camera) => camera.cameraId === cameraId) || DATA.cameras[0];
       }
   
+      function cameraHcgSwitchGain(camera, mode = camera?.modes?.[0]) {
+        if (Number.isFinite(camera?.hcgGain)) return camera.hcgGain;
+        if (Number.isFinite(mode?.modeSwitchBehavior?.switchGain)) return mode.modeSwitchBehavior.switchGain;
+        const presets = Array.isArray(mode?.recommendedPresets) ? mode.recommendedPresets : [];
+        const highGainPreset = presets.find((value) => Number.isFinite(value) && value > 0);
+        return Number.isFinite(highGainPreset) ? highGainPreset : null;
+      }
+  
       function recommendedDefaultGain(camera) {
         const mode = camera?.modes?.[0];
         const presets = Array.isArray(mode?.recommendedPresets) ? mode.recommendedPresets : [];
-        const switchGain = mode?.modeSwitchBehavior?.switchGain;
+        if (Number.isFinite(camera?.gainDefault)) return camera.gainDefault;
+        const switchGain = cameraHcgSwitchGain(camera, mode);
         if (Number.isFinite(switchGain) && presets.includes(switchGain)) return switchGain;
         const nonZeroPreset = presets.find((value) => Number.isFinite(value) && value > 0);
         if (Number.isFinite(nonZeroPreset)) return nonZeroPreset;
@@ -1579,7 +1606,9 @@
   
       function gainPresetLabel(camera, value) {
         const mode = camera?.modes?.[0];
-        const switchGain = mode?.modeSwitchBehavior?.switchGain;
+        const presetLabel = mode?.presetLabels?.[value];
+        if (presetLabel) return `${presetLabel} (${value})`;
+        const switchGain = cameraHcgSwitchGain(camera, mode);
         if (Number.isFinite(switchGain) && value === switchGain) {
           return `HCG / default ${value}`;
         }
@@ -1590,9 +1619,9 @@
   
       function gainBehaviorNote(camera) {
         const mode = camera?.modes?.[0];
-        const switchGain = mode?.modeSwitchBehavior?.switchGain;
+        const switchGain = cameraHcgSwitchGain(camera, mode);
         if (Number.isFinite(switchGain)) {
-          return `This camera has a modeled HCG switch at gain ${switchGain}: read noise drops there, while full-well headroom is lower. The camera does not change gain during capture.`;
+          return `This camera has a modeled high-gain / HCG switch at gain ${switchGain}: read noise drops there, while full-well headroom is lower. The camera does not change gain during capture.`;
         }
         return "Gain changes read noise, full well, and system gain according to the selected camera model.";
       }
@@ -1731,7 +1760,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.51";
+            return "v1.0.52";
         }
   
       function buildConfigFileName() {
@@ -4227,10 +4256,11 @@
         const systemGainEPerAdu = interpolateCurve(mode.curves.systemGainEPerAdu.points, gain);
         const dynamicRangeStops = interpolateCurve(mode.curves.dynamicRangeStops.points, gain);
         const darkCurrentEPerPxPerSec = interpolateCurve(mode.curves.darkCurrentEPerPxPerSec.points, tempC);
-        const hcgActive = mode.modeSwitchBehavior?.switchGain != null
-          ? gain >= mode.modeSwitchBehavior.switchGain
+        const authoritativeHcgGain = cameraHcgSwitchGain(cameraModel, mode);
+        const hcgActive = authoritativeHcgGain != null
+          ? gain >= authoritativeHcgGain
           : !!mode.modeSwitchBehavior?.hcgActive;
-        const switchGain = mode.modeSwitchBehavior?.switchGain;
+        const switchGain = authoritativeHcgGain;
         const switchReferenceFullWellE = switchGain != null
           ? interpolateCurve(mode.curves.fullWellE.points, switchGain)
           : fullWellE;
@@ -5825,6 +5855,7 @@
                     <li>Filter-set overview rows now align their shared bottom time axis to the same plot rectangle used by the colored recommendation bars.</li>
                     <li>Camera provenance is now shown explicitly, separating official operating data from manufacturer-published or generic sensor-family QE curves.</li>
                     <li>The camera dropdown now gives long camera names more room, including the newer Player One models.</li>
+                    <li>QHY268M, QHY268C, and QHY600M now use gain 56 as the explicit high-gain / HCG transition point.</li>
                     <li>FAQ and Technical Appendix updated to reflect the newer support model</li>
                   </ul>
                 </div>
