@@ -14,6 +14,7 @@
         <div>
           <div class="site-name">Cosgrove's Cosmos</div>
           <h1>Astro Spectral Explorer</h1>
+          <div class="tool-version-badge">v1.1 · Camera and filter catalog expansion</div>
           <p>Explore how your camera, filters, target signal, sky brightness, and local light pollution combine to shape the final spectral response of an astrophotography system.</p>
         </div>
       </div>
@@ -24,6 +25,48 @@
         <button id="resetBtn" type="button">Reset</button>
         <button id="exportBtn" type="button">Export</button>
       </div>
+      <details class="release-notes-card">
+        <summary>
+          <div>
+            <div class="release-notes-title">What’s New</div>
+            <div class="release-notes-meta">v1.1 · recent camera and filter support</div>
+          </div>
+          <div class="summary-meta">Show release notes</div>
+        </summary>
+        <div class="release-notes-body">
+          <div class="release-notes-intro">This release imports the latest System Compare and Exposure Explorer catalog work into the spectral-response teaching view, with weak-proxy items called out where the source data is less complete.</div>
+          <div class="release-notes-grid">
+            <div class="release-note-block">
+              <h4>New cameras</h4>
+              <ul>
+                <li>QHY247C, marked as weak QE-proxy support</li>
+                <li>QHY183C</li>
+                <li>QHY MiniCam8M and MiniCam8C</li>
+                <li>ZWO ASI678MM and ASI678MC</li>
+                <li>ZWO ASI294MM Pro Bin 1 and Bin 2 readout-mode entries</li>
+              </ul>
+            </div>
+            <div class="release-note-block">
+              <h4>New filter support</h4>
+              <ul>
+                <li>Baader IR-Cut Moon & Skyglow Neodymium</li>
+                <li>SVBONY SV260 Multi-Bandpass, marked as estimated / provisional spectral support</li>
+                <li>SVBONY SV220 Ha/OIII 7nm</li>
+                <li>SVBONY SV220 SII/OIII 7nm</li>
+                <li>SVBONY SV220 Ha/OIII + SII/OIII combo workflow</li>
+              </ul>
+            </div>
+            <div class="release-note-block">
+              <h4>Model notes</h4>
+              <ul>
+                <li>Spectral Explorer now mirrors the new camera and filter choices added to System Compare and Exposure Explorer.</li>
+                <li>ASI294MM Pro Bin 1 is treated as a distinct readout mode rather than ordinary software binning.</li>
+                <li>Weak or estimated curves remain labeled in the UI so they are not mistaken for lab-grade spectral measurements.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
       <div class="mode-bar" id="modeBar" aria-label="Imaging mode"></div>
     </header>
 
