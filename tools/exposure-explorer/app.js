@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.52</span>
+            <span class="hero-version">v1.0.53</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -491,6 +491,9 @@
           "astronomik-g": { id:"astronomik-g", mode:"broadband", label:"Astronomik Deep-Sky G", line:"G", compatible:["mono"], curve:{490:0,500:5,505:95,530:96,555:97,565:96,575:5,585:0} },
           "astronomik-b": { id:"astronomik-b", mode:"broadband", label:"Astronomik Deep-Sky B", line:"B", compatible:["mono"], curve:{410:0,420:5,425:95,450:96,480:96,495:95,505:5,515:0} },
           "osc-broad-uvir": { id:"osc-broad-uvir", mode:"broadband", label:"OSC Broadband with UV/IR Cut", shortLabel:"OSC UV/IR-Cut Broadband", line:"OSC", compatible:["osc"], filterFamily:"osc_broadband", filterRole:"uv_ir_cut_broadband", exposureBehavior:"broadband", workflowFamily:"osc_broadband", defaultThroughput:0.94, isNarrowbandLike:false, showIrLeakWarning:false, showUvIrPresentNote:true, curve:{380:0,395:2,405:45,415:88,430:94,500:95,560:95,620:94,650:94,670:90,680:62,690:22,700:5,710:0,800:0} },
+          "osc-broad-seestar-lp": { id:"osc-broad-seestar-lp", mode:"broadband", label:"Seestar LP Broadband", line:"OSC", compatible:["osc"], curve:{478:0,482:20,485.7:50,490:78,495:88,500.7:90,506:88,511:78,515.7:50,519:20,523:0,638:0,642:20,646.3:50,650:80,654:90,656.3:92,658.6:90,662:80,666.3:50,670.5:20,674.5:0} },
+          "osc-baader-neodymium-moon-skyglow": { id:"osc-baader-neodymium-moon-skyglow", mode:"broadband", label:"Baader IR-Cut Moon & Skyglow Neodymium", line:"OSC", compatible:["osc"], lpStyle:true, category:"broadband-lp", curve:{390:0,400:4,410:82,430:94,450:96,480:95,500:94,520:93,540:91,555:82,570:42,585:26,595:58,610:88,630:94,656:95,680:92,695:70,705:18,715:2,750:0,800:0} },
+          "osc-svbony-sv260": { id:"osc-svbony-sv260", mode:"broadband", label:"SVBONY SV260 Multi-Bandpass", line:"OSC", compatible:["osc"], lpStyle:true, provisional:true, category:"broadband-lp", curve:{350:0,390:0,400:70,420:90,450:92,480:88,492:72,500:48,510:78,530:90,545:88,560:70,570:40,580:26,589:14,600:46,615:78,630:88,656:92,672:90,690:80,705:42,720:0,800:0,900:0,1000:0} },
           "osc-broad": { id:"osc-broad", mode:"broadband", label:"OSC Broadband / Clear / No UV-IR Cut", shortLabel:"OSC Clear Broadband", line:"OSC", compatible:["osc"], filterFamily:"osc_broadband", filterRole:"clear_no_uv_ir_cut_broadband", exposureBehavior:"broadband", workflowFamily:"osc_broadband", defaultThroughput:0.97, isNarrowbandLike:false, showIrLeakWarning:true, showUvIrPresentNote:false, curve:{380:45,400:88,420:94,500:96,600:96,650:95,700:94,750:88,800:72} },
           "zwo-ha-7nm": { id:"zwo-ha-7nm", mode:"narrowband", label:"ZWO Ha 7nm", line:"Ha", compatible:["mono"], curve:{647:3.2,648:5.3,649:12.2,650:20.6,651:32.6,652:60.0,653:75.3,654:88.7,655:90.5,656:90.5,657:90.3,658:83.4,659:73.9,660:51.0,661:35.6,662:22.2,663:10.6,664:5.1,665:2.8} },
           "zwo-oiii-7nm": { id:"zwo-oiii-7nm", mode:"narrowband", label:"ZWO OIII 7nm", line:"OIII", compatible:["mono"], curve:{491:3.0,492:5.8,493:12.2,494:23.1,495:36.3,496:67.0,497:81.1,498:89.1,499:90.1,500:89.8,501:88.9,502:81.8,503:71.6,504:49.9,505:31.6,506:15.0,507:9.5,508:5.8,509:2.1} },
@@ -506,6 +509,9 @@
           "astronomik-sii-4nm": { id:"astronomik-sii-4nm", mode:"narrowband", label:"Astronomik SII 4nm", line:"SII", compatible:["mono"], curve:{669.4:0,670.1:6,670.8:34,671.4:76,671.9:93,672.4:96,672.9:93,673.4:76,674.0:34,674.7:6,675.4:0} },
           "osc-ha-duo": { id:"osc-ha-duo", mode:"narrowband", label:"Optolong L-eXtreme Ha 7nm", line:"Ha", compatible:["osc"], curve:{652.8:0,654.0:20,655.0:70,656.3:92,657.6:70,658.6:20,659.8:0} },
           "osc-oiii-duo": { id:"osc-oiii-duo", mode:"narrowband", label:"Optolong L-eXtreme OIII 7nm", line:"OIII", compatible:["osc"], curve:{497.2:0,498.4:20,499.4:70,500.7:92,502.0:70,503.0:20,504.2:0} },
+          "osc-ha-svbony-sv220": { id:"osc-ha-svbony-sv220", mode:"narrowband", label:"SVBONY SV220 Ha 7nm", line:"Ha", compatible:["osc"], curve:{652.8:0,653.7:18,654.6:62,655.4:86,656.3:94,657.2:86,658.0:62,658.9:18,659.8:0} },
+          "osc-oiii-svbony-sv220": { id:"osc-oiii-svbony-sv220", mode:"narrowband", label:"SVBONY SV220 OIII 7nm", line:"OIII", compatible:["osc"], curve:{497.2:0,498.1:18,499.0:62,499.8:84,500.7:90,501.6:84,502.4:62,503.3:18,504.2:0} },
+          "osc-sii-svbony-sv220": { id:"osc-sii-svbony-sv220", mode:"narrowband", label:"SVBONY SV220 SII 7nm", line:"SII", compatible:["osc"], curve:{668.9:0,669.8:18,670.7:58,671.5:82,672.4:88,673.3:82,674.1:58,675.0:18,675.9:0} },
           "osc-ha-ultimate": { id:"osc-ha-ultimate", mode:"narrowband", label:"Optolong L-Ultimate Ha 3nm", line:"Ha", compatible:["osc"], curve:{654.8:0,655.4:20,655.9:70,656.3:90,656.7:70,657.2:20,657.8:0} },
           "osc-oiii-ultimate": { id:"osc-oiii-ultimate", mode:"narrowband", label:"Optolong L-Ultimate OIII 3nm", line:"OIII", compatible:["osc"], curve:{499.2:0,499.8:20,500.3:70,500.7:90,501.1:70,501.6:20,502.2:0} },
           "osc-ha-alpt5": { id:"osc-ha-alpt5", mode:"narrowband", label:"Antlia ALP-T Ha 5nm", line:"Ha", compatible:["osc"], curve:{653.3:0,653.8:20,654.3:70,654.8:88,656.3:90,657.8:88,658.3:70,658.8:20,659.3:0} },
@@ -526,7 +532,9 @@
           "osc-ha-askar-d1": { id:"osc-ha-askar-d1", mode:"narrowband", label:"Askar Super D1 Ha 8.5nm", line:"Ha", compatible:["osc"], curve:{651.1:0,652.1:18,653.2:62,654.2:82,655.0:85,656.6:86,658.2:85,659.0:82,660.0:62,661.1:18,662.1:0} },
           "osc-oiii-askar-d1": { id:"osc-oiii-askar-d1", mode:"narrowband", label:"Askar Super D1 OIII 6.5nm", line:"OIII", compatible:["osc"], curve:{497.0:0,497.9:18,498.8:62,499.5:82,500.1:85,500.7:86,501.3:85,501.9:82,502.6:62,503.5:18,504.4:0} },
           "osc-sii-askar-d2": { id:"osc-sii-askar-d2", mode:"narrowband", label:"Askar Super D2 SII 8.5nm", line:"SII", compatible:["osc"], curve:{666.5:0,667.5:18,668.6:62,669.6:82,670.4:85,672.0:86,673.6:85,674.4:82,675.4:62,676.5:18,677.5:0} },
-          "osc-oiii-askar-d2": { id:"osc-oiii-askar-d2", mode:"narrowband", label:"Askar Super D2 OIII 6.5nm", line:"OIII", compatible:["osc"], curve:{497.0:0,497.9:18,498.8:62,499.5:82,500.1:85,500.7:86,501.3:85,501.9:82,502.6:62,503.5:18,504.4:0} }
+          "osc-oiii-askar-d2": { id:"osc-oiii-askar-d2", mode:"narrowband", label:"Askar Super D2 OIII 6.5nm", line:"OIII", compatible:["osc"], curve:{497.0:0,497.9:18,498.8:62,499.5:82,500.1:85,500.7:86,501.3:85,501.9:82,502.6:62,503.5:18,504.4:0} },
+          "seestar-ha-lp": { id:"seestar-ha-lp", mode:"narrowband", label:"Seestar LP Filter Ha 20nm", line:"Ha", compatible:["osc"], curve:{638:0,642:20,646.3:50,650:80,654:90,656.3:92,658.6:90,662:80,666.3:50,670.5:20,674.5:0} },
+          "seestar-oiii-lp": { id:"seestar-oiii-lp", mode:"narrowband", label:"Seestar LP Filter OIII 30nm", line:"OIII", compatible:["osc"], curve:{478:0,482:20,485.7:50,490:78,495:88,500.7:90,506:88,511:78,515.7:50,519:20,523:0} }
         },
         filterSets: {
           "narrowband-sho-baader-3nm": { id:"narrowband-sho-baader-3nm", label:"Mono SHO — Baader 3.5/4nm", mode:"narrowband", compatible:["mono"], filters:["baader-ha-3nm","baader-oiii-3nm","baader-sii-3nm"] },
@@ -551,7 +559,13 @@
           "broadband-osc": { id:"broadband-osc", label:"OSC Broadband / Clear / No UV-IR Cut", mode:"broadband", compatible:["osc"], filters:["osc-broad"] },
           "broadband-osc-lpro": { id:"broadband-osc-lpro", label:"OSC Broadband — Optolong L-Pro", mode:"broadband", compatible:["osc"], filters:["osc-lpro"] },
           "broadband-osc-antlia-triband-rgb-ultra": { id:"broadband-osc-antlia-triband-rgb-ultra", label:"OSC Broadband — Antlia Triband RGB Ultra II (LP / hybrid)", mode:"broadband", compatible:["osc"], filters:["osc-antlia-triband-rgb-ultra"], provisional:true },
+          "broadband-osc-baader-neodymium-moon-skyglow": { id:"broadband-osc-baader-neodymium-moon-skyglow", label:"OSC Broadband — Baader Moon & Skyglow Neodymium", mode:"broadband", compatible:["osc"], filters:["osc-baader-neodymium-moon-skyglow"] },
+          "broadband-osc-svbony-sv260": { id:"broadband-osc-svbony-sv260", label:"OSC Broadband — SVBONY SV260 Multi-Bandpass", mode:"broadband", compatible:["osc"], filters:["osc-svbony-sv260"], provisional:true },
+          "broadband-osc-seestar-lp": { id:"broadband-osc-seestar-lp", label:"Seestar LP Filter (broadband deep-sky)", mode:"broadband", compatible:["osc"], filters:["osc-broad-seestar-lp"], allowedCameraIds:["zwo-seestar-s30","zwo-seestar-s50"] },
           "narrowband-osc-duoband": { id:"narrowband-osc-duoband", label:"Optolong L-eXtreme (Ha/OIII 7nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-duo","osc-oiii-duo"] },
+          "narrowband-osc-svbony-sv220-haoiii": { id:"narrowband-osc-svbony-sv220-haoiii", label:"SVBONY SV220 Ha/OIII 7nm", mode:"narrowband", compatible:["osc"], filters:["osc-ha-svbony-sv220","osc-oiii-svbony-sv220"] },
+          "narrowband-osc-svbony-sv220-siioiii": { id:"narrowband-osc-svbony-sv220-siioiii", label:"SVBONY SV220 SII/OIII 7nm", mode:"narrowband", compatible:["osc"], filters:["osc-sii-svbony-sv220","osc-oiii-svbony-sv220"] },
+          "narrowband-osc-svbony-sv220-combo": { id:"narrowband-osc-svbony-sv220-combo", label:"SVBONY SV220 Ha/OIII + SII/OIII combo", mode:"narrowband", compatible:["osc"], filters:["osc-ha-svbony-sv220","osc-oiii-svbony-sv220","osc-sii-svbony-sv220"] },
           "narrowband-osc-ultimate": { id:"narrowband-osc-ultimate", label:"Optolong L-Ultimate (Ha/OIII 3nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-ultimate","osc-oiii-ultimate"] },
           "narrowband-osc-alpt5": { id:"narrowband-osc-alpt5", label:"Antlia ALP-T 5nm (Ha/OIII)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-alpt5","osc-oiii-alpt5"] },
           "narrowband-osc-alpt3": { id:"narrowband-osc-alpt3", label:"Antlia ALP-T 3nm (Ha/OIII)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-alpt3","osc-oiii-alpt3"] },
@@ -561,6 +575,7 @@
           "narrowband-osc-askar-d2": { id:"narrowband-osc-askar-d2", mode:"narrowband", label:"Askar Super D2 (OIII 6.5nm / SII 8.5nm)", compatible:["osc"], filters:["osc-oiii-askar-d2","osc-sii-askar-d2"] },
           "narrowband-osc-askar-d1d2-combo": { id:"narrowband-osc-askar-d1d2-combo", mode:"narrowband", label:"Askar Super D1 + D2 combo (Ha/OIII/SII)", compatible:["osc"], filters:["osc-ha-askar-d1","osc-oiii-askar-d1","osc-sii-askar-d2"] },
           "narrowband-osc-nbzii": { id:"narrowband-osc-nbzii", label:"IDAS NBZ-II (Ha 9.5nm / OIII 8nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-nbzii","osc-oiii-nbzii"] },
+          "narrowband-osc-seestar-lp": { id:"narrowband-osc-seestar-lp", label:"Seestar LP Filter (Ha 20nm / OIII 30nm)", mode:"narrowband", compatible:["osc"], filters:["seestar-ha-lp","seestar-oiii-lp"], allowedCameraIds:["zwo-seestar-s30","zwo-seestar-s50"] },
           "narrowband-osc-triad": { id:"narrowband-osc-triad", label:"Radian Triad Ultra (Ha/OIII/SII 4nm)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-triad","osc-oiii-triad","osc-sii-triad"] },
           "narrowband-osc-enhance": { id:"narrowband-osc-enhance", label:"Optolong L-eNhance (Ha + Hb/OIII)", mode:"narrowband", compatible:["osc"], filters:["osc-ha-enhance","osc-oiii-enhance"] }
         },
@@ -1011,9 +1026,9 @@
           },
           {
             cameraId: "zwo-asi294mm-pro",
-            name: "ASI294MM Pro",
+            name: "ASI294MM Pro (Bin 2 mode)",
             manufacturer: "ZWO",
-            sensor: "Sony IMX492",
+            sensor: "Sony IMX294 / IMX492",
             colorType: "mono",
             pixelSizeUm: 4.63,
             resolution: { widthPx: 4144, heightPx: 2822 },
@@ -1042,8 +1057,45 @@
             offsetSupport: { supported: true, defaultOffset: 30 },
             dataQuality: {
               level: "partial",
-              curveSource: "Published gain/read-noise behavior with approximate companion curves",
-              lastVerified: "2026-04-24"
+              curveSource: "ZWO ASI294MM Pro Bin 2 / 11.7MP readout mode with official full-well/read-noise behavior and compact QE curve",
+              lastVerified: "2026-07-27"
+            }
+          },
+          {
+            cameraId: "zwo-asi294mm-pro-bin1",
+            name: "ASI294MM Pro (Bin 1 mode)",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX492 / IMX294",
+            colorType: "mono",
+            pixelSizeUm: 2.315,
+            resolution: { widthPx: 8288, heightPx: 5644 },
+            adcBits: 12,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,450,500,550,600,650,700,750,800],
+              relativeQe: [0.22,0.46,0.74,0.86,0.90,0.88,0.74,0.50,0.26]
+            },
+            modes: [
+              {
+                modeId: "high_gain",
+                modeName: "High gain / Bin 1 readout",
+                gainRange: { min: 0, max: 300 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 120 },
+                curves: {
+                  readNoiseE: { interpolation: "linear", points: [[0,7.3],[50,6.5],[120,1.2],[200,1.1]] },
+                  fullWellE: { interpolation: "linear", points: [[0,14000],[120,4500],[200,3200]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,0.30],[120,0.12],[200,0.08]] },
+                  dynamicRangeStops: { interpolation: "linear", points: [[0,10.9],[120,11.9],[200,11.5]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0009],[-10,0.0016],[0,0.0038],[10,0.0085]] }
+                },
+                recommendedPresets: [120]
+              }
+            ],
+            offsetSupport: { supported: true, defaultOffset: 30 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "ZWO ASI294MM Pro Bin 1 / 47MP readout mode; true camera mode, not ordinary software binning",
+              lastVerified: "2026-07-27"
             }
           },
           {
@@ -1156,6 +1208,68 @@
               curveSource: "System Compare 585-series import with OSC-averaged QE and estimated companion curves",
               lastVerified: "2026-05-21"
             }
+          },
+          {
+            cameraId: "zwo-asi678mm",
+            name: "ASI678MM",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX678",
+            colorType: "mono",
+            pixelSizeUm: 2.0,
+            resolution: { widthPx: 3840, heightPx: 2160 },
+            adcBits: 12,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,450,500,530,550,600,656,700,750,800,850],
+              relativeQe: [0.42,0.65,0.78,0.83,0.82,0.78,0.65,0.52,0.36,0.22,0.12]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG / low-noise planning curve",
+              gainRange: { min: 0, max: 300 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 182 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,2.7],[100,1.6],[182,0.8],[300,0.6]] },
+                fullWellE: { interpolation: "linear", points: [[0,11270],[100,6500],[182,3400],[300,2200]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,0.42],[100,0.24],[182,0.13],[300,0.08]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,12.0],[100,12.0],[182,12.1],[300,11.8]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-10,0.0015],[0,0.0035],[10,0.008],[20,0.020]] }
+              },
+              recommendedPresets: [0,182]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 30 },
+            dataQuality: { level: "partial", curveSource: "Official ZWO ASI678 operating specs plus compact IMX678 mono QE curve", lastVerified: "2026-07-27" }
+          },
+          {
+            cameraId: "zwo-asi678mc",
+            name: "ASI678MC",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX678",
+            colorType: "osc",
+            pixelSizeUm: 2.0,
+            resolution: { widthPx: 3840, heightPx: 2160 },
+            adcBits: 12,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,450,500,530,550,600,656,700,750,800,850],
+              relativeQe: [0.10,0.30,0.42,0.38,0.32,0.29,0.23,0.16,0.10,0.05,0.02]
+            },
+            modes: [{
+              modeId: "hcg",
+              modeName: "HCG / low-noise planning curve",
+              gainRange: { min: 0, max: 300 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 182 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,2.7],[100,1.6],[182,0.8],[300,0.6]] },
+                fullWellE: { interpolation: "linear", points: [[0,11270],[100,6500],[182,3400],[300,2200]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,0.42],[100,0.24],[182,0.13],[300,0.08]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,12.0],[100,12.0],[182,12.1],[300,11.8]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-10,0.0015],[0,0.0035],[10,0.008],[20,0.020]] }
+              },
+              recommendedPresets: [0,182]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 30 },
+            dataQuality: { level: "partial", curveSource: "Official ZWO ASI678 operating specs plus compact IMX678 OSC QE proxy", lastVerified: "2026-07-27" }
           },
           {
             cameraId: "playerone-poseidon-m-pro",
@@ -1539,6 +1653,202 @@
               curveSource: "System Comparison QHY071C import using compact Sony IMX071 OSC family proxy curves",
               lastVerified: "2026-06-02"
             }
+          },
+          {
+            cameraId: "qhy247c",
+            name: "QHY247C (weak QE proxy)",
+            manufacturer: "QHY",
+            sensor: "Sony IMX193",
+            colorType: "osc",
+            pixelSizeUm: 3.91,
+            resolution: { widthPx: 6024, heightPx: 4024 },
+            adcBits: 14,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,430,460,500,530,550,600,650,680,700,750,800],
+              relativeQe: [0.10,0.22,0.32,0.38,0.35,0.35,0.33,0.27,0.23,0.18,0.09,0.03]
+            },
+            modes: [{
+              modeId: "unity_curve",
+              modeName: "QHY247C weak-proxy planning curve",
+              gainRange: { min: 0, max: 3000 },
+              modeSwitchBehavior: { hcgActive: false },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,2.7],[1200,2.2],[2200,1.5],[3000,1.0]] },
+                fullWellE: { interpolation: "linear", points: [[0,36000],[2200,14000],[3000,9000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.5],[2200,0.55],[3000,0.34]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,13.7],[2200,13.2],[3000,12.4]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-15,0.0012],[-5,0.0024],[5,0.0048],[15,0.010]] }
+              },
+              recommendedPresets: [0,2200]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 30 },
+            dataQuality: {
+              level: "weak",
+              curveSource: "Official QHY247C operating specs; QE uses weak APS-C Sony OSC proxy because no adequate QHY/IMX193 curve was found",
+              lastVerified: "2026-07-27"
+            }
+          },
+          {
+            cameraId: "qhy183c",
+            name: "QHY183C",
+            manufacturer: "QHY",
+            sensor: "Sony IMX183",
+            colorType: "osc",
+            pixelSizeUm: 2.4,
+            resolution: { widthPx: 5544, heightPx: 3684 },
+            adcBits: 12,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [400,430,460,500,530,550,600,650,680,700,750,800],
+              relativeQe: [0.15,0.28,0.40,0.41,0.37,0.34,0.27,0.18,0.11,0.07,0.03,0.01]
+            },
+            modes: [{
+              modeId: "unity",
+              modeName: "QHY unity planning curve",
+              gainRange: { min: 0, max: 20 },
+              modeSwitchBehavior: { hcgActive: false },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,2.7],[5,1.8],[10,1.0],[20,1.0]] },
+                fullWellE: { interpolation: "linear", points: [[0,15500],[10,5000],[20,2500]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,3.6],[10,1.0],[20,0.45]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,12.5],[10,12.3],[20,11.3]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-15,0.0024],[-5,0.0050],[5,0.010],[15,0.025]] }
+              },
+              recommendedPresets: [0,10]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 8 },
+            dataQuality: {
+              level: "partial",
+              curveSource: "Official QHY183C operating specs plus compact IMX183 OSC family QE proxy",
+              lastVerified: "2026-07-27"
+            }
+          },
+          {
+            cameraId: "qhy-minicam8m",
+            name: "QHY MiniCam8M",
+            manufacturer: "QHY",
+            sensor: "Sony IMX585",
+            colorType: "mono",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 3856, heightPx: 2180 },
+            adcBits: 12,
+            qeModel: {
+              type: "table",
+              wavelengthNm: [400,450,500,530,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.58,0.78,0.88,0.91,0.92,0.88,0.81,0.79,0.72,0.60,0.45,0.31,0.18,0.09]
+            },
+            modes: [{
+              modeId: "low_noise",
+              modeName: "Low-noise IMX585 planning curve",
+              gainRange: { min: 0, max: 400 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 210 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,7.8],[120,4.0],[210,0.76],[400,0.76]] },
+                fullWellE: { interpolation: "linear", points: [[0,54000],[120,26000],[210,12000],[400,6000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.5],[120,0.70],[210,0.32],[400,0.16]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,12.8],[120,12.7],[210,13.0],[400,12.4]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0012],[0,0.0050],[10,0.016],[20,0.046]] }
+              },
+              recommendedPresets: [0,210]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 30 },
+            dataQuality: { level: "partial", curveSource: "Official QHY MiniCam8 IMX585 specs plus compact manufacturer-family QE curve", lastVerified: "2026-07-27" }
+          },
+          {
+            cameraId: "qhy-minicam8c",
+            name: "QHY MiniCam8C",
+            manufacturer: "QHY",
+            sensor: "Sony IMX585",
+            colorType: "osc",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 3856, heightPx: 2180 },
+            adcBits: 12,
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [450,500,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.27,0.47,0.36,0.34,0.34,0.33,0.32,0.31,0.30,0.24,0.13,0.06]
+            },
+            modes: [{
+              modeId: "low_noise",
+              modeName: "Low-noise IMX585 planning curve",
+              gainRange: { min: 0, max: 400 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 210 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,7.8],[120,4.0],[210,0.76],[400,0.76]] },
+                fullWellE: { interpolation: "linear", points: [[0,54000],[120,26000],[210,12000],[400,6000]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.5],[120,0.70],[210,0.32],[400,0.16]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,12.8],[120,12.7],[210,13.0],[400,12.4]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0012],[0,0.0050],[10,0.016],[20,0.046]] }
+              },
+              recommendedPresets: [0,210]
+            }],
+            offsetSupport: { supported: true, defaultOffset: 30 },
+            dataQuality: { level: "partial", curveSource: "Official QHY MiniCam8 IMX585 specs plus compact OSC family QE curve", lastVerified: "2026-07-27" }
+          },
+          {
+            cameraId: "zwo-seestar-s30",
+            name: "Seestar S30",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX662",
+            colorType: "osc",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 1920, heightPx: 1080 },
+            adcBits: 12,
+            integratedSystem: { apertureMm: 30, fRatio: 5, focalLengthMm: 150, preferredSets: { broadband: "broadband-osc", broadbandFiltered: "broadband-osc-seestar-lp", narrowband: "narrowband-osc-seestar-lp" } },
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [450,500,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.28,0.47,0.36,0.35,0.35,0.34,0.34,0.32,0.32,0.25,0.12,0.05]
+            },
+            modes: [{
+              modeId: "integrated_auto",
+              modeName: "Integrated Seestar planning curve",
+              gainRange: { min: 0, max: 400 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,3.2],[120,1.9],[252,0.8],[400,0.8]] },
+                fullWellE: { interpolation: "linear", points: [[0,11000],[120,7000],[252,3500],[400,2500]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.0],[120,0.55],[252,0.25],[400,0.14]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,11.7],[120,11.2],[252,10.6],[400,10.0]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-10,0.004],[0,0.010],[10,0.024],[20,0.060],[30,0.140]] }
+              },
+              recommendedPresets: [0,252]
+            }],
+            offsetSupport: { supported: false, defaultOffset: 0 },
+            dataQuality: { level: "partial", curveSource: "Official Seestar S30 optical specs plus compact Sony IMX662-family QE proxy; uncooled thermal behavior is approximate", lastVerified: "2026-06-12" }
+          },
+          {
+            cameraId: "zwo-seestar-s50",
+            name: "Seestar S50",
+            manufacturer: "ZWO",
+            sensor: "Sony IMX462",
+            colorType: "osc",
+            pixelSizeUm: 2.9,
+            resolution: { widthPx: 1920, heightPx: 1080 },
+            adcBits: 12,
+            integratedSystem: { apertureMm: 50, fRatio: 5, focalLengthMm: 250, preferredSets: { broadband: "broadband-osc", broadbandFiltered: "broadband-osc-seestar-lp", narrowband: "narrowband-osc-seestar-lp" } },
+            qeModel: {
+              type: "reference",
+              wavelengthNm: [450,500,550,600,656,672,700,750,800,850,900,950],
+              relativeQe: [0.26,0.42,0.32,0.29,0.30,0.29,0.29,0.32,0.35,0.35,0.27,0.15]
+            },
+            modes: [{
+              modeId: "integrated_auto",
+              modeName: "Integrated Seestar planning curve",
+              gainRange: { min: 0, max: 400 },
+              modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
+              curves: {
+                readNoiseE: { interpolation: "linear", points: [[0,3.5],[120,2.1],[252,0.8],[400,0.8]] },
+                fullWellE: { interpolation: "linear", points: [[0,11000],[120,7000],[252,3500],[400,2500]] },
+                systemGainEPerAdu: { interpolation: "linear", points: [[0,1.0],[120,0.55],[252,0.25],[400,0.14]] },
+                dynamicRangeStops: { interpolation: "linear", points: [[0,11.6],[120,11.1],[252,10.6],[400,10.0]] },
+                darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-10,0.004],[0,0.010],[10,0.024],[20,0.060],[30,0.140]] }
+              },
+              recommendedPresets: [0,252]
+            }],
+            offsetSupport: { supported: false, defaultOffset: 0 },
+            dataQuality: { level: "partial", curveSource: "Official Seestar S50 optical specs plus compact Sony IMX462-family QE proxy; uncooled thermal behavior is approximate", lastVerified: "2026-06-12" }
           }
         ]
       };
@@ -1760,7 +2070,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.52";
+            return "v1.0.53";
         }
   
       function buildConfigFileName() {
@@ -5806,6 +6116,11 @@
                     <li>ZWO ASI183MC Pro</li>
                     <li>ZWO ASI585MM Pro</li>
                     <li>ZWO ASI585MC Pro</li>
+                    <li>ZWO ASI678MM and ASI678MC</li>
+                    <li>ZWO ASI294MM Pro Bin 1 and Bin 2 readout modes</li>
+                    <li>QHY183C</li>
+                    <li>QHY247C, marked as weak QE-proxy support</li>
+                    <li>QHY MiniCam8M and MiniCam8C</li>
                     <li>Player One Poseidon-M Pro and Poseidon-C Pro</li>
                     <li>Player One Artemis-C Pro</li>
                     <li>Player One Ares-M Pro and Ares-C Pro</li>
@@ -5820,9 +6135,12 @@
                     <li>Mono SHO — Antlia 4.5nm EDGE</li>
                     <li>Generic OSC Broadband with UV/IR Cut, plus explicit Clear / No UV-IR Cut broadband</li>
                     <li>OSC LP broadband — Optolong L-Pro</li>
+                    <li>OSC LP broadband — Baader Moon & Skyglow Neodymium</li>
+                    <li>OSC LP / hybrid broadband — SVBONY SV260 Multi-Bandpass, marked provisional</li>
                     <li>OSC LP / hybrid broadband — Antlia Triband RGB Ultra II, marked provisional</li>
                     <li>OSC narrowband — Antlia ALP-T 3nm/3.5nm and 5nm combos</li>
                     <li>OSC narrowband — Askar Super D1, D2, and D1 + D2 combo</li>
+                    <li>OSC narrowband — SVBONY SV220 Ha/OIII, SII/OIII, and combo workflows</li>
                     <li>Chroma 3nm SHO curves updated from denser System Comparison control points</li>
                   </ul>
                 </div>
@@ -7317,6 +7635,442 @@
           }
         },
         {
+          id: "qhy247c-osc-broadband-weak-proxy",
+          name: "QHY247C weak-proxy broadband import sanity",
+          input: {
+            cameraId: "qhy247c",
+            modeId: "unity_curve",
+            gain: 90,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc",
+            selectedFilters: ["osc-broad"],
+            activeFilterId: "osc-broad",
+            skyInputMode: "bortle",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [20, 260],
+            note: "QHY247C should evaluate in a plausible broadband range while preserving its weak-QE-proxy status in the catalog."
+          }
+        },
+        {
+          id: "qhy183c-osc-broadband",
+          name: "QHY183C broadband import sanity",
+          input: {
+            cameraId: "qhy183c",
+            modeId: "unity_curve",
+            gain: 60,
+            tempC: -15,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc",
+            selectedFilters: ["osc-broad"],
+            activeFilterId: "osc-broad",
+            skyInputMode: "bortle",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [15, 220],
+            note: "QHY183C should remain in the same practical broadband neighborhood as other IMX183 OSC models."
+          }
+        },
+        {
+          id: "asi294mm-bin1-vs-bin2-import",
+          name: "ASI294MM Pro Bin 1 and Bin 2 import sanity",
+          input: {
+            cameraId: "zwo-asi294mm-pro-bin1",
+            modeId: "unity_curve",
+            gain: 120,
+            tempC: -10,
+            apertureMm: 130,
+            focalLengthMm: 910,
+            fRatio: 7,
+            throughputFrac: 0.82,
+            centralObstructionFrac: 0,
+            filterSetId: "narrowband-sho-astronomik-6nm",
+            selectedFilters: ["astronomik-ha-6nm"],
+            activeFilterId: "astronomik-ha-6nm",
+            skyInputMode: "measured",
+            skyBrightnessMagPerArcsec2: 20.8,
+            bortleClass: 4,
+            seeingArcsecFwhm: 2.5,
+            targetAltitudeDeg: 70,
+            moonMode: "preset",
+            moonPreset: "moonless",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: -20,
+            moonSeparationDeg: 120,
+            transparencyFactor: 1,
+            fieldPresetId: "average_field",
+            frameOverheadSec: 8,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          compareTo: {
+            cameraId: "zwo-asi294mm-pro",
+            modeId: "unity_curve",
+            gain: 120,
+            tempC: -10,
+            apertureMm: 130,
+            focalLengthMm: 910,
+            fRatio: 7,
+            throughputFrac: 0.82,
+            centralObstructionFrac: 0,
+            filterSetId: "narrowband-sho-astronomik-6nm",
+            selectedFilters: ["astronomik-ha-6nm"],
+            activeFilterId: "astronomik-ha-6nm",
+            skyInputMode: "measured",
+            skyBrightnessMagPerArcsec2: 20.8,
+            bortleClass: 4,
+            seeingArcsecFwhm: 2.5,
+            targetAltitudeDeg: 70,
+            moonMode: "preset",
+            moonPreset: "moonless",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: -20,
+            moonSeparationDeg: 120,
+            transparencyFactor: 1,
+            fieldPresetId: "average_field",
+            frameOverheadSec: 8,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [120, 720],
+            note: "ASI294MM Bin 1 should run as a real alternate readout mode, with Bin 2 remaining available as the high-full-well mode."
+          }
+        },
+        {
+          id: "asi678-family-import",
+          name: "ASI678 mono and OSC import sanity",
+          input: {
+            cameraId: "zwo-asi678mc",
+            modeId: "unity_curve",
+            gain: 182,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc",
+            selectedFilters: ["osc-broad"],
+            activeFilterId: "osc-broad",
+            skyInputMode: "bortle",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          compareTo: {
+            cameraId: "zwo-asi678mm",
+            modeId: "unity_curve",
+            gain: 182,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "narrowband-sho-astronomik-6nm",
+            selectedFilters: ["astronomik-ha-6nm"],
+            activeFilterId: "astronomik-ha-6nm",
+            skyInputMode: "measured",
+            skyBrightnessMagPerArcsec2: 20.8,
+            bortleClass: 4,
+            seeingArcsecFwhm: 2.5,
+            targetAltitudeDeg: 70,
+            moonMode: "preset",
+            moonPreset: "moonless",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: -20,
+            moonSeparationDeg: 120,
+            transparencyFactor: 1,
+            fieldPresetId: "average_field",
+            frameOverheadSec: 8,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [15, 220],
+            note: "ASI678MC should behave as a short-pixel modern OSC camera, and the mono variant should also evaluate cleanly."
+          }
+        },
+        {
+          id: "qhy-minicam8-family-import",
+          name: "QHY MiniCam8 mono and OSC import sanity",
+          input: {
+            cameraId: "qhy-minicam8c",
+            modeId: "unity_curve",
+            gain: 252,
+            tempC: -15,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc",
+            selectedFilters: ["osc-broad"],
+            activeFilterId: "osc-broad",
+            skyInputMode: "bortle",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          compareTo: {
+            cameraId: "qhy-minicam8m",
+            modeId: "unity_curve",
+            gain: 252,
+            tempC: -15,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "narrowband-sho-astronomik-6nm",
+            selectedFilters: ["astronomik-ha-6nm"],
+            activeFilterId: "astronomik-ha-6nm",
+            skyInputMode: "measured",
+            skyBrightnessMagPerArcsec2: 20.8,
+            bortleClass: 4,
+            seeingArcsecFwhm: 2.5,
+            targetAltitudeDeg: 70,
+            moonMode: "preset",
+            moonPreset: "moonless",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: -20,
+            moonSeparationDeg: 120,
+            transparencyFactor: 1,
+            fieldPresetId: "average_field",
+            frameOverheadSec: 8,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [15, 240],
+            note: "QHY MiniCam8C and MiniCam8M should evaluate cleanly as IMX585-family cooled cameras."
+          }
+        },
+        {
+          id: "baader-neodymium-lp-import",
+          name: "Baader Moon and Skyglow Neodymium import sanity",
+          input: {
+            cameraId: "zwo-asi2600mc-pro",
+            modeId: "auto",
+            gain: 100,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc-baader-neodymium-moon-skyglow",
+            selectedFilters: ["osc-baader-neodymium-moon-skyglow"],
+            activeFilterId: "osc-baader-neodymium-moon-skyglow",
+            skyInputMode: "bortle",
+            skySpectralProfileId: "mixed-suburban",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [20, 220],
+            note: "Baader Moon and Skyglow should remain a broadband OSC LP-style case, not a narrowband workflow."
+          }
+        },
+        {
+          id: "svbony-sv260-lp-import",
+          name: "SVBONY SV260 multi-bandpass import sanity",
+          input: {
+            cameraId: "zwo-asi2600mc-pro",
+            modeId: "auto",
+            gain: 100,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "broadband-osc-svbony-sv260",
+            selectedFilters: ["osc-svbony-sv260"],
+            activeFilterId: "osc-svbony-sv260",
+            skyInputMode: "bortle",
+            skySpectralProfileId: "mixed-suburban",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [20, 260],
+            note: "SV260 should evaluate cleanly as a broad multi-bandpass LP filter."
+          }
+        },
+        {
+          id: "svbony-sv220-haoiii-import",
+          name: "SVBONY SV220 Ha/OIII OSC import sanity",
+          input: {
+            cameraId: "zwo-asi2600mc-pro",
+            modeId: "auto",
+            gain: 100,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "narrowband-osc-svbony-sv220-haoiii",
+            selectedFilters: ["osc-ha-svbony-sv220", "osc-oiii-svbony-sv220"],
+            activeFilterId: "osc-ha-svbony-sv220",
+            skyInputMode: "bortle",
+            skySpectralProfileId: "mixed-suburban",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [90, 720],
+            note: "SV220 Ha/OIII should behave as a 7 nm OSC narrowband path."
+          }
+        },
+        {
+          id: "svbony-sv220-siioiii-combo-import",
+          name: "SVBONY SV220 SII/OIII and combo import sanity",
+          input: {
+            cameraId: "zwo-asi2600mc-pro",
+            modeId: "auto",
+            gain: 100,
+            tempC: -10,
+            apertureMm: 80,
+            focalLengthMm: 400,
+            fRatio: 5,
+            throughputFrac: 0.84,
+            centralObstructionFrac: 0,
+            filterSetId: "narrowband-osc-svbony-sv220-combo",
+            selectedFilters: ["osc-ha-svbony-sv220", "osc-oiii-svbony-sv220", "osc-sii-svbony-sv220"],
+            activeFilterId: "osc-sii-svbony-sv220",
+            skyInputMode: "bortle",
+            skySpectralProfileId: "mixed-suburban",
+            skyBrightnessMagPerArcsec2: 20.4,
+            bortleClass: 5,
+            seeingArcsecFwhm: 2.8,
+            targetAltitudeDeg: 60,
+            moonMode: "preset",
+            moonPreset: "minor",
+            moonIllumFrac: 0,
+            moonAltitudeDeg: 0,
+            moonSeparationDeg: 100,
+            transparencyFactor: 0.95,
+            fieldPresetId: "bright_star_field",
+            frameOverheadSec: 4,
+            rejectionRiskTolerance: "medium",
+            saturationTolerance: "medium",
+            subExposureStrategy: "balanced"
+          },
+          expected: {
+            anchorRange: [90, 840],
+            note: "SV220 SII/OIII and the combined set should evaluate cleanly as OSC narrowband paths."
+          }
+        },
+        {
           id: "mono-broadband-red-common-practice",
           name: "Mono broadband red common-practice check",
           input: {
@@ -8098,6 +8852,12 @@
           }
           if (testCase.expected?.anchorRange && !inRange(result.headlineRecommendation.anchorSec, testCase.expected.anchorRange)) {
             failures.push(`Anchor ${Math.round(result.headlineRecommendation.anchorSec)} s outside expected neighborhood ${testCase.expected.anchorRange[0]}-${testCase.expected.anchorRange[1]} s.`);
+          }
+          if (testCase.compareTo) {
+            const companionResult = evaluateScenario(testCase.compareTo);
+            validateResultShape(companionResult).forEach((failure) => {
+              failures.push(`Companion case: ${failure}`);
+            });
           }
   
           if (testCase.id === "imx571-ha-f7-dark" && result.headlineRecommendation.anchorSec <= 220) {
