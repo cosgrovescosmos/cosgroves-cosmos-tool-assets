@@ -6099,13 +6099,20 @@
             <summary>
               <div>
                 <div class="release-notes-title">What’s New</div>
-                <div class="release-notes-meta">${currentToolVersion()} · recent camera, filter, and workflow-model updates</div>
+                <div class="release-notes-meta">${currentToolVersion()} · Android input fix and recent camera, filter, and workflow updates</div>
               </div>
               <div class="summary-meta">Show release notes</div>
             </summary>
               <div class="release-notes-body">
               <div class="release-notes-intro">Recent releases added new camera support, throughput clarification, cleaner sorting, and a first LP-aware sky-spectrum path so the tool is easier to scan and closer to how real systems are configured.</div>
               <div class="release-notes-grid">
+                <div class="release-note-block">
+                  <h4>Android negative-value entry</h4>
+                  <ul>
+                    <li>Android users can now enter negative sensor temperatures, site latitude and longitude, target declination, and Moon altitude using −/+ and ± controls.</li>
+                    <li>The extra controls appear only on Android. Direct keyboard entry, existing limits, saved setups, and immediate calculation updates are preserved.</li>
+                  </ul>
+                </div>
                 <div class="release-note-block">
                   <h4>New cameras</h4>
                   <ul>
