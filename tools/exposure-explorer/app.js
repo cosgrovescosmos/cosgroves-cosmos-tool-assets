@@ -10427,7 +10427,57 @@
         renderResults();
       }
   
+      function attachSignedNumberControls() {
+        // Android keyboards may omit the minus key; keep other platforms unchanged.
+        const isAndroid = navigator.userAgentData?.platform === 'Android'
+          || /\bAndroid\b/i.test(navigator.userAgent);
+        if (!isAndroid) return;
+        
+        document.querySelectorAll('#setupPanel input[type="number"][min]').forEach((input) => {
+          if (Number(input.min) >= 0 || input.readOnly || input.closest('.signed-number-control')) return;
+          const label = input.closest('.field')?.querySelector('label');
+          const name = label?.textContent.trim() || input.id;
+          if (label) label.htmlFor = input.id;
+          const control = document.createElement('div');
+          control.className = 'signed-number-control';
+          input.before(control);
+          control.append(input);
+  
+          [['decrease', '−', 'Decrease'], ['sign', '±', 'Change sign of'], ['increase', '+', 'Increase']].forEach(([action, symbol, description]) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = symbol;
+            button.dataset.signedAction = action;
+            button.setAttribute('aria-label', `${description} ${name}`);
+            button.title = `${description} ${name}`;
+            button.disabled = input.disabled;
+            // Keep an uncommitted edit from blurring and replacing this button before click.
+            button.addEventListener('pointerdown', (event) => event.preventDefault());
+            button.addEventListener('click', () => {
+              if (input.disabled || input.readOnly) return;
+              const min = Number(input.min);
+              const max = input.max === '' ? Infinity : Number(input.max);
+              const current = Number.isFinite(input.valueAsNumber) ? input.valueAsNumber : 0;
+              input.value = String(Math.min(max, Math.max(min, current)));
+              if (action === 'sign') {
+                input.value = String(Math.min(max, Math.max(min, -current)));
+              } else {
+                // Native stepping respects the existing step grid and decimal precision.
+                if (action === 'decrease') input.stepDown();
+                else input.stepUp();
+              }
+              // Use the same state, configuration and calculation path as keyboard edits.
+              input.dispatchEvent(new Event('change', { bubbles: true }));
+              document.getElementById(input.id)?.closest('.signed-number-control')
+                ?.querySelector(`[data-signed-action="${action}"]`)?.focus({ preventScroll: true });
+            });
+            control.append(button);
+          });
+        });
+      }
+  
       function attachSetupEvents() {
+        attachSignedNumberControls();
         document.querySelectorAll("[data-setup-toggle]").forEach((button) => {
           button.addEventListener("click", () => {
             const key = button.getAttribute("data-setup-toggle");
