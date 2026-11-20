@@ -37,7 +37,7 @@ Use this parent-side snippet to resize the iframe automatically:
 ```html
 <iframe
   id="exposure-explorer-frame"
-  src="https://cosgrovescomos.github.io/cosgroves-cosmos-tool-assets/tools/exposure-explorer/index.html?embed=1"
+  src="https://cosgrovescosmos.github.io/cosgroves-cosmos-tool-assets/tools/exposure-explorer/index.html?embed=1"
   title="Astro Exposure Explorer"
   width="100%"
   style="border:0; overflow:hidden; display:block; width:100%; min-height:1200px;"
@@ -48,7 +48,7 @@ Use this parent-side snippet to resize the iframe automatically:
 <script>
   (function () {
     const frame = document.getElementById("exposure-explorer-frame");
-    const allowedOrigin = "https://cosgrovescomos.github.io";
+    const allowedOrigin = "https://cosgrovescosmos.github.io";
     if (!frame) return;
 
     window.addEventListener("message", function (event) {
