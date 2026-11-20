@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.54</span>
+            <span class="hero-version">v1.0.55</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -1152,7 +1152,21 @@
             modes: [
               {
                 modeId: "auto",
-                modeName: "Auto HCG transition",
+                modeName: "Current SDK / ASIAIR (HCG at 200)",
+                gainRange: { min: 0, max: 400 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 200 },
+                curves: {
+                  readNoiseE: { interpolation: "branch-linear", points: [[0,6.6],[50,5.3],[100,4.6],[150,4.05],[199,3.95],[200,1.1],[250,0.95],[300,0.91],[350,0.91],[400,0.82]] },
+                  fullWellE: { interpolation: "linear", points: [[0,38700],[50,22000],[100,12500],[150,6700],[200,3900],[250,2100],[300,1200],[350,710],[400,390]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,9.45],[50,5.4],[100,3.0],[150,1.6],[195,1],[200,0.95],[250,0.51],[300,0.29],[350,0.17],[400,0.095]] },
+                  dynamicRangeStops: { interpolation: "branch-linear", points: [[0,12.5],[50,12],[100,11.4],[150,10.7],[199,10],[200,11.8],[250,11.1],[300,10.4],[350,9.65],[400,8.9]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0008],[0,0.0018],[10,0.0042]] }
+                },
+                recommendedPresets: [0,200]
+              },
+              {
+                modeId: "legacy-hcg-252",
+                modeName: "Legacy gain-252 model (prior estimates)",
                 gainRange: { min: 0, max: 400 },
                 modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
                 curves: {
@@ -1168,7 +1182,7 @@
             offsetSupport: { supported: true, defaultOffset: 50 },
             dataQuality: {
               level: "partial",
-              curveSource: "System Compare 585-series import with estimated companion curves for exposure modeling",
+              curveSource: "Current: approximate digitization of ZWO October 2025 chart (https://i.zwoastro.com/wp-content/uploads/2025/10/05fbbd1b11fb333ecbe2f107ce93988f.jpg), native 12-bit e-/ADU. Legacy: prior Explorer planning estimates, not an independently verified curve. QE and dark current unchanged.",
               lastVerified: "2026-05-21"
             }
           },
@@ -1189,7 +1203,21 @@
             modes: [
               {
                 modeId: "auto",
-                modeName: "Auto HCG transition",
+                modeName: "Current SDK / ASIAIR (HCG at 200)",
+                gainRange: { min: 0, max: 400 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 200 },
+                curves: {
+                  readNoiseE: { interpolation: "branch-linear", points: [[0,6.6],[50,5.5],[100,4.7],[150,4.2],[199,3.9],[200,1.1],[250,0.95],[300,0.93],[350,0.94],[400,0.8]] },
+                  fullWellE: { interpolation: "linear", points: [[0,40000],[50,23000],[100,13000],[150,7200],[200,4000],[250,2200],[300,1200],[350,700],[400,390]] },
+                  systemGainEPerAdu: { interpolation: "linear", points: [[0,9.7],[50,5.6],[100,3.2],[150,1.8],[195,1],[200,0.98],[250,0.54],[300,0.29],[350,0.17],[400,0.095]] },
+                  dynamicRangeStops: { interpolation: "branch-linear", points: [[0,12.55],[50,12],[100,11.4],[150,10.8],[199,10],[200,11.8],[250,11.15],[300,10.35],[350,9.6],[400,9.0]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0008],[0,0.0018],[10,0.0042]] }
+                },
+                recommendedPresets: [0,200]
+              },
+              {
+                modeId: "legacy-hcg-252",
+                modeName: "Legacy gain-252 model (prior estimates)",
                 gainRange: { min: 0, max: 400 },
                 modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
                 curves: {
@@ -1205,7 +1233,7 @@
             offsetSupport: { supported: true, defaultOffset: 50 },
             dataQuality: {
               level: "generic",
-              curveSource: "System Compare 585-series import with OSC-averaged QE and estimated companion curves",
+              curveSource: "Current: approximate digitization of ZWO October 2025 chart (https://i.zwoastro.com/wp-content/uploads/2025/10/a19423fbe1fb11fe66cd7cfc5961973e.jpg), native 12-bit e-/ADU. Legacy: prior Explorer planning estimates, not an independently verified curve. QE and dark current unchanged.",
               lastVerified: "2026-05-21"
             }
           },
@@ -1914,8 +1942,7 @@
         return Number.isFinite(presets[0]) ? presets[0] : 0;
       }
   
-      function gainPresetLabel(camera, value) {
-        const mode = camera?.modes?.[0];
+      function gainPresetLabel(camera, value, mode = camera?.modes?.[0]) {
         const presetLabel = mode?.presetLabels?.[value];
         if (presetLabel) return `${presetLabel} (${value})`;
         const switchGain = cameraHcgSwitchGain(camera, mode);
@@ -1927,15 +1954,19 @@
         return `Gain ${value}`;
       }
   
-      function gainBehaviorNote(camera) {
-        const mode = camera?.modes?.[0];
+      function gainBehaviorNote(camera, mode = camera?.modes?.[0]) {
         const switchGain = cameraHcgSwitchGain(camera, mode);
         if (Number.isFinite(switchGain)) {
+          if (isAsi585(camera?.cameraId)) return `This profile enters HCG at gain ${switchGain}. Choose the profile that matches the capture software. ${mode.modeId === "legacy-hcg-252" ? "Legacy numerical estimates are kept for continuity with older setups." : "Current planning curves are approximate readings of ZWO’s charts."}`;
           return `This camera has a modeled high-gain / HCG switch at gain ${switchGain}: read noise drops there, while full-well headroom is lower. The camera does not change gain during capture.`;
         }
         return "Gain changes read noise, full well, and system gain according to the selected camera model.";
       }
   
+      function isAsi585(cameraId) {
+        return cameraId === "zwo-asi585mm-pro" || cameraId === "zwo-asi585mc-pro";
+      }
+
       function defaultEmpiricalCalibrationRecord() {
         const record = {};
         EMPIRICAL_CAL_KEYS.forEach((key) => {
@@ -2070,7 +2101,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.54";
+            return "v1.0.55";
         }
   
       function buildConfigFileName() {
@@ -2112,6 +2143,16 @@
             nextState[key] = cloneData(imported[key]);
           }
         });
+        const savedVersion = String(payload.toolVersion || payload.version || "").match(/^v?(\d+)\.(\d+)\.(\d+)(?:\b|$)/);
+        // Earlier versioned setup/plan exports used auto for the gain-252 model.
+        const legacy585 = savedVersion && (Number(savedVersion[1]) < 1 ||
+          (Number(savedVersion[1]) === 1 && Number(savedVersion[2]) === 0 && Number(savedVersion[3]) < 55));
+        if (legacy585) {
+          if (isAsi585(nextState.cameraId) && nextState.modeId === "auto") nextState.modeId = "legacy-hcg-252";
+          Object.values(nextState.empiricalCalibrationsByFilter || {}).forEach((record) => {
+            if (record && isAsi585(record.captureCameraId) && record.captureModeId === "auto") record.captureModeId = "legacy-hcg-252";
+          });
+        }
         Object.assign(appState, nextState, {
           configIoStatus: importKind === "filter-set-plan"
             ? "Setup restored from a saved plan JSON. Full system state was reapplied."
@@ -4561,18 +4602,24 @@
         const mode = cameraModel.modes.find((entry) => entry.modeId === selectedModeId)
           || cameraModel.modes[0];
         const gain = clamp(selectedGain, mode.gainRange.min, mode.gainRange.max);
-        const readNoiseE = interpolateCurve(mode.curves.readNoiseE.points, gain);
-        const fullWellE = interpolateCurve(mode.curves.fullWellE.points, gain);
-        const systemGainEPerAdu = interpolateCurve(mode.curves.systemGainEPerAdu.points, gain);
-        const dynamicRangeStops = interpolateCurve(mode.curves.dynamicRangeStops.points, gain);
-        const darkCurrentEPerPxPerSec = interpolateCurve(mode.curves.darkCurrentEPerPxPerSec.points, tempC);
         const authoritativeHcgGain = cameraHcgSwitchGain(cameraModel, mode);
+        const curveAtGain = (curve, x) => {
+          const points = curve.interpolation === "branch-linear" && authoritativeHcgGain != null
+            ? curve.points.filter(([g]) => (g >= authoritativeHcgGain) === (x >= authoritativeHcgGain))
+            : curve.points;
+          return interpolateCurve(points, x);
+        };
+        const readNoiseE = curveAtGain(mode.curves.readNoiseE, gain);
+        const fullWellE = curveAtGain(mode.curves.fullWellE, gain);
+        const systemGainEPerAdu = curveAtGain(mode.curves.systemGainEPerAdu, gain);
+        const dynamicRangeStops = curveAtGain(mode.curves.dynamicRangeStops, gain);
+        const darkCurrentEPerPxPerSec = interpolateCurve(mode.curves.darkCurrentEPerPxPerSec.points, tempC);
         const hcgActive = authoritativeHcgGain != null
           ? gain >= authoritativeHcgGain
           : !!mode.modeSwitchBehavior?.hcgActive;
         const switchGain = authoritativeHcgGain;
         const switchReferenceFullWellE = switchGain != null
-          ? interpolateCurve(mode.curves.fullWellE.points, switchGain)
+          ? curveAtGain(mode.curves.fullWellE, switchGain)
           : fullWellE;
         return {
           cameraId: cameraModel.cameraId,
@@ -5662,8 +5709,11 @@
             </label>
           `;
         }).join("");
-        const recommendedGains = camera.modes[0].recommendedPresets.map((value) => `
-              <button type="button" class="ghost" data-gain-preset="${value}">${gainPresetLabel(camera, value)}</button>
+        const gainPresetMode = isAsi585(camera.cameraId)
+          ? camera.modes.find((mode) => mode.modeId === appState.modeId) || camera.modes[0]
+          : camera.modes[0];
+        const recommendedGains = gainPresetMode.recommendedPresets.map((value) => `
+              <button type="button" class="ghost" data-gain-preset="${value}">${gainPresetLabel(camera, value, gainPresetMode)}</button>
             `).join("");
         const throughputUi = getThroughputUiState();
   
@@ -5752,7 +5802,7 @@
               </details>
             </div>
             <div class="actions">${recommendedGains}</div>
-            <div class="micro-note" style="margin-top:6px">Gain presets are camera-specific shortcuts, not universal recommendations. ${gainBehaviorNote(camera)}</div>
+            <div class="micro-note" style="margin-top:6px">Gain presets are camera-specific shortcuts, not universal recommendations. ${gainBehaviorNote(camera, gainPresetMode)}</div>
             <div class="small-note" style="margin-top:8px">${camera.manufacturer} ${camera.name} ${camera.dataQuality.level === "full-modeled" ? "is <strong>fully modeled</strong>" : camera.dataQuality.level === "partial" ? "uses a <strong>partial camera model</strong>" : "uses a <strong>generic camera model</strong>"}. Pixel size: ${fmtNumber(camera.pixelSizeUm, 2)} µm.</div>
             ${renderCameraProvenanceCard(camera)}
           `)}
@@ -6099,13 +6149,21 @@
             <summary>
               <div>
                 <div class="release-notes-title">What’s New</div>
-                <div class="release-notes-meta">${currentToolVersion()} · Android input fix and recent camera, filter, and workflow updates</div>
+                <div class="release-notes-meta">${currentToolVersion()} · ASI585 gain profiles and recent camera, filter, and workflow updates</div>
               </div>
               <div class="summary-meta">Show release notes</div>
             </summary>
               <div class="release-notes-body">
               <div class="release-notes-intro">Recent releases added new camera support, throughput clarification, cleaner sorting, and a first LP-aware sky-spectrum path so the tool is easier to scan and closer to how real systems are configured.</div>
               <div class="release-notes-grid">
+                <div class="release-note-block">
+                  <h4>ASI585MM Pro and ASI585MC Pro gain profiles</h4>
+                  <ul>
+                    <li>Current ZWO SDK / ASIAIR switches to high conversion gain at 200. Select the legacy profile for gain-252 captures.</li>
+                    <li>Current chart-derived estimates model the read-noise and dynamic-range step without interpolating across it. Full well and conversion gain remain continuous.</li>
+                    <li>Older versioned setup and plan imports keep the selected gain and use the prior planning estimates.</li>
+                  </ul>
+                </div>
                 <div class="release-note-block">
                   <h4>Android negative-value entry</h4>
                   <ul>
