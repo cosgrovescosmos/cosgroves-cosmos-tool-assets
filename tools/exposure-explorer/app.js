@@ -19,7 +19,7 @@
         <div class="hero-copy">
           <div class="hero-title">
             <h1>Astro Exposure Explorer</h1>
-            <span class="hero-version">v1.0.55</span>
+            <span class="hero-version">v1.0.56</span>
           </div>
           <p>Estimate sub-exposure regimes for a single imaging system under the selected conditions.</p>
           <div class="hero-support">Shows where read noise dominates, where efficiency improves, and where saturation or workflow cost begins to outweigh longer subs.</div>
@@ -1152,7 +1152,12 @@
             modes: [
               {
                 modeId: "auto",
-                modeName: "Current SDK / ASIAIR (HCG at 200)",
+                modeName: "SDK 1.39+ / ASIAIR 2.4.2+ (HCG at 200)",
+                provenance: {
+                  source: "Approximate readings of ZWO's October 2025 ASI585MM Pro chart, in native 12-bit e-/ADU.",
+                  sourceUrl: "https://i.zwoastro.com/wp-content/uploads/2025/10/05fbbd1b11fb333ecbe2f107ce93988f.jpg"
+                },
+                deriveDynamicRange: true,
                 gainRange: { min: 0, max: 400 },
                 modeSwitchBehavior: { hcgActive: false, switchGain: 200 },
                 curves: {
@@ -1165,8 +1170,30 @@
                 recommendedPresets: [0,200]
               },
               {
+                modeId: "zwo-hcg-252",
+                modeName: "Older ZWO software (HCG at 252)",
+                provenance: {
+                  source: "Approximate readings of ZWO's older ASI585MM Pro manual chart, with native 12-bit conversion gain inferred from saturation.",
+                  sourceUrl: "https://i.zwoastro.com/wp-content/uploads/2025/09/04a912015d682f11887ca758deedb947.pdf#page=11"
+                },
+                deriveSystemGainFromFullWell: true,
+                deriveDynamicRange: true,
+                gainRange: { min: 0, max: 400 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
+                curves: {
+                  readNoiseE: { interpolation: "branch-linear", points: [[0,6.4],[50,5.1],[100,4.45],[150,3.9],[200,3.55],[251,3.35],[252,0.95],[300,0.88],[350,0.82],[400,0.82]] },
+                  fullWellE: { interpolation: "linear", points: [[0,38700],[50,22000],[100,12300],[150,6700],[200,3900],[252,2150],[300,1190],[350,650],[400,390]] },
+                  // Keep the separately digitized vendor dynamic range as a cross-check.
+                  dynamicRangeStops: { interpolation: "branch-linear", points: [[0,12.55],[50,12.05],[100,11.4],[150,10.75],[200,10.1],[251,9.35],[252,11.1],[300,10.4],[350,9.7],[400,8.95]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0008],[0,0.0018],[10,0.0042]] }
+                },
+                recommendedPresets: [0,252]
+              },
+              {
                 modeId: "legacy-hcg-252",
-                modeName: "Legacy gain-252 model (prior estimates)",
+                modeName: "Historical reproduction only (HCG at 252)",
+                historicalReproduction: true,
+                provenance: { source: "Prior Explorer estimates with inconsistent full-well and conversion-gain curves." },
                 gainRange: { min: 0, max: 400 },
                 modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
                 curves: {
@@ -1182,7 +1209,7 @@
             offsetSupport: { supported: true, defaultOffset: 50 },
             dataQuality: {
               level: "partial",
-              curveSource: "Current: approximate digitization of ZWO October 2025 chart (https://i.zwoastro.com/wp-content/uploads/2025/10/05fbbd1b11fb333ecbe2f107ce93988f.jpg), native 12-bit e-/ADU. Legacy: prior Explorer planning estimates, not an independently verified curve. QE and dark current unchanged.",
+              curveSource: "See the selected profile for gain-curve provenance. QE and dark current are shared planning estimates.",
               lastVerified: "2026-05-21"
             }
           },
@@ -1203,7 +1230,12 @@
             modes: [
               {
                 modeId: "auto",
-                modeName: "Current SDK / ASIAIR (HCG at 200)",
+                modeName: "SDK 1.39+ / ASIAIR 2.4.2+ (HCG at 200)",
+                provenance: {
+                  source: "Approximate readings of ZWO's October 2025 ASI585MC Pro chart, in native 12-bit e-/ADU.",
+                  sourceUrl: "https://i.zwoastro.com/wp-content/uploads/2025/10/a19423fbe1fb11fe66cd7cfc5961973e.jpg"
+                },
+                deriveDynamicRange: true,
                 gainRange: { min: 0, max: 400 },
                 modeSwitchBehavior: { hcgActive: false, switchGain: 200 },
                 curves: {
@@ -1216,8 +1248,30 @@
                 recommendedPresets: [0,200]
               },
               {
+                modeId: "zwo-hcg-252",
+                modeName: "Older ZWO software (HCG at 252)",
+                provenance: {
+                  source: "Approximate readings of ZWO's older ASI585MC Pro manual chart, with native 12-bit conversion gain inferred from saturation.",
+                  sourceUrl: "https://i.zwoastro.com/wp-content/uploads/2025/09/04a912015d682f11887ca758deedb947.pdf#page=10"
+                },
+                deriveSystemGainFromFullWell: true,
+                deriveDynamicRange: true,
+                gainRange: { min: 0, max: 400 },
+                modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
+                curves: {
+                  readNoiseE: { interpolation: "branch-linear", points: [[0,6.67],[50,5.45],[100,4.65],[150,4.05],[200,3.7],[251,3.65],[252,1.15],[300,1],[350,0.92],[400,0.85]] },
+                  fullWellE: { interpolation: "linear", points: [[0,40000],[50,22500],[100,12600],[150,7000],[200,4050],[252,2350],[300,1280],[350,710],[400,395]] },
+                  // Keep the separately digitized vendor dynamic range as a cross-check.
+                  dynamicRangeStops: { interpolation: "branch-linear", points: [[0,12.55],[50,12],[100,11.4],[150,10.75],[200,10.05],[251,9.4],[252,11.05],[300,10.35],[350,9.65],[400,8.9]] },
+                  darkCurrentEPerPxPerSec: { interpolation: "linear", points: [[-20,0.0004],[-10,0.0008],[0,0.0018],[10,0.0042]] }
+                },
+                recommendedPresets: [0,252]
+              },
+              {
                 modeId: "legacy-hcg-252",
-                modeName: "Legacy gain-252 model (prior estimates)",
+                modeName: "Historical reproduction only (HCG at 252)",
+                historicalReproduction: true,
+                provenance: { source: "Prior Explorer estimates with inconsistent full-well and conversion-gain curves." },
                 gainRange: { min: 0, max: 400 },
                 modeSwitchBehavior: { hcgActive: false, switchGain: 252 },
                 curves: {
@@ -1233,7 +1287,7 @@
             offsetSupport: { supported: true, defaultOffset: 50 },
             dataQuality: {
               level: "generic",
-              curveSource: "Current: approximate digitization of ZWO October 2025 chart (https://i.zwoastro.com/wp-content/uploads/2025/10/a19423fbe1fb11fe66cd7cfc5961973e.jpg), native 12-bit e-/ADU. Legacy: prior Explorer planning estimates, not an independently verified curve. QE and dark current unchanged.",
+              curveSource: "See the selected profile for gain-curve provenance. QE and dark current are shared planning estimates.",
               lastVerified: "2026-05-21"
             }
           },
@@ -1957,12 +2011,25 @@
       function gainBehaviorNote(camera, mode = camera?.modes?.[0]) {
         const switchGain = cameraHcgSwitchGain(camera, mode);
         if (Number.isFinite(switchGain)) {
-          if (isAsi585(camera?.cameraId)) return `This profile enters HCG at gain ${switchGain}. Choose the profile that matches the capture software. ${mode.modeId === "legacy-hcg-252" ? "Legacy numerical estimates are kept for continuity with older setups." : "Current planning curves are approximate readings of ZWO’s charts."}`;
+          if (isAsi585(camera?.cameraId)) return `This profile enters HCG at gain ${switchGain}. Match the profile to the SDK or driver used to capture the data.`;
           return `This camera has a modeled high-gain / HCG switch at gain ${switchGain}: read noise drops there, while full-well headroom is lower. The camera does not change gain during capture.`;
         }
         return "Gain changes read noise, full well, and system gain according to the selected camera model.";
       }
   
+      const HISTORICAL_585_WARNING = "Historical reproduction only. The earlier Explorer estimates can overstate saturation headroom and distort ADU-based background calibration.";
+
+      function cameraProfileMetadata(camera, modeId) {
+        const mode = camera?.modes?.find((entry) => entry.modeId === modeId);
+        if (!mode?.provenance) return null;
+        return {
+          id: mode.modeId,
+          name: mode.modeName,
+          ...mode.provenance,
+          warning: mode.historicalReproduction ? HISTORICAL_585_WARNING : ""
+        };
+      }
+
       function isAsi585(cameraId) {
         return cameraId === "zwo-asi585mm-pro" || cameraId === "zwo-asi585mc-pro";
       }
@@ -2101,7 +2168,7 @@
       }
   
         function currentToolVersion() {
-            return "v1.0.55";
+            return "v1.0.56";
         }
   
       function buildConfigFileName() {
@@ -2125,7 +2192,9 @@
           tool: "Astro Exposure Explorer",
           toolVersion: currentToolVersion(),
           exportedAt: new Date().toISOString(),
-          configuration
+          configuration,
+          ...(isAsi585(configuration.cameraId)
+            ? { cameraProfile: cameraProfileMetadata(getCamera(configuration.cameraId), configuration.modeId) } : {})
         };
       }
   
@@ -4611,8 +4680,13 @@
         };
         const readNoiseE = curveAtGain(mode.curves.readNoiseE, gain);
         const fullWellE = curveAtGain(mode.curves.fullWellE, gain);
-        const systemGainEPerAdu = curveAtGain(mode.curves.systemGainEPerAdu, gain);
-        const dynamicRangeStops = curveAtGain(mode.curves.dynamicRangeStops, gain);
+        const systemGainEPerAdu = mode.deriveSystemGainFromFullWell
+          ? fullWellE / (2 ** cameraModel.adcBits - 1)
+          : curveAtGain(mode.curves.systemGainEPerAdu, gain);
+        const chartDynamicRangeStops = curveAtGain(mode.curves.dynamicRangeStops, gain);
+        const dynamicRangeStops = mode.deriveDynamicRange
+          ? Math.log2(fullWellE / readNoiseE)
+          : chartDynamicRangeStops;
         const darkCurrentEPerPxPerSec = interpolateCurve(mode.curves.darkCurrentEPerPxPerSec.points, tempC);
         const hcgActive = authoritativeHcgGain != null
           ? gain >= authoritativeHcgGain
@@ -4631,11 +4705,15 @@
           systemGainEPerAdu,
           darkCurrentEPerPxPerSec,
           dynamicRangeStops,
+          ...(mode.provenance ? {
+            profile: cameraProfileMetadata(cameraModel, mode.modeId),
+            chartDynamicRangeStops: mode.deriveDynamicRange ? chartDynamicRangeStops : null
+          } : {}),
           pixelSizeUm: cameraModel.pixelSizeUm,
           colorType: cameraModel.colorType,
           hcgActive,
           switchReferenceFullWellE,
-          dataQuality: cameraModel.dataQuality.level,
+          dataQuality: mode.historicalReproduction ? "generic" : cameraModel.dataQuality.level,
           cameraName: `${cameraModel.manufacturer} ${cameraModel.name}`
         };
       }
@@ -5077,9 +5155,10 @@
         return label;
       }
   
-      function cameraProvenanceDetails(camera) {
+      function cameraProvenanceDetails(camera, modeId = appState.modeId) {
         const id = camera?.cameraId || "";
-        const level = camera?.dataQuality?.level || "generic";
+        const level = modeId === "legacy-hcg-252" && isAsi585(camera?.cameraId)
+          ? "generic" : (camera?.dataQuality?.level || "generic");
         const sensorFamily = camera?.sensor || camera?.sensorFamily || "sensor family";
         let operatingData = camera?.dataQuality?.curveSource || "Planning-grade camera model";
         let qeSource = "Planning-grade QE curve";
@@ -5113,6 +5192,14 @@
           note = "The model remains planning-grade because not every QHY source provides a complete camera-specific QE curve.";
         }
   
+        const profile = cameraProfileMetadata(camera, modeId);
+        if (profile) {
+          operatingData = profile.sourceUrl
+            ? `<a href="${profile.sourceUrl}" target="_blank" rel="noopener noreferrer">${profile.source}</a>`
+            : profile.source;
+          qeSource = "Shared planning-grade QE curve";
+          note = profile.warning || "Manufacturer chart estimates. Dark current is a shared planning estimate. Verify capture-stack behavior and FITS scaling with your own frames.";
+        }
         const levelLabel = level === "full-modeled"
           ? "Full-modeled"
           : level === "partial"
@@ -5210,7 +5297,7 @@
         const scoreMap = { low: 1, medium: 2, high: 3 };
         const overallScore = (scoreMap[cameraLevel] + scoreMap[skyLevel] + scoreMap[saturationLevel]) / 3;
         const overall = overallScore >= 2.45 ? "high" : overallScore >= 1.7 ? "medium" : "low";
-        const cameraProvenance = cameraProvenanceDetails(getCamera(input.cameraState.cameraId));
+        const cameraProvenance = cameraProvenanceDetails(getCamera(input.cameraState.cameraId), input.cameraState.modeId);
         const explanation = overall === "high"
           ? "The camera model is relatively strong, but the sky and bright-star saturation layers are still approximate. Use this as a practical starting point."
           : overall === "medium"
@@ -6100,6 +6187,8 @@
                 </div>
                 <div class="field"><label>Dark current override (e-/px/s) ${helpBadge(helpText.darkCurrentOverride)}</label><input id="optionalDarkCurrentEPerPxPerSec" type="number" inputmode="decimal" min="0" max="1" step="0.0001" value="${Number.isFinite(activeCalibration.optionalDarkCurrentEPerPxPerSec) ? activeCalibration.optionalDarkCurrentEPerPxPerSec : ""}" placeholder="Use looked-up value"></div>
               </div>
+              ${activeCalibrationReferenceState.profile?.warning
+                ? `<div class="small-note" role="note"><strong>${HISTORICAL_585_WARNING}</strong></div>` : ""}
             ` : `<div class="small-note">Empirical calibration fields appear here when Empirical Calibration Mode is active.</div>`}
             <div class="actions">
               <button type="button" class="primary" id="loadMonoExample">Load mono empirical example</button>
@@ -6159,9 +6248,9 @@
                 <div class="release-note-block">
                   <h4>ASI585MM Pro and ASI585MC Pro gain profiles</h4>
                   <ul>
-                    <li>Current ZWO SDK / ASIAIR switches to high conversion gain at 200. Select the legacy profile for gain-252 captures.</li>
+                    <li>SDK 1.39 and ASIAIR 2.4.2 introduced HCG at gain 200. For older gain-252 captures, select the ZWO manual-based profile.</li>
                     <li>Current chart-derived estimates model the read-noise and dynamic-range step without interpolating across it. Full well and conversion gain remain continuous.</li>
-                    <li>Older versioned setup and plan imports keep the selected gain and use the prior planning estimates.</li>
+                    <li>Historical reproduction preserves earlier Explorer results and flags unreliable full-well and ADU calibration estimates.</li>
                   </ul>
                 </div>
                 <div class="release-note-block">
@@ -6460,6 +6549,10 @@
         return [
           `${planName} — ${filterSet?.label || "Custom set"}`,
           `Camera: ${camera.manufacturer} ${camera.name}`,
+          results[0]?.input.cameraState.profile?.name,
+          results[0]?.input.cameraState.profile?.source,
+          results[0]?.input.cameraState.profile?.sourceUrl,
+          results[0]?.input.cameraState.profile?.warning,
           `Mode: ${appState.exposureMode === "empirical" ? "Empirical calibration" : "Planning"} · RN target: ${appState.readNoiseContributionTargetPct}%`,
           `Weighting: ${weightLabelForPreset(appState.planWeightPreset)} · ${results.map((result) => `${planFamilyCode(result)}×${weights[result.filterId]}`).join(" · ")}`,
           `Workflow: ${workflowFamilyMeta(workflow.workflowFamily).sectionTitle} · ${ditherFrequencyLabel(workflow.ditherFrequency)} · ${overheadAssumptionLabel(appState)} overhead · ${focusHandlingLabel(workflow.focusHandling, workflow.hasFilterSequencing)}`,
@@ -6475,6 +6568,7 @@
   
       function buildPlanExportPayload(results) {
         const camera = getCamera(appState.cameraId);
+        const workflow = results[0]?.input.workflow || deriveWorkflowSettings(appState);
         const filterSet = resolveFilterSet(appState.filterSetId, camera);
         const weights = normalizedPlanWeights(results);
         const planName = effectivePlanName(results);
@@ -6493,6 +6587,7 @@
           savedAt,
           planName,
           configuration: serializedConfiguration.configuration,
+          ...(serializedConfiguration.cameraProfile ? { cameraProfile: serializedConfiguration.cameraProfile } : {}),
           filterSet: {
             id: filterSet?.id || appState.filterSetId || "custom",
             label: filterSet?.label || "Custom set"
@@ -6533,6 +6628,8 @@
           filters: results.map((result) => ({
             filterId: result.filterId,
             filter: result.input.filter.name,
+            ...(result.lowerBoundBackground?.source === "measured" && result.input.calibration.referenceCameraState.profile
+              ? { calibrationCameraProfile: result.input.calibration.referenceCameraState.profile } : {}),
             suggestedStartSec: result.headlineRecommendation.anchorSec,
             operatingBandStartSec: result.thresholds.sweetSpotMinSec,
             operatingBandEndSec: result.thresholds.sweetSpotMaxSec,
@@ -10239,6 +10336,9 @@
           ${renderReleaseNotes()}
           <section class="tab-panel ${appState.activeMainTab === "recommendation" ? "active" : ""}" data-panel="recommendation">
             <div class="recommendation-stage">
+              ${active.input.cameraState.profile?.warning || results.some((result) =>
+                result.lowerBoundBackground?.source === "measured" && result.input.calibration.referenceCameraState.profile?.warning)
+                ? `<div class="small-note" role="note"><strong>${HISTORICAL_585_WARNING}</strong></div>` : ""}
               <section class="result-banner">
                 <div class="result-banner-card primary">
                   <div class="result-banner-k">${multiFilterMode ? workflowMeta.topHeading : workflowMeta.topHeading}</div>
